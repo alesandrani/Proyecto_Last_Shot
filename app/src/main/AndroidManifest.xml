@@ -13,7 +13,19 @@
         android:theme="@style/Theme.Proyecto_Last_Shot"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".VerdadReto"
+            android:exported="false" />
+        <activity
+            android:name=".NumeroMaestro"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaJuegos"
+            android:exported="false" />
+        <activity
+            android:name=".AddJugadores"
+            android:exported="false" />
+        <activity
+            android:name=".PaginaPrincipal"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
