@@ -1,10 +1,13 @@
 package com.example.proyecto_last_shot;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -12,53 +15,44 @@ import java.net.URL;
 
 public class AddJugadores extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.pagina_add_jugadores);
-
-        // Buscar el ImageView por su ID
-        ImageView logo = findViewById(R.id.logo);
-        ImageView imagenPrincipal = findViewById(R.id.imagenPrincipal);
-        ImageView iconoOpcion2 = findViewById(R.id.iconoOpcion2);
-
-        // Cargar las imágenes en segundo plano
-        new DescargarImagen(logo).execute("https://via.placeholder.com/150");
-        new DescargarImagen(imagenPrincipal).execute("https://via.placeholder.com/300");
-        new DescargarImagen(iconoOpcion2).execute("https://via.placeholder.com/100");
-    }
-
-    // Clase interna para descargar imágenes en segundo plano
-    private static class DescargarImagen extends AsyncTask<String, Void, Bitmap> {
-        ImageView imageView;
-
-        public DescargarImagen(ImageView imageView) {
-            this.imageView = imageView;
-        }
+        private EditText cuadroTexto;
+        private LinearLayout container; // Contenedor donde se agregarán los TextViews dinámicamente
 
         @Override
-        protected Bitmap doInBackground(String... urls) {
-            String url = urls[0];
-            Bitmap bitmap = null;
-            try {
-                // Conectar a la URL y obtener la imagen
-                URL imageUrl = new URL(url);
-                HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                bitmap = BitmapFactory.decodeStream(input);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.pagina_add_jugadores);
 
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            if (result != null) {
-                imageView.setImageBitmap(result);
-            }
-        }
+            // Referencias a los elementos del XML
+            cuadroTexto = findViewById(R.id.cuadroTexto);
+            Button addButton = findViewById(R.id.add);
+            Button nextButton = findViewById(R.id.next);
+            container = findViewById(R.id.container);  // Asegúrate de agregar un LinearLayout en el XML
+
+            // Botón para agregar un TextView con el contenido del EditText
+            addButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String texto = cuadroTexto.getText().toString().trim();
+                    if (!texto.isEmpty()) {
+                        TextView nuevoTexto = new TextView(AddJugadores.this);
+                        nuevoTexto.setText(texto);
+                        nuevoTexto.setTextSize(18);
+                        nuevoTexto.setPadding(10, 10, 10, 10);
+                        container.addView(nuevoTexto); // Agrega el TextView al LinearLayout
+                        cuadroTexto.setText(""); // Limpia el EditText
+                    }
+                }
+            });
+
+            // Botón para ir a la pantalla de juegos
+            nextButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(AddJugadores.this, PaginaJuegos.class);
+                    startActivity(intent);
+                }
+            });
+
     }
 }

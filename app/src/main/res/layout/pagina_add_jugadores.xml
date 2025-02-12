@@ -1,111 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+
+<!-- FALTA COLOCAR, ME HA PETADO EL ANDROID -->
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#FFFFFF"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddJugadores">
+    android:background="#D2F7EC">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <!-- Botón Back -->
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="16dp"/>
+    <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#D2F7EC"
-        android:paddingTop="20dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/add"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp"/>
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="295dp"
+        android:layout_height="301dp"
+        android:src="@mipmap/ic_launcher"
+        android:scaleType="fitXY"
+        app:layout_constraintTop_toBottomOf="@id/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="31dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+    <!-- Cuadro de Texto -->
+    <EditText
+        android:id="@+id/cuadroTexto"
+        android:layout_width="927dp"
+        android:layout_height="132dp"
+        android:background="@drawable/s000000sw1cr23bffe135"
+        android:elevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"/>
 
-            <!-- Contenedor de imágenes -->
-            <LinearLayout
-                android:id="@+id/contenedorImagenes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:paddingBottom="20dp">
+    <!-- Botón Add -->
+    <Button
+        android:id="@+id/add"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:elevation="4dp"
+        app:layout_constraintTop_toBottomOf="@id/cuadroTexto"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="37dp"/>
 
-                <ImageView
-                    android:id="@+id/logo"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="fitCenter" />
+    <!-- Botón Next -->
+    <Button
+        android:id="@+id/next"
+        android:layout_width="58dp"
+        android:layout_height="61dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="13dp"
+        app:layout_constraintHorizontal_bias="0.69"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add" />
 
-                <ImageView
-                    android:id="@+id/imagenPrincipal"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:scaleType="fitCenter" />
-            </LinearLayout>
-
-            <!-- Contenedor de opciones -->
-            <LinearLayout
-                android:id="@+id/contenedorOpciones"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:background="@drawable/s000000sw1cr23bffe135"
-                android:paddingVertical="16dp"
-                android:paddingHorizontal="16dp"
-                android:elevation="4dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/opcion1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/s000000sw1cr8be44092"
-                    android:padding="16dp"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:id="@+id/contenedorInterno1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:id="@+id/barraAmarilla1"
-                            android:layout_width="match_parent"
-                            android:layout_height="8dp"
-                            android:background="#FFE135"
-                            android:layout_marginBottom="8dp" />
-
-                        <LinearLayout
-                            android:id="@+id/barraAmarilla2"
-                            android:layout_width="match_parent"
-                            android:layout_height="4dp"
-                            android:background="#FFE135" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/opcion2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/s000000sw1cr8be44193"
-                    android:padding="16dp"
-                    android:orientation="vertical"
-                    android:layout_marginStart="16dp">
-
-                    <ImageView
-                        android:id="@+id/iconoOpcion2"
-                        android:layout_width="60dp"
-                        android:layout_height="60dp"
-                        android:src="@mipmap/ic_launcher"
-                        android:scaleType="fitCenter" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
