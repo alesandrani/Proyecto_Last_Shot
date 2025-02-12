@@ -1,90 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#FFFFFF"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#D2F7EC">
 
-    <ScrollView
-        android:id="@+id/rxuo59pr2e5h"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#D2F7EC"
-        android:paddingTop="33dp"
-        android:clipChildren="false"
-        android:clipToPadding="false">
+    <!-- Cuadro Movible -->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <!-- Imagen Movible -->
 
-            <ImageView
-                android:id="@+id/rumfs3dbdl2"
-                android:layout_width="104dp"
-                android:layout_height="104dp"
-                android:layout_marginBottom="50dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true" />
+    <!-- LinearLayout como Botón -->
 
-            <ImageView
-                android:id="@+id/rrfkyk5wjuh9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:layout_gravity="center_horizontal"
-                android:src="@mipmap/ic_launcher"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true" />
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_width="104dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
-                android:id="@+id/rt2yypxez2yi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipChildren="false"
-                android:clipToPadding="false">
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="76dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menu" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="359dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="116dp"
+        android:background="@drawable/s000000sw2cr30bff69b4"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo">
 
-                    <LinearLayout
-                        android:id="@+id/rb64yvt3j4wg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/s000000sw2cr30bff69b4"
-                        android:padding="16dp"
-                        android:elevation="4dp"
-                        android:orientation="vertical">
+        <!-- TextView dentro del LinearLayout -->
 
-                        <ImageView
-                            android:id="@+id/rbaxguoevnfp"
-                            android:layout_width="119dp"
-                            android:layout_height="84dp"
-                            android:layout_marginTop="38dp"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/ic_launcher"
-                            android:scaleType="fitCenter"
-                            android:adjustViewBounds="true" />
-                    </LinearLayout>
-                </LinearLayout>
+        <!-- ImageView dentro del LinearLayout -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="122dp"
+            android:layout_marginTop="116dp"
+            android:gravity="center"
+            android:text="A BEBER"
+            android:textColor="#FFE135"
+            android:textSize="36sp"
+            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/r7s7bbrzze53"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#FFE135"
-                    android:textSize="48sp"
-                    android:layout_centerHorizontal="true"
-                    android:text="A BEBER"
-                    android:padding="16dp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+        <ImageView
+            android:id="@+id/cerveza"
+            android:layout_width="119dp"
+            android:layout_height="84dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
