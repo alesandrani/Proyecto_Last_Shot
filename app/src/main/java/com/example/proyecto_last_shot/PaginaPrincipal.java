@@ -1,7 +1,11 @@
 package com.example.proyecto_last_shot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 
@@ -12,17 +16,17 @@ public class PaginaPrincipal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_inicial); // Asegúrate de que este archivo XML sea el correcto
 
-        // Cargar imágenes usando Glide
-        Glide.with(this)
-                .load("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/53e4e592-9b5a-4a0c-93df-70fdf9f35566")
-                .into((ImageView) findViewById(R.id.menu));
+        // Referencia al botón
+        Button boton = findViewById(R.id.boton);
 
-        Glide.with(this)
-                .load("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/5cfde65b-4c31-462d-9462-de0ddb6c19f8")
-                .into((ImageView) findViewById(R.id.logo));
+        // Funcionalidad del botón para ir a AddJugadores
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PaginaPrincipal.this, AddJugadores.class);
+                startActivity(intent);
+            }
+        });
 
-        Glide.with(this)
-                .load("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/38cabae6-f779-411d-91f7-083538423791")
-                .into((ImageView) findViewById(R.id.cerveza));
     }
 }

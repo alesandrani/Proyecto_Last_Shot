@@ -33,8 +33,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/menu" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <Button
+        android:id="@+id/boton"
         android:layout_width="359dp"
         android:layout_height="84dp"
         android:layout_marginTop="116dp"
@@ -70,6 +70,6 @@
             android:scaleType="fitXY"
             android:src="@mipmap/ic_launcher" />
 
-    </LinearLayout>
+    </Button>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
