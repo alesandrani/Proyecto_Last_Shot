@@ -1,82 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<!-- NO PUEDO COLOCARLO NI VER COMO VA, ANDROID VA A EXPLOTAR -->
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#D2F7EC"
-    tools:context=".NumeroMaestro">
+    android:layout_height="match_parent">
 
-    <!-- Nombre del Jugador -->
-    <TextView
-        android:id="@+id/nombreJugador"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="NOMBRE JUGADOR"
-        android:textSize="36sp"
-        android:textStyle="bold"
-        android:textColor="#0B0B0B"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"/>
+    <ScrollView
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#D2F7EC"
+        android:paddingTop="41dp">
 
-    <!-- Imagen de la Bola -->
-    <ImageView
-        android:id="@+id/bola"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@mipmap/ic_launcher"
-        android:scaleType="fitXY"
-        app:layout_constraintTop_toBottomOf="@id/nombreJugador"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
-    <!-- Número dentro de la Bola -->
-    <TextView
-        android:id="@+id/numero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00"
-        android:textSize="64sp"
-        android:textStyle="bold"
-        android:textColor="#FFF6F6"
-        app:layout_constraintTop_toTopOf="@id/bola"
-        app:layout_constraintBottom_toBottomOf="@id/bola"
-        app:layout_constraintStart_toStartOf="@id/bola"
-        app:layout_constraintEnd_toEndOf="@id/bola"/>
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/button_back" />
 
-    <!-- Botón Principal -->
-    <Button
-        android:id="@+id/botonJugar"
-        android:layout_width="250dp"
-        android:layout_height="80dp"
-        android:text="JUGAR"
-        android:background="@drawable/s000000sw1cr23bff4500"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:elevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/bola"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp"/>
+            <TextView
+                android:id="@+id/playerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NOMBRE JUGADOR"
+                android:textColor="#0B0B0B"
+                android:textSize="36sp"
+                android:layout_marginBottom="21dp" />
 
-    <!-- Nombre del Perdedor -->
-    <TextView
-        android:id="@+id/nombrePerdedor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:textColor="#FFE135"
-        app:layout_constraintTop_toBottomOf="@id/botonJugar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/scoreBackground"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:src="@mipmap/image_bola"
+                android:scaleType="fitXY"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/playerScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="8"
+                android:textColor="#FFF6F6"
+                android:textSize="64sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:id="@+id/loserBox"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/orange"
+                    android:elevation="4dp"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/loserName"
+                    android:textColor="#FFE135"
+                    android:textSize="36sp"
+                    android:layout_marginTop="8dp"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:text="nombre perdedor"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
