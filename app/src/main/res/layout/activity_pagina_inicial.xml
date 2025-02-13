@@ -1,75 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#D2F7EC">
+    android:layout_height="match_parent">
 
-    <!-- Cuadro Movible -->
+    <ScrollView
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#D2F7EC"
+        android:paddingTop="33dp">
 
-    <!-- Imagen Movible -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:orientation="vertical">
 
-    <!-- LinearLayout como Botón -->
+            <!-- Botón de Menú -->
 
-    <ImageView
-        android:id="@+id/menu"
-        android:layout_width="104dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <!-- Logo -->
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="76dp"
-        android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menu" />
+            <!-- Botón con Imagen y Texto -->
 
-    <Button
-        android:id="@+id/boton"
-        android:layout_width="359dp"
-        android:layout_height="84dp"
-        android:layout_marginTop="116dp"
-        android:background="@drawable/s000000sw2cr30bff69b4"
-        android:elevation="4dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo">
+            <ImageView
+                android:id="@+id/menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:src="@mipmap/button_menu" />
 
-        <!-- TextView dentro del LinearLayout -->
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="294dp"
+                android:layout_height="267dp"
+                android:layout_marginTop="76dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/image_logo_app" />
 
-        <!-- ImageView dentro del LinearLayout -->
-        <TextView
-            android:id="@+id/texto"
-            android:layout_width="wrap_content"
-            android:layout_height="122dp"
-            android:layout_marginTop="116dp"
-            android:gravity="center"
-            android:text="A BEBER"
-            android:textColor="#FFE135"
-            android:textSize="36sp"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:id="@+id/boton"
+                android:layout_width="394dp"
+                android:layout_height="84dp"
+                android:layout_marginTop="116dp"
+                android:background="@drawable/s000000sw2cr30bff69b4"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/cerveza"
-            android:layout_width="119dp"
-            android:layout_height="84dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:gravity="center"
-            android:scaleType="fitXY"
-            android:src="@mipmap/ic_launcher" />
+                <!-- Imagen dentro del botón -->
+                <ImageView
+                    android:id="@+id/cerveza"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/beer" />
 
-    </Button>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Texto dentro del botón -->
+                <TextView
+                    android:id="@+id/texto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="A BEBER"
+                    android:textColor="#FFE135"
+                    android:textSize="36sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

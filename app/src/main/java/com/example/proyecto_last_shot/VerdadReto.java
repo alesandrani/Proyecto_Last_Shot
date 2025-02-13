@@ -31,7 +31,6 @@ public class VerdadReto extends AppCompatActivity {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         bt.setOnClickListener(v -> {
-            String pregunta = 
         });
 
         db.collection("preguntas").document("ycv2P3Ro7OwgSOMFbZEM").get()
