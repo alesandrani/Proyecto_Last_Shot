@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1043805097271",
+    "project_id": "lastshot-proyecto",
+    "storage_bucket": "lastshot-proyecto.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043805097271:android:9f99bb8127c7e641d6deb2",
+        "android_client_info": {
+          "package_name": "com.example.proyecto_last_shot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5X1wkoaIHotR9URrIHThG1jUvykZSpYE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

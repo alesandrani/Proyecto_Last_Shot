@@ -7,4 +7,28 @@
     android:layout_height="match_parent"
     tools:context=".VerdadReto">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pregunta1"
+        android:textSize="26dp"></TextView>
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        tools:layout_editor_absoluteX="161dp"
+        tools:layout_editor_absoluteY="458dp" />
+
+    <EditText
+        android:id="@+id/editTextPregunta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="36dp"
+        tools:layout_editor_absoluteX="91dp"
+        tools:layout_editor_absoluteY="373dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
