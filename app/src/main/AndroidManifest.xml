@@ -37,7 +37,7 @@
             android:name=".PaginaJuegos"
             android:exported="true" />
         <activity
-            android:name=".AddJugadores"
+            android:name=".CrearSalaUnirse"
             android:exported="true" />
 
     </application>
