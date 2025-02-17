@@ -21,16 +21,16 @@ public class NumeroMaestro extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.numero_maestro);
 
-            TextView numeroTextView = findViewById(R.id.numero);
-            Button botonJugar = findViewById(R.id.botonJugar);
+            //TextView numeroTextView = findViewById(R.id.numero);
+           // Button botonJugar = findViewById(R.id.botonJugar);
 
-            botonJugar.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Random random = new Random();
-                    int randomNumber = random.nextInt(10) + 1; // Generates a number between 1 and 10 (inclusive)
-                    numeroTextView.setText(String.valueOf(randomNumber));
-                }
-            });
+          //  botonJugar.setOnClickListener(new View.OnClickListener() {
+                //@Override
+             //   public void onClick(View v) {
+                   // Random random = new Random();
+                  //  int randomNumber = random.nextInt(10) + 1; // Generates a number between 1 and 10 (inclusive)
+                  //  numeroTextView.setText(String.valueOf(randomNumber));
+             //   }
+           // });
     }
 }
