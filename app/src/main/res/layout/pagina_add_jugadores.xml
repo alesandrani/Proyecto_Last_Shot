@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2F7EC">
+    android:background="#D2F7EC"
+    tools:context=".AddJugadores">
 
     <!-- Botón Back -->
     <ImageView
@@ -20,68 +21,80 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo -->
-
-    <!-- Contenedor de los jugadores con botones y nombre -->
     <ImageView
         android:id="@+id/logo"
         android:layout_width="287dp"
         android:layout_height="279dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="40dp"
         android:scaleType="fitXY"
         android:src="@mipmap/image_logo_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back" />
 
-    <FrameLayout
-        android:id="@+id/btnJugador"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <!-- Contenedor de los jugadores agregados -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintBottom_toTopOf="@id/contenedor_botones"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- LinearLayout dentro del FrameLayout para contener el TextView y los botones -->
-    </FrameLayout>
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
 
+    <!-- Contenedor de EditText y Botones -->
     <LinearLayout
+        android:id="@+id/contenedor_botones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/yellow"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="587dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- TextView para mostrar nombre de jugador -->
-        <TextView
-            android:id="@+id/textViewJugador"
+        <!-- Input para ingresar el nombre del jugador -->
+        <EditText
+            android:id="@+id/cuadroTexto"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="Nombre del Jugador"
-            android:textColor="#000000"
+            android:hint="Escribe un nombre"
+
+            android:padding="10dp"
+
             android:textSize="18sp" />
 
         <!-- Botón para añadir jugadores -->
-
-        <!-- Botón Next -->
         <ImageButton
             android:id="@+id/btnAddJugador"
             android:layout_width="49dp"
             android:layout_height="48dp"
-            android:background="#D2F7EC"
+            android:layout_marginStart="8dp"
+            android:background="@null"
             android:contentDescription="Añadir Jugador"
             android:src="@mipmap/button_add_players" />
 
+        <!-- Botón Next -->
         <ImageButton
             android:id="@+id/btnNext"
             android:layout_width="43dp"
             android:layout_height="45dp"
-            android:background="#D2F7EC"
+            android:layout_marginStart="8dp"
+            android:background="@null"
             android:contentDescription="Siguiente"
             android:src="@mipmap/button_next" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
