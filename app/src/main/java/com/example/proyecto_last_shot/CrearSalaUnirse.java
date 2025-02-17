@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AddJugadores extends AppCompatActivity {
+public class CrearSalaUnirse extends AppCompatActivity {
 
         private EditText cuadroTexto;
         private LinearLayout container; // Contenedor donde se agregarán los TextViews dinámicamente
@@ -32,7 +32,7 @@ public class AddJugadores extends AppCompatActivity {
                 public void onClick(View v) {
                     String texto = cuadroTexto.getText().toString().trim();
                     if (!texto.isEmpty()) {
-                        TextView nuevoTexto = new TextView(AddJugadores.this);
+                        TextView nuevoTexto = new TextView(CrearSalaUnirse.this);
                         nuevoTexto.setText(texto);
                         nuevoTexto.setTextSize(18);
                         nuevoTexto.setPadding(10, 10, 10, 10);
@@ -46,7 +46,7 @@ public class AddJugadores extends AppCompatActivity {
             nextButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(AddJugadores.this, PaginaJuegos.class);
+                    Intent intent = new Intent(CrearSalaUnirse.this, PaginaJuegos.class);
                     startActivity(intent);
                 }
             });

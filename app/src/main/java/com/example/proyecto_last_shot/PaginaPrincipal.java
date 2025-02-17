@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import com.bumptech.glide.Glide;
 
 public class PaginaPrincipal extends AppCompatActivity {
 
@@ -23,7 +21,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaginaPrincipal.this, AddJugadores.class);
+                Intent intent = new Intent(PaginaPrincipal.this, CrearSalaUnirse.class);
                 startActivity(intent);
             }
         });

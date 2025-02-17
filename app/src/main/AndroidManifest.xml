@@ -28,7 +28,7 @@
             android:name=".PaginaJuegos"
             android:exported="false" />
         <activity
-            android:name=".AddJugadores"
+            android:name=".CrearSalaUnirse"
             android:exported="true" />
         <activity
             android:name=".PaginaPrincipal"
