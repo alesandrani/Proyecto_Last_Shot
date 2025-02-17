@@ -4,52 +4,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CrearSalaUnirse extends AppCompatActivity {
 
-        private EditText cuadroTexto;
-        private LinearLayout container; // Contenedor donde se agregarán los TextViews dinámicamente
+    private Button btnCrearSala;
+    private Button btnUnirseSala;
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.pagina_crear_unirse);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.pagina_crear_unirse);  // Asegúrate de que el layout tenga los botones
 
-            // Referencias a los elementos del XML
-            cuadroTexto = findViewById(R.id.cuadroTexto);
-            Button addButton = findViewById(R.id.add);
-            Button nextButton = findViewById(R.id.next);
-            container = findViewById(R.id.container);  // Asegúrate de agregar un LinearLayout en el XML
+        btnCrearSala = findViewById(R.id.btnCrearSala);
+        btnUnirseSala = findViewById(R.id.btnUnirseSala);
 
-            // Botón para agregar un TextView con el contenido del EditText
-            addButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String texto = cuadroTexto.getText().toString().trim();
-                    if (!texto.isEmpty()) {
-                        TextView nuevoTexto = new TextView(CrearSalaUnirse.this);
-                        nuevoTexto.setText(texto);
-                        nuevoTexto.setTextSize(18);
-                        nuevoTexto.setPadding(10, 10, 10, 10);
-                        container.addView(nuevoTexto); // Agrega el TextView al LinearLayout
-                        cuadroTexto.setText(""); // Limpia el EditText
-                    }
-                }
-            });
+        // Configurar el botón para crear sala
+        btnCrearSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar a PaginaCrearSala
+                Intent intentCrearSala = new Intent(CrearSalaUnirse.this, PaginaCrearSala.class);
+                startActivity(intentCrearSala);
+            }
+        });
 
-            // Botón para ir a la pantalla de juegos
-            nextButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CrearSalaUnirse.this, PaginaJuegos.class);
-                    startActivity(intent);
-                }
-            });
-
+        // Configurar el botón para unirse a una sala
+        btnUnirseSala.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navegar a PaginaUnirseSala
+                Intent intentUnirseSala = new Intent(CrearSalaUnirse.this, PaginaUnirseSalaActivity.class);
+                startActivity(intentUnirseSala);
+            }
+        });
     }
 }
