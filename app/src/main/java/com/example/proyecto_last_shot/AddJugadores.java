@@ -9,9 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class AddJugadores extends AppCompatActivity {
 
@@ -21,7 +18,7 @@ public class AddJugadores extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.pagina_add_jugadores);
+            setContentView(R.layout.pagina_crear_unirse);
 
             // Referencias a los elementos del XML
             cuadroTexto = findViewById(R.id.cuadroTexto);

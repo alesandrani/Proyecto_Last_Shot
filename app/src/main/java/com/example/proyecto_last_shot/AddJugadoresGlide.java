@@ -6,16 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class AddJugadoresGlide extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pagina_add_jugadores);
+        setContentView(R.layout.pagina_crear_unirse);
         Glide.with(this)
                 .load("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/9763d9a4-6425-4f96-b32f-438ad6fc9290")
                 .into((ImageView) findViewById(R.id.back));
