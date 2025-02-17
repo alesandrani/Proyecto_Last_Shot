@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CrearSalaUnirse extends AppCompatActivity {
 
-    private Button btnCrearSala;
-    private Button btnUnirseSala;
+    private ImageView btnCrearSala;
+    private ImageView btnUnirseSala;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

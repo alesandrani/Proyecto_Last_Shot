@@ -1,6 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#D2F7EC"
+    android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Botón de retroceso -->
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:contentDescription="Volver"
+        android:onClick="onBackPressed"
+        android:src="@mipmap/button_back" />
+
+    <!-- Logo centrado -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="122dp"
+        android:layout_height="103dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="30dp"
+        android:contentDescription="Logo de Last Shot"
+        android:src="@mipmap/image_logo_app" />
+
+    <!-- Título "Unirse a Sala" -->
+    <TextView
+        android:id="@+id/text_unirse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="UNIRSE A SALA"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+    <!-- Código de Sala -->
+    <EditText
+        android:id="@+id/clave"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:hint="Código de sala"
+        android:background="@drawable/rounded_input"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textColorHint="#808080"/>
+
+    <!-- Nombre de la Sala -->
+    <EditText
+        android:id="@+id/salaNombre"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:hint="Nombre de sala"
+        android:background="@drawable/rounded_input"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textColorHint="#808080"/>
+
+    <!-- Nombre del Jugador -->
+    <EditText
+        android:id="@+id/nombreJugador"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:hint="Tu nombre"
+        android:background="@drawable/rounded_input"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="#000000"
+        android:textColorHint="#808080"/>
+
+    <!-- Botón Unirse con Texto Dentro -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp">
+
+        <ImageView
+            android:id="@+id/btn_unirseSala"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/yellow"
+            android:contentDescription="Botón Unirse a Sala"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="UNIRSE A SALA"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+    </RelativeLayout>
+
+</LinearLayout>
