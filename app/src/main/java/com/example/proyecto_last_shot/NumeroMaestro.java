@@ -88,7 +88,7 @@ public class NumeroMaestro extends AppCompatActivity {
 
     private void mostrarNumeroAnimado(int numero) {
         ObjectAnimator anim = ObjectAnimator.ofInt(playerScoreTextView, "text", 1, numero);
-        anim.setDuration(1000);
+        anim.setDuration(4000);
         anim.addUpdateListener(animation -> {
             playerScoreTextView.setText(String.valueOf(animation.getAnimatedValue()));
         });
