@@ -6,7 +6,13 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class PaginaCrearSala extends AppCompatActivity {
@@ -29,6 +35,7 @@ public class PaginaCrearSala extends AppCompatActivity {
         claveGenerada = generarClave();
         inputCodigoSala.setText(claveGenerada);
 
+        // Configurar el clic del botón de crear sala
         btnCrearSala.setOnClickListener(view -> crearSala());
     }
 
@@ -64,14 +71,33 @@ public class PaginaCrearSala extends AppCompatActivity {
             return;
         }
 
-        // Simular creación de sala (sin Firebase)
-        String salaId = generarClave(); // Generamos un ID de sala temporal
+        // Instancia de Firebase Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Crear un Intent y pasar los datos a la siguiente actividad
-        iniciarPaginaJuegos(salaId, nombreJugador);
+        // Crear un ID único para la sala (FireStore lo hace automáticamente)
+        String salaId = db.collection("salas").document().getId();
+
+        // Crear un mapa con la información de la sala
+        Map<String, Object> sala = new HashMap<>();
+        sala.put("nombre", nombreDeSala);
+        sala.put("clave", claveGenerada);
+        sala.put("maxJugadores", 10); // Establecer máximo de jugadores
+        sala.put("jugadores", null);  // Puede ser una lista vacía o null al principio
+
+        // Guardar la sala en Firebase Firestore
+        db.collection("salas").document(salaId).set(sala)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("Firebase", "✅ Sala creada correctamente en Firestore");
+
+                    // Crear el Intent y pasar los datos a la siguiente actividad
+                    iniciarPaginaJuegos(salaId, nombreJugador);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Firebase", "❌ Error al crear la sala en Firestore", e);
+                    Toast.makeText(PaginaCrearSala.this, "Error al crear la sala", Toast.LENGTH_SHORT).show();
+                });
     }
 
-    // Método para iniciar la actividad PaginaJuegos
     private void iniciarPaginaJuegos(String salaId, String nombreJugador) {
         if (claveGenerada != null && !claveGenerada.isEmpty() && salaId != null && nombreJugador != null && !nombreJugador.isEmpty()) {
             // Intent a PaginaJuegos

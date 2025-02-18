@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,8 +34,10 @@ public class PaginaUnirseSala extends AppCompatActivity {
         nombreJugador = findViewById(R.id.nombreJugador);
         btnUnirseSala = findViewById(R.id.btn_unirseSala);
 
+        // Referencia a la base de datos de Firebase
         salaRef = FirebaseDatabase.getInstance().getReference("salas");
 
+        // Configurar el clic del botón de unirse a la sala
         btnUnirseSala.setOnClickListener(view -> unirseASala());
     }
 
@@ -48,6 +51,7 @@ public class PaginaUnirseSala extends AppCompatActivity {
             return;
         }
 
+        // Buscar la sala por clave
         salaRef.orderByChild("clave").equalTo(claveIngresada).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -55,8 +59,12 @@ public class PaginaUnirseSala extends AppCompatActivity {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String salaId = snapshot.getKey();
                         String nombreRealSala = snapshot.child("nombre").getValue(String.class);
+                        Long maxJugadores = snapshot.child("maxJugadores").getValue(Long.class);
+                        Long currentJugadores = snapshot.child("jugadores").getChildrenCount();
 
-                        if (nombreRealSala != null && nombreRealSala.equals(nombreSala)) {
+                        // Verificar si el número de jugadores ha alcanzado el límite
+                        if (currentJugadores < maxJugadores) {
+                            // Agregar el jugador a la lista de jugadores
                             DatabaseReference jugadoresRef = salaRef.child(salaId).child("jugadores");
                             String jugadorId = jugadoresRef.push().getKey();
                             HashMap<String, String> jugador = new HashMap<>();
@@ -75,10 +83,11 @@ public class PaginaUnirseSala extends AppCompatActivity {
                                     Toast.makeText(PaginaUnirseSala.this, "Error al unirse a la sala", Toast.LENGTH_SHORT).show();
                                 }
                             });
-                            return;
+                        } else {
+                            Toast.makeText(PaginaUnirseSala.this, "La sala está llena", Toast.LENGTH_SHORT).show();
                         }
+                        return;  // No hace falta seguir buscando si ya encontramos la sala
                     }
-                    Toast.makeText(PaginaUnirseSala.this, "El nombre de la sala no coincide con la clave ingresada", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(PaginaUnirseSala.this, "La clave ingresada no corresponde a ninguna sala", Toast.LENGTH_SHORT).show();
                 }
