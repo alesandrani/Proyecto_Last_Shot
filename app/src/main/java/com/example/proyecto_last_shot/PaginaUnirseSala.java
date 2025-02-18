@@ -14,31 +14,31 @@ import java.util.HashMap;
 
 public class PaginaUnirseSalaActivity extends AppCompatActivity {
 
-    private EditText salaId, clave, nombreJugador;
+    private EditText salaNombre, clave, nombreJugador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.unirse_sala);
 
-        salaId = findViewById(R.id.salaId);
+        salaNombre = findViewById(R.id.salaNombre);
         clave = findViewById(R.id.clave);
         nombreJugador = findViewById(R.id.nombreJugador);
     }
 
     // Método para unirse a la sala
     public void unirseASala(View view) {
-        String salaId = salaId.getText().toString().trim();
+        String salaNombre = salaNombre.getText().toString().trim();
         String clave = clave.getText().toString().trim();
         String nombreJugador = nombreJugador.getText().toString().trim();
 
-        if (salaId.isEmpty() || clave.isEmpty() || nombreJugador.isEmpty()) {
+        if (salaNombre.isEmpty() || clave.isEmpty() || nombreJugador.isEmpty()) {
             Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Obtener una referencia a la base de datos de Firebase
-        DatabaseReference salaRef = FirebaseDatabase.getInstance().getReference("salas").child(salaId);
+        DatabaseReference salaRef = FirebaseDatabase.getInstance().getReference("salas").child(salaNombre);
 
         // Comprobar si la sala existe y si la clave es correcta
         salaRef.get().addOnCompleteListener(task -> {
