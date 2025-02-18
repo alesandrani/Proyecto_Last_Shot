@@ -11,11 +11,10 @@
     <!-- Botón de retroceso -->
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="45dp"
-        android:layout_height="50dp"
+        android:layout_width="53dp"
+        android:layout_height="56dp"
         android:layout_margin="16dp"
         android:contentDescription="Botón de retroceso"
-        android:onClick="onBackPressed"
         android:src="@mipmap/button_back" />
 
     <!-- Logo centrado -->
@@ -42,6 +41,7 @@
 
             <!-- Botón MECHERO -->
             <LinearLayout
+                android:id="@+id/btn_mechero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
@@ -67,6 +67,7 @@
 
             <!-- Botón VERDAD O RETO -->
             <LinearLayout
+                android:id="@+id/btn_verdad_reto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
@@ -92,6 +93,7 @@
 
             <!-- Botón NÚMERO MAESTRO -->
             <LinearLayout
+                android:id="@+id/btn_numero_maestro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
@@ -117,6 +119,7 @@
 
             <!-- Botón JUEGO RANDOM -->
             <LinearLayout
+                android:id="@+id/btn_juego_random"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
