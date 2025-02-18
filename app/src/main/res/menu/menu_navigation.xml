@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_info"
+        android:title="Info sobre el juego y creadores"
+        android:icon="@drawable/ic_info"
+        android:contentDescription="Información sobre el juego y creadores"/>
+
+    <item
+        android:id="@+id/menu_terminos"
+        android:title="Términos de uso"
+        android:icon="@drawable/ic_terminos"
+        android:contentDescription="Términos de uso"/>
+
+    <item
+        android:id="@+id/menu_privacidad"
+        android:title="Política de privacidad"
+        android:icon="@drawable/ic_privacidad"
+        android:contentDescription="Política de privacidad"/>
+
+    <item
+        android:id="@+id/menu_contacto"
+        android:title="Contacto"
+        android:icon="@drawable/ic_contacto"
+        android:contentDescription="Información de contacto"/>
+</menu>
