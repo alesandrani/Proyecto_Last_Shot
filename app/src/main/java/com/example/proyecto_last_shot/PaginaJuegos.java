@@ -18,6 +18,8 @@ public class PaginaJuegos extends AppCompatActivity {
     private ImageView btnBack;
     private LinearLayout btnMechero, btnVerdadReto, btnNumeroMaestro, btnJuegoRandom;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,7 @@ public class PaginaJuegos extends AppCompatActivity {
         btnVerdadReto = findViewById(R.id.btn_verdad_reto);
         btnNumeroMaestro = findViewById(R.id.btn_numero_maestro);
         btnJuegoRandom = findViewById(R.id.btn_juego_random);
+
 
         // Configurar eventos de clic
         btnBack.setOnClickListener(view -> finish()); // Cierra la actividad y vuelve atrás

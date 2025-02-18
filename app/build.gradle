@@ -45,6 +45,7 @@ dependencies {
 
     // Firebase Realtime Database
     implementation 'com.google.firebase:firebase-database:20.2.1'
+    implementation 'com.google.firebase:firebase-firestore:24.8.1'
 
     // Dependencias de pruebas
     testImplementation libs.junit

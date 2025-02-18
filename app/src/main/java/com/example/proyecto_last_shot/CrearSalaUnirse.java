@@ -36,7 +36,7 @@ public class CrearSalaUnirse extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Navegar a PaginaUnirseSala
-                Intent intentUnirseSala = new Intent(CrearSalaUnirse.this, PaginaUnirseSalaActivity.class);
+                Intent intentUnirseSala = new Intent(CrearSalaUnirse.this, PaginaUnirseSala.class);
                 startActivity(intentUnirseSala);
             }
         });
