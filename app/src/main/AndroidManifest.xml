@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".PaginaAddJugadores"
+            android:exported="false" />
+        <activity
             android:name=".PaginaPrincipal"
             android:exported="true">
             <intent-filter>
@@ -45,7 +48,6 @@
         <activity
             android:name=".PaginaUnirseSala"
             android:exported="true" />
-
     </application>
 
 </manifest>

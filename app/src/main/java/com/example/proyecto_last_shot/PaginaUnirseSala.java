@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class PaginaUnirseSala extends AppCompatActivity {
 
     private EditText salaNombre, clave, nombreJugador;
-    private ImageView btnUnirseSala;
+    private ImageView btnUnirseSala,btnBack;
     private DatabaseReference salaRef;
 
     @Override
@@ -33,12 +33,13 @@ public class PaginaUnirseSala extends AppCompatActivity {
         clave = findViewById(R.id.clave);
         nombreJugador = findViewById(R.id.nombreJugador);
         btnUnirseSala = findViewById(R.id.btn_unirseSala);
-
+        btnBack = findViewById(R.id.btn_back);
         // Referencia a la base de datos de Firebase
         salaRef = FirebaseDatabase.getInstance().getReference("salas");
 
         // Configurar el clic del botón de unirse a la sala
         btnUnirseSala.setOnClickListener(view -> unirseASala());
+        btnBack.setOnClickListener(v -> finish());
     }
 
     private void unirseASala() {

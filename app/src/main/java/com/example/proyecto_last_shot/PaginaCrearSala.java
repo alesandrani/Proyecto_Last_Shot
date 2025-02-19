@@ -1,5 +1,6 @@
 package com.example.proyecto_last_shot;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,9 +17,8 @@ import java.util.Map;
 import java.util.Random;
 
 public class PaginaCrearSala extends AppCompatActivity {
-
     private EditText nombreSala, inputCodigoSala, inputNombreJugador;
-    private ImageView btnCrearSala;
+    private ImageView btnCrearSala, btnBack;
     private String claveGenerada;
 
     @Override
@@ -30,6 +30,7 @@ public class PaginaCrearSala extends AppCompatActivity {
         inputCodigoSala = findViewById(R.id.input_codigo_sala);
         inputNombreJugador = findViewById(R.id.input_nombre_jugador);
         btnCrearSala = findViewById(R.id.btn_crearSala);
+        btnBack = findViewById(R.id.btn_back); // Inicializa el botón de retroceso
 
         // Generar clave automática al abrir la actividad
         claveGenerada = generarClave();
@@ -37,6 +38,9 @@ public class PaginaCrearSala extends AppCompatActivity {
 
         // Configurar el clic del botón de crear sala
         btnCrearSala.setOnClickListener(view -> crearSala());
+
+        // Configurar el clic del botón de retroceso
+        btnBack.setOnClickListener(view -> mostrarDialogoConfirmacion());
     }
 
     @Override
@@ -111,5 +115,16 @@ public class PaginaCrearSala extends AppCompatActivity {
             Log.e("Error", "Error al pasar los datos al Intent");
             Toast.makeText(this, "Error al pasar los datos", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void mostrarDialogoConfirmacion() {
+        new AlertDialog.Builder(this)
+                .setTitle("Salir")
+                .setMessage("¿Estás seguro de que quieres salir de la creación de la sala?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                    finish(); // Cerrar la actividad actual
+                })
+                .setNegativeButton(android.R.string.no, null) // Si el usuario cancela, no hace nada
+                .show();
     }
 }

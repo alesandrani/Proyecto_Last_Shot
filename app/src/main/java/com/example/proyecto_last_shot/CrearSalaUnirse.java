@@ -11,16 +11,16 @@ import androidx.appcompat.app.AppCompatActivity;
 public class CrearSalaUnirse extends AppCompatActivity {
 
     private ImageView btnCrearSala;
-    private ImageView btnUnirseSala;
+    private ImageView btnUnirseSala,btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pagina_crear_unirse);  // Asegúrate de que el layout tenga los botones
-
+        btnBack = findViewById(R.id.btn_back);
         btnCrearSala = findViewById(R.id.btnCrearSala);
         btnUnirseSala = findViewById(R.id.btnUnirseSala);
-
+        btnBack.setOnClickListener(v -> finish());
         // Configurar el botón para crear sala
         btnCrearSala.setOnClickListener(new View.OnClickListener() {
             @Override

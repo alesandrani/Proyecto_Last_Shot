@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D2F7EC"
+    tools:context=".PaginaAddJugadores">
+
+    <!-- Botón Back -->
+    <ImageView
+        android:id="@+id/back"
+        android:layout_width="55dp"
+        android:layout_height="49dp"
+        android:layout_margin="16dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="276dp"
+        android:layout_height="289dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/image_logo_app"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back" />
+
+    <!-- Contenedor de los jugadores agregados -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintBottom_toTopOf="@id/contenedor_botones">
+
+        <LinearLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+    </ScrollView>
+
+    <!-- Contenedor de EditText y Botones -->
+    <LinearLayout
+        android:id="@+id/contenedor_botones"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/yellow"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Input para ingresar el nombre del jugador -->
+        <EditText
+            android:id="@+id/cuadroTexto"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:hint="Escribe un nombre"
+            android:padding="10dp"
+            android:textSize="18sp" />
+
+        <!-- Botón para añadir jugadores -->
+        <ImageButton
+            android:id="@+id/btnAddJugador"
+            android:layout_width="49dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:contentDescription="Añadir Jugador"
+            android:src="@mipmap/button_add_players" />
+
+        <!-- Botón Next -->
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="43dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="8dp"
+            android:background="@null"
+            android:contentDescription="Siguiente"
+            android:src="@mipmap/button_next" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
