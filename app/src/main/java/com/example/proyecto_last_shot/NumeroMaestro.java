@@ -1,96 +1,67 @@
 package com.example.proyecto_last_shot;
 
-import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class NumeroMaestro extends AppCompatActivity {
 
-    private TextView playerNameTextView, playerScoreTextView, loserNameTextView;
+    private TextView playerNameTextView;
     private ImageView btnBack;
-    private DatabaseReference salaRef;
-    private String salaId = "ID_DE_TU_SALA"; // Reemplázalo dinámicamente cuando la sala se cree
+    private ArrayList<String> listaJugadores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.numero_maestro);
+        setContentView(R.layout.numero_maestro); // Asegúrate de que el layout esté correcto
 
-        playerNameTextView = findViewById(R.id.playerName);
-        playerScoreTextView = findViewById(R.id.playerScore);
-        loserNameTextView = findViewById(R.id.loserName);
+        // Referencias a los elementos de la interfaz
+        playerNameTextView = findViewById(R.id.tvJugadores);
         btnBack = findViewById(R.id.btn_back);
 
-        // Conectar con Firebase
-        salaRef = FirebaseDatabase.getInstance().getReference("salas").child(salaId);
+        // Botón para cerrar la actividad
+        btnBack.setOnClickListener(v -> finish());
 
-        btnBack.setOnClickListener(v -> finish()); // Cerrar actividad al pulsar el botón
+        // Cargamos los jugadores desde SharedPreferences
+        listaJugadores = obtenerJugadoresDePreferencias();
 
-        asignarNumerosAJugadores();
+        // Verificamos si se cargaron jugadores
+        if (!listaJugadores.isEmpty()) {
+            // Mostrar la lista de jugadores
+            mostrarJugadoresEnPantalla();
+        } else {
+            // Si no hay jugadores guardados, mostramos un mensaje
+            Toast.makeText(NumeroMaestro.this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
+        }
     }
 
-    private void asignarNumerosAJugadores() {
-        salaRef.child("jugadores").get().addOnCompleteListener(task -> {
-            if (task.isSuccessful() && task.getResult().exists()) {
-                DataSnapshot snapshot = task.getResult();
-                Map<String, Integer> jugadoresConNumeros = new HashMap<>();
-                String perdedor = "";
-                int minNumero = Integer.MAX_VALUE;
+    private ArrayList<String> obtenerJugadoresDePreferencias() {
+        SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = prefs.getString("listaJugadores", null);
 
-                // Asignar números aleatorios a los jugadores
-                for (DataSnapshot jugadorSnapshot : snapshot.getChildren()) {
-                    String nombreJugador = jugadorSnapshot.child("nombre").getValue(String.class);
-                    int numeroAleatorio = new Random().nextInt(20) + 1;  // Número entre 1 y 20
-
-                    // Guardar los números generados
-                    jugadoresConNumeros.put(nombreJugador, numeroAleatorio);
-
-                    // Verificar cuál es el perdedor (el jugador con el número más bajo)
-                    if (numeroAleatorio < minNumero) {
-                        minNumero = numeroAleatorio;
-                        perdedor = nombreJugador;
-                    }
-                }
-
-                // Obtener el primer jugador registrado y mostrarlo
-                if (!jugadoresConNumeros.isEmpty()) {
-                    Map.Entry<String, Integer> primerJugador = jugadoresConNumeros.entrySet().iterator().next();
-                    playerNameTextView.setText(primerJugador.getKey());
-                    mostrarNumeroAnimado(primerJugador.getValue());  // Mostrar el número animado
-
-                    // Mostrar el perdedor en la UI
-                    loserNameTextView.setText(perdedor);
-
-                    // Guardar los números de los jugadores en Firebase
-                    salaRef.child("resultados").setValue(jugadoresConNumeros);
-                }
-
-            } else {
-                Toast.makeText(NumeroMaestro.this, "Error al obtener jugadores", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // Si no hay jugadores guardados, devolvemos una lista vacía
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        return json == null ? new ArrayList<>() : gson.fromJson(json, type);
     }
 
-    private void mostrarNumeroAnimado(int numero) {
-        // Aquí animamos el cambio de texto en playerScoreTextView con un ObjectAnimator
-        ObjectAnimator anim = ObjectAnimator.ofInt(playerScoreTextView, "text", 1, numero);
-        anim.setDuration(4000); // Duración de la animación
-        anim.start();
+    // Mostrar los jugadores en el TextView
+    private void mostrarJugadoresEnPantalla() {
+        // Unir todos los nombres de los jugadores en un solo texto separado por salto de línea
+        String jugadoresTexto = TextUtils.join("\n", listaJugadores);
+
+        // Mostrar el texto en el TextView
+        playerNameTextView.setText(jugadoresTexto);
     }
 }

@@ -35,7 +35,7 @@
             android:exported="false" />
         <activity
             android:name=".NumeroMaestro"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PaginaJuegos"
             android:exported="true" />

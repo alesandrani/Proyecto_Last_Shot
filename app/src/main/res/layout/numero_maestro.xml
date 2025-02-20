@@ -21,10 +21,10 @@
 
     <!-- Nombre del jugador -->
     <TextView
-        android:id="@+id/playerName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Jugador"
+        android:id="@+id/tvJugadores"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=""
         android:fontFamily="@font/jersey_10"
         android:textColor="#0B0B0B"
         android:textSize="46sp"
@@ -36,64 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Contenedor de la bola con el número -->
-    <FrameLayout
-        android:id="@+id/bolaContainer"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        app:layout_constraintTop_toBottomOf="@id/playerName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp">
-
-        <!-- Imagen de la esfera -->
-        <ImageView
-            android:id="@+id/scoreBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@mipmap/image_bola" />
-
-        <!-- Número aleatorio dentro de la esfera -->
-        <TextView
-            android:id="@+id/playerScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="8"
-            android:fontFamily="@font/jersey_10"
-            android:textColor="#FFF6F6"
-            android:textSize="82sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:shadowColor="#000000"
-            android:shadowRadius="8"
-            android:shadowDx="2"
-            android:shadowDy="2"/>
-    </FrameLayout>
 
     <!-- Caja para el perdedor -->
-    <LinearLayout
-        android:id="@+id/loserBox"
-        android:layout_width="355dp"
-        android:layout_height="88dp"
-        android:background="@drawable/orange"
-        android:elevation="6dp"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/bolaContainer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/loserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="nombre perdedor"
-            android:fontFamily="@font/jersey_10"
-            android:textColor="#FFE135"
-            android:textSize="46sp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
