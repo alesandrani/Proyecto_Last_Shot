@@ -20,8 +20,10 @@ public class VerdadActivity extends AppCompatActivity {
     private TextView tvPreguntaVerdad;
     private ImageView btnBack;
     private static final String TAG = "VerdadActivity";
-    private static final String API_KEY = "TU_CLAVE_DE_API"; // Pega tu API Key aquí
-    private static final String PROJECT_ID = "tu-proyecto-id"; // Nombre de tu proyecto en Firebase
+
+    private static final String API_KEY = "AIzaSyD5X1wkoaIHotR9URrIHThG1jUvykZSpYE";
+    private static final String PROJECT_ID = "lastshot-proyecto";
+
     private static final String URL_FIRESTORE =
             "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents/verdad_reto?key=" + API_KEY;
 
@@ -31,12 +33,12 @@ public class VerdadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.verdad);
-        btnBack = findViewById(R.id.btn_back);
 
+        btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(view -> finish());
+
         tvPreguntaVerdad = findViewById(R.id.preguntaVerdad);
 
-        // Llamar a la API REST de Firestore
         new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
     }
 
@@ -50,23 +52,34 @@ public class VerdadActivity extends AppCompatActivity {
                 conn.setRequestMethod("GET");
                 conn.setRequestProperty("Content-Type", "application/json");
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                }
-                reader.close();
+                int responseCode = conn.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    reader.close();
 
-                JSONObject jsonResponse = new JSONObject(response.toString());
-                JSONArray documentos = jsonResponse.getJSONArray("documents");
+                    JSONObject jsonResponse = new JSONObject(response.toString());
+                    if (jsonResponse.has("documents")) {
+                        JSONArray documentos = jsonResponse.getJSONArray("documents");
 
-                for (int i = 0; i < documentos.length(); i++) {
-                    JSONObject doc = documentos.getJSONObject(i);
-                    JSONObject fields = doc.getJSONObject("fields");
-                    String pregunta = fields.getJSONObject("verdad").getString("stringValue");
-                    preguntas.add(pregunta);
+                        for (int i = 0; i < documentos.length(); i++) {
+                            JSONObject doc = documentos.getJSONObject(i);
+                            JSONObject fields = doc.getJSONObject("fields");
+
+                            if (fields.has("pregunta")) {
+                                String pregunta = fields.getJSONObject("pregunta").getString("stringValue");
+                                preguntas.add(pregunta);
+                            }
+                        }
+                    }
+                } else {
+                    Log.e(TAG, "Error en la solicitud: Código " + responseCode);
                 }
+                conn.disconnect();
             } catch (Exception e) {
                 Log.e(TAG, "Error obteniendo preguntas de Firestore", e);
             }
