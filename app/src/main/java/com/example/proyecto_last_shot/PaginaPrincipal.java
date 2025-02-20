@@ -3,6 +3,7 @@ package com.example.proyecto_last_shot;
 
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -42,7 +44,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         boton = findViewById(R.id.boton);
         texto = findViewById(R.id.texto);
         drawerLayout = findViewById(R.id.drawerLayout); // Asegúrate de que el ID sea correcto
-
+        Typeface jerseyFont = ResourcesCompat.getFont(this, R.font.jersey_10);
 
 
         // Configuración del Navigation Drawer
@@ -83,7 +85,7 @@ public class PaginaPrincipal extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 texto.setText("¡Salud! 🍻"); // Cambia el texto al hacer clic
-
+                texto.setTypeface(jerseyFont);
                 // Abrir la nueva actividad CrearSalaUnirse
                 Intent intent = new Intent(PaginaPrincipal.this, PaginaAddJugadores.class);
                 startActivity(intent);

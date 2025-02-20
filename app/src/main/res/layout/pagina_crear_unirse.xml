@@ -56,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="CREAR SALA"
-                    android:textSize="24sp"
+                    android:fontFamily="@font/jersey_10"
+                    android:textSize="34sp"
                     android:textColor="#000000"
                     android:textStyle="bold" />
 
@@ -83,8 +84,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="UNIRSE A SALA"
+                    android:fontFamily="@font/jersey_10"
                     android:textColor="#000000"
-                    android:textSize="24sp"
+                    android:textSize="34sp"
                     android:textStyle="bold" />
 
                 <ImageView

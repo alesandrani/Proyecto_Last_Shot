@@ -34,7 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="UNIRSE A SALA"
-        android:textSize="28sp"
+        android:fontFamily="@font/jersey_10"
+        android:textSize="38sp"
         android:textStyle="bold"
         android:textColor="#000000"/>
 
@@ -95,7 +96,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="UNIRSE A SALA"
-            android:textSize="22sp"
+            android:fontFamily="@font/jersey_10"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:textColor="@color/black"/>
     </RelativeLayout>

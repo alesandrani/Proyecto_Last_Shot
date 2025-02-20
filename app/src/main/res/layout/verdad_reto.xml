@@ -39,7 +39,8 @@
             android:layout_height="wrap_content"
             android:text="RETO"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:fontFamily="@font/jersey_10"
+            android:textSize="34sp"
             android:textStyle="bold"/>
     </LinearLayout>
 
@@ -62,8 +63,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="VERDAD"
+            android:fontFamily="@font/jersey_10"
             android:textColor="#000000"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"/>
     </LinearLayout>
 
