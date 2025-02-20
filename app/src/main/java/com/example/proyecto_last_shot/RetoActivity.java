@@ -2,6 +2,7 @@ package com.example.proyecto_last_shot;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,12 +19,16 @@ import java.util.Random;
 
 public class RetoActivity extends AppCompatActivity {
     private TextView tvPreguntaReto;
+    private TextView timerText;
     private ImageView btnBack;
     private static final String TAG = "RetoActivity";
 
+    // Constantes para el temporizador
+    private static final long TIMER_DURATION = 30000; // 30 segundos
+    private static final long TIMER_INTERVAL = 1000; // 1 segundo
+
     private static final String API_KEY = "AIzaSyD5X1wkoaIHotR9URrIHThG1jUvykZSpYE";
     private static final String PROJECT_ID = "lastshot-proyecto";
-
     private static final String URL_FIRESTORE =
             "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents/reto_verdad?key=" + API_KEY;
 
@@ -38,6 +43,7 @@ public class RetoActivity extends AppCompatActivity {
         btnBack.setOnClickListener(view -> finish());
 
         tvPreguntaReto = findViewById(R.id.preguntaReto);
+        timerText = findViewById(R.id.timerText);
 
         new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
     }
@@ -91,6 +97,7 @@ public class RetoActivity extends AppCompatActivity {
             if (!preguntas.isEmpty()) {
                 preguntasList = preguntas;
                 mostrarPreguntaAleatoria();
+                iniciarTemporizador();
             } else {
                 tvPreguntaReto.setText("No hay preguntas disponibles.");
             }
@@ -103,5 +110,23 @@ public class RetoActivity extends AppCompatActivity {
             int index = random.nextInt(preguntasList.size());
             tvPreguntaReto.setText(preguntasList.get(index));
         }
+    }
+
+    private void iniciarTemporizador() {
+        new CountDownTimer(TIMER_DURATION, TIMER_INTERVAL) {
+            int tiempoRestante = (int) (TIMER_DURATION / 1000); // Convertir a segundos
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tiempoRestante--;
+                timerText.setText(String.valueOf(tiempoRestante));
+            }
+
+            @Override
+            public void onFinish() {
+                timerText.setText("¡Tiempo!");
+                // Aquí puedes realizar acciones adicionales al finalizar el temporizador
+            }
+        }.start();
     }
 }
