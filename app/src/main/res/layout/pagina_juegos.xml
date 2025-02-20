@@ -18,10 +18,11 @@
         android:src="@mipmap/button_back" />
 
     <!-- Logo centrado -->
+
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="233dp"
-        android:layout_height="234dp"
+        android:layout_width="212dp"
+        android:layout_height="205dp"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:contentDescription="Logo de la app"
@@ -55,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="MECHERO"
-                    android:textSize="24sp"
+                    android:fontFamily="@font/jersey_10"
+                    android:textSize="34sp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 
@@ -82,7 +84,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="VERDAD O RETO"
-                    android:textSize="24sp"
+                    android:fontFamily="@font/jersey_10"
+                    android:textSize="34sp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 
@@ -109,7 +112,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="NÚMERO MAESTRO"
-                    android:textSize="24sp"
+                    android:fontFamily="@font/jersey_10"
+                    android:textSize="34sp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 
@@ -135,7 +139,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="JUEGO RANDOM"
-                    android:textSize="24sp"
+                    android:fontFamily="@font/jersey_10"
+                    android:textSize="34sp"
                     android:textColor="#000000"
                     android:textStyle="bold"/>
 

@@ -11,7 +11,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text=""
-        android:textSize="24sp"
+        android:textSize="34sp"
+        android:fontFamily="@font/jersey_10"
         android:textColor="#000000"
         android:textStyle="bold"/>
 
