@@ -41,7 +41,7 @@
             android:exported="true" />
         <activity
             android:name=".CrearSalaUnirse"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".PaginaCrearSala"
             android:exported="true" />

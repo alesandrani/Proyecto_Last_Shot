@@ -2,8 +2,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#D2F7EC">
-
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="53dp"
+        android:layout_height="56dp"
+        android:contentDescription="Botón de retroceso"
+        android:src="@mipmap/button_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"/>
     <TextView
         android:id="@+id/preguntaReto"
         android:layout_width="match_parent"
