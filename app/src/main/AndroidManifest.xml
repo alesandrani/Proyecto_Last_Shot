@@ -48,6 +48,12 @@
         <activity
             android:name=".PaginaUnirseSala"
             android:exported="true" />
+        <activity
+            android:name=".VerdadActivity"
+            android:exported="true" />
+        <activity
+            android:name=".RetoActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
