@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,6 +16,7 @@
         android:layout_margin="16dp"
         android:scaleType="fitXY"
         android:src="@mipmap/button_back"
+        android:contentDescription="Volver a la pantalla anterior"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,6 +28,7 @@
         android:layout_marginTop="40dp"
         android:scaleType="fitXY"
         android:src="@mipmap/image_logo_app"
+        android:contentDescription="Logo de la aplicación"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back" />
@@ -38,6 +39,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:contentDescription="Lista de jugadores agregados"
         app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintBottom_toTopOf="@id/contenedor_botones">
 
@@ -45,7 +47,10 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"/>
+            android:orientation="vertical">
+
+            <!-- Aquí puedes agregar elementos como TextViews para los jugadores -->
+        </LinearLayout>
     </ScrollView>
 
     <!-- Contenedor de EditText y Botones -->
@@ -69,7 +74,10 @@
             android:layout_weight="1"
             android:hint="Escribe un nombre"
             android:padding="10dp"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:contentDescription="Campo editable para ingresar el nombre del jugador"
+            android:importantForAccessibility="yes"
+            android:inputType="textPersonName" /> <!-- Tipo de entrada sugerido -->
 
         <!-- Botón para añadir jugadores -->
         <ImageButton
@@ -78,7 +86,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="8dp"
             android:background="@null"
-            android:contentDescription="Añadir Jugador"
+            android:contentDescription="Añadir jugador"
             android:src="@mipmap/button_add_players" />
 
         <!-- Botón Next -->
