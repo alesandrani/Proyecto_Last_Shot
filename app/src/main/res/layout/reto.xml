@@ -1,19 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2F7EC">
+    android:orientation="vertical"
+    android:background="#D2F7EC"
+    android:gravity="center">
 
+    <!-- TextView para mostrar la pregunta -->
     <TextView
         android:id="@+id/preguntaReto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text=""
-        android:fontFamily="@font/jersey_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textSize="34sp"
-        android:textColor="#000000"
-        android:textStyle="bold"/>
+        android:fontFamily="@font/jersey_10"
+        android:textColor="@color/black"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ImageView para el chupito -->
+
+    <!-- TextView para el temporizador -->
+    <ImageView
+        android:id="@+id/imgChupiTempo"
+        android:layout_width="289dp"
+        android:layout_height="223dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/chupi" />
+
+    <TextView
+        android:id="@+id/timerText"
+        android:layout_width="wrap_content"
+        android:layout_height="63dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/jersey_10"
+        android:text="30"
+        android:textColor="@color/black"
+        android:textSize="54sp" />
+</LinearLayout>
