@@ -1,17 +1,12 @@
 package com.example.proyecto_last_shot;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class VerdadReto extends AppCompatActivity {
 
@@ -20,23 +15,26 @@ public class VerdadReto extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.verdad_reto);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-    final EditText et = findViewById(R.id.editTextPregunta);
-    final Button bt = findViewById(R.id.button1);
-    final TextView tv = findViewById(R.id.pregunta1);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        bt.setOnClickListener(v -> {
+        // Configuración para el botón RETO
+        findViewById(R.id.btn_reto).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad RetoActivity
+                Intent intent = new Intent(VerdadReto.this, RetoActivity.class);
+                startActivity(intent);
+            }
         });
 
-        db.collection("preguntas").document("ycv2P3Ro7OwgSOMFbZEM").get()
-                .addOnSuccessListener(documentSnapshot ->{
-                    String valor = documentSnapshot.getString("valor");
-                    tv.setText(valor);
-    });
+        // Configuración para el botón VERDAD
+        findViewById(R.id.btn_verdad).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad VerdadActivity
+                Intent intent = new Intent(VerdadReto.this, VerdadActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }

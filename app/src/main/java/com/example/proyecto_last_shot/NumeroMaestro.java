@@ -4,17 +4,11 @@ import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,11 +53,15 @@ public class NumeroMaestro extends AppCompatActivity {
                 String perdedor = "";
                 int minNumero = Integer.MAX_VALUE;
 
+                // Asignar números aleatorios a los jugadores
                 for (DataSnapshot jugadorSnapshot : snapshot.getChildren()) {
                     String nombreJugador = jugadorSnapshot.child("nombre").getValue(String.class);
-                    int numeroAleatorio = new Random().nextInt(20) + 1;
+                    int numeroAleatorio = new Random().nextInt(20) + 1;  // Número entre 1 y 20
 
+                    // Guardar los números generados
                     jugadoresConNumeros.put(nombreJugador, numeroAleatorio);
+
+                    // Verificar cuál es el perdedor (el jugador con el número más bajo)
                     if (numeroAleatorio < minNumero) {
                         minNumero = numeroAleatorio;
                         perdedor = nombreJugador;
@@ -71,15 +69,18 @@ public class NumeroMaestro extends AppCompatActivity {
                 }
 
                 // Obtener el primer jugador registrado y mostrarlo
-                Map.Entry<String, Integer> primerJugador = jugadoresConNumeros.entrySet().iterator().next();
-                playerNameTextView.setText(primerJugador.getKey());
-                mostrarNumeroAnimado(primerJugador.getValue());
+                if (!jugadoresConNumeros.isEmpty()) {
+                    Map.Entry<String, Integer> primerJugador = jugadoresConNumeros.entrySet().iterator().next();
+                    playerNameTextView.setText(primerJugador.getKey());
+                    mostrarNumeroAnimado(primerJugador.getValue());  // Mostrar el número animado
 
-                // Mostrar el perdedor en la UI
-                loserNameTextView.setText(perdedor);
+                    // Mostrar el perdedor en la UI
+                    loserNameTextView.setText(perdedor);
 
-                // Guardar los números en Firebase
-                salaRef.child("resultados").setValue(jugadoresConNumeros);
+                    // Guardar los números de los jugadores en Firebase
+                    salaRef.child("resultados").setValue(jugadoresConNumeros);
+                }
+
             } else {
                 Toast.makeText(NumeroMaestro.this, "Error al obtener jugadores", Toast.LENGTH_SHORT).show();
             }
@@ -87,11 +88,9 @@ public class NumeroMaestro extends AppCompatActivity {
     }
 
     private void mostrarNumeroAnimado(int numero) {
+        // Aquí animamos el cambio de texto en playerScoreTextView con un ObjectAnimator
         ObjectAnimator anim = ObjectAnimator.ofInt(playerScoreTextView, "text", 1, numero);
-        anim.setDuration(4000);
-        anim.addUpdateListener(animation -> {
-            playerScoreTextView.setText(String.valueOf(animation.getAnimatedValue()));
-        });
+        anim.setDuration(4000); // Duración de la animación
         anim.start();
     }
 }
