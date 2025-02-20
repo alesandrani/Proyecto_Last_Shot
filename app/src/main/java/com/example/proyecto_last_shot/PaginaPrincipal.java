@@ -87,7 +87,7 @@ public class PaginaPrincipal extends AppCompatActivity {
                 texto.setText("¡Salud! 🍻"); // Cambia el texto al hacer clic
                 texto.setTypeface(jerseyFont);
                 // Abrir la nueva actividad CrearSalaUnirse
-                Intent intent = new Intent(PaginaPrincipal.this, CrearSalaUnirse.class);
+                Intent intent = new Intent(PaginaPrincipal.this, PaginaAddJugadores.class);
                 startActivity(intent);
             }
         });
