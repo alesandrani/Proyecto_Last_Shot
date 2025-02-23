@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#D2F7EC">
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="53dp"
@@ -13,17 +15,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="16dp"/>
+
     <TextView
         android:id="@+id/preguntaVerdad"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/jersey_10"
         android:gravity="center"
         android:text=""
-        android:textSize="34sp"
-        android:fontFamily="@font/jersey_10"
         android:textColor="#000000"
-        android:textStyle="bold"/>
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="349dp"
+        android:layout_height="157dp"
+        android:layout_marginTop="404dp"
+        android:fontFamily="@font/jersey_10"
+        android:gravity="center"
+        android:text="15"
+        android:textColor="#020202"
+        android:textSize="80sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.633"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/preguntaVerdad" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

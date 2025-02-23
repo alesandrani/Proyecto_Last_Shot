@@ -2,6 +2,7 @@ package com.example.proyecto_last_shot;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Random;
 
 public class VerdadActivity extends AppCompatActivity {
-    private TextView tvPreguntaVerdad;
+    private TextView tvPreguntaVerdad, tvTimer;
     private ImageView btnBack;
     private static final String TAG = "VerdadActivity";
 
@@ -28,6 +29,7 @@ public class VerdadActivity extends AppCompatActivity {
             "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents/verdad_reto?key=" + API_KEY;
 
     private List<String> preguntasList = new ArrayList<>();
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class VerdadActivity extends AppCompatActivity {
         btnBack.setOnClickListener(view -> finish());
 
         tvPreguntaVerdad = findViewById(R.id.preguntaVerdad);
+        tvTimer = findViewById(R.id.timer);
 
         new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
     }
@@ -102,6 +105,46 @@ public class VerdadActivity extends AppCompatActivity {
             Random random = new Random();
             int index = random.nextInt(preguntasList.size());
             tvPreguntaVerdad.setText(preguntasList.get(index));
+            iniciarTemporizador();
         }
+    }
+    /**
+     * Inicia un temporizador que cuenta hacia atrás desde 15 segundos.
+     *
+     * Este método cancela cualquier temporizador existente y crea uno nuevo utilizando
+     * la clase CountDownTimer. El temporizador actualiza un TextView con el tiempo
+     * restante en segundos y muestra un mensaje cuando el tiempo se ha agotado.
+     *
+     * Funcionamiento:
+     * - Al invocar este método, se verifica si hay un temporizador activo.
+     *   Si existe, se cancela para evitar múltiples temporizadores en ejecución.
+     * - Se crea una nueva instancia de CountDownTimer con una duración de 15 segundos
+     *   (15000 milisegundos) y un intervalo de actualización de 1 segundo (1000 milisegundos).
+     * - En cada tick (cada segundo), se actualiza el TextView (tvTimer) para mostrar
+     *   el tiempo restante en segundos.
+     * - Cuando el temporizador finaliza, se actualiza el TextView para mostrar
+     *   el mensaje "¡Tiempo terminado!".
+     *
+     * Dependencias:
+     * - tvTimer: Un TextView que muestra el tiempo restante del temporizador.
+     * - 15000: La duración total del temporizador en milisegundos (15 segundos).
+     * - 1000: El intervalo de actualización del temporizador en milisegundos (1 segundo).
+     */
+    private void iniciarTemporizador() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
+
+        countDownTimer = new CountDownTimer(15000, 1000) { // 15 segundos, con intervalos de 1 segundo
+            @Override
+            public void onTick(long millisUntilFinished) {
+                tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
+            }
+
+            @Override
+            public void onFinish() {
+                tvTimer.setText("¡Tiempo terminado!");
+            }
+        }.start();
     }
 }

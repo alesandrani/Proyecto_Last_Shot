@@ -18,12 +18,10 @@ import java.util.List;
 import java.util.Random;
 
 public class RetoActivity extends AppCompatActivity {
-    private TextView tvPreguntaReto;
-    private TextView timerText;
+    private TextView tvPreguntaReto, tvTimer;
     private ImageView btnBack;
     private static final String TAG = "RetoActivity";
 
-    // Constantes para el temporizador
     private static final long TIMER_DURATION = 30000; // 30 segundos
     private static final long TIMER_INTERVAL = 1000; // 1 segundo
 
@@ -33,6 +31,7 @@ public class RetoActivity extends AppCompatActivity {
             "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents/reto_verdad?key=" + API_KEY;
 
     private List<String> preguntasList = new ArrayList<>();
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class RetoActivity extends AppCompatActivity {
         btnBack.setOnClickListener(view -> finish());
 
         tvPreguntaReto = findViewById(R.id.preguntaReto);
-        timerText = findViewById(R.id.timerText);
+        tvTimer = findViewById(R.id.timer);
 
         new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
     }
@@ -97,7 +96,6 @@ public class RetoActivity extends AppCompatActivity {
             if (!preguntas.isEmpty()) {
                 preguntasList = preguntas;
                 mostrarPreguntaAleatoria();
-                iniciarTemporizador();
             } else {
                 tvPreguntaReto.setText("No hay preguntas disponibles.");
             }
@@ -109,23 +107,46 @@ public class RetoActivity extends AppCompatActivity {
             Random random = new Random();
             int index = random.nextInt(preguntasList.size());
             tvPreguntaReto.setText(preguntasList.get(index));
+            iniciarTemporizador();
         }
     }
-
+    /**
+     * Inicia un temporizador que cuenta hacia atrás desde un tiempo específico.
+     *
+     * Este método se encarga de cancelar un temporizador existente (si lo hay) y
+     * crear uno nuevo utilizando la clase CountDownTimer. El temporizador actualiza
+     * un TextView con el tiempo restante en segundos y muestra un mensaje cuando
+     * el tiempo se ha agotado.
+     *
+     * Funcionamiento:
+     * - Al llamar a este método, primero se verifica si hay un temporizador activo.
+     *   Si es así, se cancela para evitar múltiples temporizadores simultáneos.
+     * - Se crea una nueva instancia de CountDownTimer con la duración total
+     *   (TIMER_DURATION) y el intervalo de actualización (TIMER_INTERVAL).
+     * - En cada tick (cada intervalo definido), se actualiza el TextView (tvTimer)
+     *   con el tiempo restante en segundos.
+     * - Cuando el temporizador finaliza, se actualiza el TextView para mostrar
+     *   un mensaje que indica que el tiempo ha terminado.
+     *
+     * Dependencias:
+     * - tvTimer: Un TextView que muestra el tiempo restante del temporizador.
+     * - TIMER_DURATION: La duración total del temporizador en milisegundos.
+     * - TIMER_INTERVAL: El intervalo de actualización del temporizador en milisegundos.
+     */
     private void iniciarTemporizador() {
-        new CountDownTimer(TIMER_DURATION, TIMER_INTERVAL) {
-            int tiempoRestante = (int) (TIMER_DURATION / 1000); // Convertir a segundos
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
 
+        countDownTimer = new CountDownTimer(TIMER_DURATION, TIMER_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tiempoRestante--;
-                timerText.setText(String.valueOf(tiempoRestante));
+                tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
             }
 
             @Override
             public void onFinish() {
-                timerText.setText("¡Tiempo!");
-                // Aquí puedes realizar acciones adicionales al finalizar el temporizador
+                tvTimer.setText("¡Tiempo terminado!");
             }
         }.start();
     }

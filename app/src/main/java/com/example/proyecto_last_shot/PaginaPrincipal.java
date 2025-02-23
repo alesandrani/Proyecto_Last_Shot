@@ -1,7 +1,5 @@
 package com.example.proyecto_last_shot;
 
-
-
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -25,13 +23,18 @@ public class PaginaPrincipal extends AppCompatActivity {
     private LinearLayout boton;
     private TextView texto;
     private DrawerLayout drawerLayout;
-    // Definir constantes para los IDs
+
+    // Definir constantes para los IDs del menú lateral
     private static final int MENU_INFO = R.id.menu_info;
     private static final int MENU_TERMINOS = R.id.menu_terminos;
     private static final int MENU_PRIVACIDAD = R.id.menu_privacidad;
     private static final int MENU_CONTACTO = R.id.menu_contacto;
 
-
+    /**
+     * Método que se ejecuta al crear la actividad.
+     * Inicializa los elementos de la interfaz y configura los eventos.
+     * @param savedInstanceState Estado guardado de la actividad.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +46,8 @@ public class PaginaPrincipal extends AppCompatActivity {
         cerveza = findViewById(R.id.cerveza);
         boton = findViewById(R.id.boton);
         texto = findViewById(R.id.texto);
-        drawerLayout = findViewById(R.id.drawerLayout); // Asegúrate de que el ID sea correcto
+        drawerLayout = findViewById(R.id.drawerLayout);
         Typeface jerseyFont = ResourcesCompat.getFont(this, R.font.jersey_10);
-
 
         // Configuración del Navigation Drawer
         NavigationView navigationView = findViewById(R.id.navigationView);
@@ -54,17 +56,17 @@ public class PaginaPrincipal extends AppCompatActivity {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START); // Usamos GravityCompat.START para abrir el menú desde la izquierda
+                drawerLayout.openDrawer(GravityCompat.START); // Abre el menú desde la izquierda
             }
         });
 
-        // Listener para manejar los clics en el menú lateral (sin abrir actividades)
+        // Listener para manejar los clics en el menú lateral
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
 
-
+                // Mostrar un mensaje según la opción seleccionada
                 if (itemId == MENU_INFO) {
                     Toast.makeText(PaginaPrincipal.this, "Información sobre el juego", Toast.LENGTH_SHORT).show();
                 } else if (itemId == MENU_TERMINOS) {
@@ -80,13 +82,14 @@ public class PaginaPrincipal extends AppCompatActivity {
             }
         });
 
-        // Evento al presionar el botón (aquí se realiza el Intent)
+        // Evento al presionar el botón principal
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 texto.setText("¡Salud! 🍻"); // Cambia el texto al hacer clic
                 texto.setTypeface(jerseyFont);
-                // Abrir la nueva actividad CrearSalaUnirse
+
+                // Abrir la nueva actividad PaginaAddJugadores
                 Intent intent = new Intent(PaginaPrincipal.this, PaginaAddJugadores.class);
                 startActivity(intent);
             }
