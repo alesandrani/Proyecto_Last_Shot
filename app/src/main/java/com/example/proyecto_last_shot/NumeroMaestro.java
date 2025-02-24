@@ -14,34 +14,33 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class NumeroMaestro extends AppCompatActivity {
 
     private TextView playerNameTextView;
+    private TextView nombrePerdedorTextView;
     private ImageView btnBack;
     private ArrayList<String> listaJugadores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.numero_maestro); // Asegúrate de que el layout esté correcto
+        setContentView(R.layout.numero_maestro);
 
-        // Referencias a los elementos de la interfaz
         playerNameTextView = findViewById(R.id.tvJugadores);
+        nombrePerdedorTextView = findViewById(R.id.nombrePerdedor);
         btnBack = findViewById(R.id.btn_back);
 
-        // Botón para cerrar la actividad
         btnBack.setOnClickListener(v -> finish());
 
-        // Cargamos los jugadores desde SharedPreferences
         listaJugadores = obtenerJugadoresDePreferencias();
 
-        // Verificamos si se cargaron jugadores
         if (!listaJugadores.isEmpty()) {
-            // Mostrar la lista de jugadores
-            mostrarJugadoresEnPantalla();
+            asignarNumerosYMostrar();
         } else {
-            // Si no hay jugadores guardados, mostramos un mensaje
             Toast.makeText(NumeroMaestro.this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
         }
     }
@@ -50,18 +49,35 @@ public class NumeroMaestro extends AppCompatActivity {
         SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
         Gson gson = new Gson();
         String json = prefs.getString("listaJugadores", null);
-
-        // Si no hay jugadores guardados, devolvemos una lista vacía
         Type type = new TypeToken<ArrayList<String>>() {}.getType();
         return json == null ? new ArrayList<>() : gson.fromJson(json, type);
     }
 
-    // Mostrar los jugadores en el TextView
-    private void mostrarJugadoresEnPantalla() {
-        // Unir todos los nombres de los jugadores en un solo texto separado por salto de línea
-        String jugadoresTexto = TextUtils.join("\n", listaJugadores);
+    private void asignarNumerosYMostrar() {
+        ArrayList<Integer> numeros = new ArrayList<>();
+        for (int i = 1; i <= listaJugadores.size(); i++) {
+            numeros.add(i);
+        }
+        Collections.shuffle(numeros);
 
-        // Mostrar el texto en el TextView
-        playerNameTextView.setText(jugadoresTexto);
+        Map<String, Integer> jugadoresConNumeros = new HashMap<>();
+        StringBuilder jugadoresTexto = new StringBuilder();
+        int minNumero = Integer.MAX_VALUE;
+        String perdedor = "";
+
+        for (int i = 0; i < listaJugadores.size(); i++) {
+            String jugador = listaJugadores.get(i);
+            int numero = numeros.get(i);
+            jugadoresConNumeros.put(jugador, numero);
+            jugadoresTexto.append(jugador).append(" - ").append(numero).append("\n");
+
+            if (numero < minNumero) {
+                minNumero = numero;
+                perdedor = jugador;
+            }
+        }
+
+        playerNameTextView.setText(jugadoresTexto.toString());
+        nombrePerdedorTextView.setText("A BEBER: " + perdedor);
     }
 }
