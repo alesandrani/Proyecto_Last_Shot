@@ -106,6 +106,7 @@ public class PaginaAddJugadores extends AppCompatActivity {
             TextView nuevoJugador = new TextView(this);
             nuevoJugador.setText(jugador);
             nuevoJugador.setTextSize(18);
+            nuevoJugador.setTextColor(getResources().getColor(R.color.black));
             nuevoJugador.setPadding(10, 10, 10, 10);
             container.addView(nuevoJugador);
         }
