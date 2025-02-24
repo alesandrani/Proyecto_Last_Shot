@@ -69,4 +69,20 @@
             android:textStyle="bold"/>
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/turno"
+        android:layout_width="356dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/jersey_10"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#000000"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
