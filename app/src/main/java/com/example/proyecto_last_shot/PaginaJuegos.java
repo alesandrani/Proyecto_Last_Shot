@@ -56,7 +56,7 @@ public class PaginaJuegos extends AppCompatActivity {
                 "El resto de los jugadores votará a través de la aplicación si el jugador ha cumplido con la acción o si merece beber. " +
                 "¡Diversión garantizada en cada turno!"));
 
-        infoNumeroMaestro.setOnClickListener(view -> mostrarDialogo("Número Maestro", "Cada jugador recibirá un número aleatorio que saldrá en el chat general, el que tenga el número más alto bebe."));
+        infoNumeroMaestro.setOnClickListener(view -> mostrarDialogo("Número Maestro", "Cada jugador recibirá un número aleatorio que saldrá en el chat general, el que tenga el número más bajo bebe."));
 
         infoJuegoRandom.setOnClickListener(view -> mostrarDialogo("Juego Random", "Elige un juego aleatorio de la lista."));
     }
