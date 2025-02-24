@@ -20,7 +20,7 @@
         android:id="@+id/preguntaVerdad"
         android:layout_width="391dp"
         android:layout_height="145dp"
-        android:layout_marginLeft="26dp"
+        android:paddingLeft="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/jersey_10"
         android:gravity="center"
