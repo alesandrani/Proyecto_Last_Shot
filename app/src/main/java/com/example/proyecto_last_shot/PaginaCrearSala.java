@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+    //ESTO SE IMPLEMENTARÁ MÁS ADELANTE PARA EL TFG, AHORA NO SE UTILIZA.
+
 public class PaginaCrearSala extends AppCompatActivity {
     private EditText nombreSala, inputCodigoSala, inputNombreJugador;
     private ImageView btnCrearSala, btnBack;

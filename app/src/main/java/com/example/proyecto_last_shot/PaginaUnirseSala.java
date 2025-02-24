@@ -18,6 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+            //NO SE UTILIZA DE MOMENTO, SE IMPLEMENTARÁ MÁS ADELANTE PARA EL TFG
+
 public class PaginaUnirseSala extends AppCompatActivity {
 
     private EditText salaNombre, clave, nombreJugador;
