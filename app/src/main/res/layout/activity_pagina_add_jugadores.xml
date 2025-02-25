@@ -73,7 +73,7 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:hint="Escribe un nombre"
-            android:textColorHint="#1F1F1F"
+            android:textColorHint="#949292"
             android:padding="10dp"
             android:fontFamily="@font/jersey_10"
             android:textColor="@color/black"

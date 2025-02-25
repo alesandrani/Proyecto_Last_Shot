@@ -17,9 +17,11 @@
         tools:targetApi="31">
         <activity
             android:name=".PaginaAddJugadores"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PaginaPrincipal"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,30 +31,39 @@
         </activity>
         <activity
             android:name=".ActivityJuegoMoneda"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".VerdadReto"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".NumeroMaestro"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".PaginaJuegos"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".CrearSalaUnirse"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".PaginaCrearSala"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".PaginaUnirseSala"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".VerdadActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".RetoActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
     </application>
 

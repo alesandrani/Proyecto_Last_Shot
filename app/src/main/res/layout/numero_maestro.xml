@@ -20,28 +20,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Nombre del jugador -->
-    <TextView
-        android:id="@+id/tvJugadores"
-        android:layout_width="432dp"
-        android:layout_height="368dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/jersey_10"
-        android:gravity="center"
-        android:text=""
-        android:textColor="#0B0B0B"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.523"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
     <!-- Contenedor de la bola con el número -->
+
     <TextView
-        android:id="@+id/nombrePerdedor"
-        android:layout_width="239dp"
-        android:layout_height="205dp"
-        android:layout_marginTop="408dp"
+        android:id="@+id/tvJugadores"
+        android:layout_width="405dp"
+        android:layout_height="375dp"
+        android:layout_marginTop="276dp"
         android:fontFamily="@font/jersey_10"
         android:gravity="center"
         android:text=""
@@ -49,10 +35,37 @@
         android:textSize="28dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
+    <TextView
+        android:id="@+id/nombrePerdedor"
+        android:layout_width="254dp"
+        android:layout_height="117dp"
+        android:layout_marginTop="152dp"
+        android:fontFamily="@font/jersey_10"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#0B0B0B"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back" />
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="276dp"
+        android:layout_height="289dp"
+        android:contentDescription="Bola de decoración"
+        android:scaleType="fitXY"
+        android:src="@mipmap/image_bola"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.422"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
     <!-- Caja para el perdedor -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
