@@ -65,6 +65,10 @@
             android:name=".RetoActivity"
             android:screenOrientation="portrait"
             android:exported="true" />
+        <activity
+            android:name=".CoinGameActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
     </application>
 
 </manifest>
