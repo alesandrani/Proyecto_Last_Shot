@@ -21,19 +21,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Logo -->
+
+    <!-- Contenedor de los jugadores agregados -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="276dp"
-        android:layout_height="289dp"
-        android:layout_marginTop="40dp"
+        android:layout_width="303dp"
+        android:layout_height="311dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="Logo de la aplicación"
         android:scaleType="fitXY"
         android:src="@mipmap/image_logo_app"
-        android:contentDescription="Logo de la aplicación"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/back" />
 
-    <!-- Contenedor de los jugadores agregados -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,13 +59,16 @@
         android:id="@+id/contenedor_botones"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_margin="12dp"
         android:background="@drawable/yellow"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:padding="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Input para ingresar el nombre del jugador -->
         <EditText
@@ -72,21 +76,21 @@
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:hint="Escribe un nombre"
-            android:textColorHint="#949292"
-            android:padding="10dp"
-            android:fontFamily="@font/jersey_10"
-            android:textColor="@color/black"
-            android:textSize="18sp"
             android:contentDescription="Campo editable para ingresar el nombre del jugador"
+            android:fontFamily="@font/jersey_10"
+            android:hint="Escribe un nombre"
             android:importantForAccessibility="yes"
-            android:inputType="textPersonName" /> <!-- Tipo de entrada sugerido -->
+            android:inputType="textPersonName"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textColorHint="#949292"
+            android:textSize="18sp" /> <!-- Tipo de entrada sugerido -->
 
         <!-- Botón para añadir jugadores -->
         <ImageButton
             android:id="@+id/btnAddJugador"
-            android:layout_width="49dp"
-            android:layout_height="48dp"
+            android:layout_width="61dp"
+            android:layout_height="59dp"
             android:layout_marginStart="8dp"
             android:background="@null"
             android:contentDescription="Añadir jugador"
@@ -95,8 +99,8 @@
         <!-- Botón Next -->
         <ImageButton
             android:id="@+id/btnNext"
-            android:layout_width="43dp"
-            android:layout_height="45dp"
+            android:layout_width="56dp"
+            android:layout_height="52dp"
             android:layout_marginStart="8dp"
             android:background="@null"
             android:contentDescription="Siguiente"

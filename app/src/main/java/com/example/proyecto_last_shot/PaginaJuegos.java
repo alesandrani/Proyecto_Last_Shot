@@ -39,7 +39,7 @@ public class PaginaJuegos extends AppCompatActivity {
         // Configurar eventos de clic para los botones de navegación
         btnBack.setOnClickListener(view -> finish()); // Cierra la actividad y regresa a la anterior
 
-       // btnMechero.setOnClickListener(view -> abrirJuego(ActivityJuegoMoneda.class));
+        btnMechero.setOnClickListener(view -> abrirJuego(ActivityJuegoMoneda.class));
         btnVerdadReto.setOnClickListener(view -> abrirJuego(VerdadReto.class));
         btnNumeroMaestro.setOnClickListener(view -> abrirJuego(NumeroMaestro.class));
         btnJuegoRandom.setOnClickListener(view -> seleccionarJuegoAleatorio());
@@ -78,9 +78,9 @@ public class PaginaJuegos extends AppCompatActivity {
 
         Class<?> selectedActivity;
         switch (randomGame) {
-           // case 0:
-                //selectedActivity = ActivityJuegoMoneda.class;
-               // break;
+           case 0:
+                selectedActivity = ActivityJuegoMoneda.class;
+               break;
             case 1:
                 selectedActivity = VerdadReto.class;
                 break;
