@@ -32,7 +32,7 @@
         <activity
             android:name=".ActivityJuegoMoneda"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".VerdadReto"
             android:screenOrientation="portrait"
@@ -63,6 +63,10 @@
             android:exported="true" />
         <activity
             android:name=".RetoActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+        <activity
+            android:name=".ActivityChat"
             android:screenOrientation="portrait"
             android:exported="true" />
     </application>

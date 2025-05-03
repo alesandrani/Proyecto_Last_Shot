@@ -94,19 +94,7 @@
                 android:layout_marginBottom="8dp"
                 android:background="@mipmap/chat_player2"
                 android:orientation="horizontal"
-                android:padding="12dp"/>
-
-            <ImageButton
-                android:id="@+id/coinFlipButton"
-                android:layout_width="match_parent"
-                android:layout_height="104dp"
-                android:layout_marginHorizontal="8dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/orange"
-                android:padding="12dp"
-                android:text="Lanzar Moneda"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp" />
+                android:padding="12dp" />
 
         </LinearLayout>
     </ScrollView>
