@@ -145,9 +145,9 @@
                     android:textStyle="bold"/>
 
                 <ImageView
+                    android:id="@+id/infoRandom"
                     android:layout_width="33dp"
                     android:layout_height="36dp"
-                    android:id="@+id/infoRandom"
                     android:src="@mipmap/info" />
             </LinearLayout>
 

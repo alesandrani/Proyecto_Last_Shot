@@ -2,7 +2,9 @@ package com.example.proyecto_last_shot;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,46 +20,53 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Clase NumeroMaestro que gestiona la asignación aleatoria de números a jugadores y determina
- * quién recibe el número más bajo.
- */
 public class NumeroMaestro extends AppCompatActivity {
 
-    private TextView playerNameTextView; // TextView para mostrar los nombres y números de los jugadores
-    private TextView nombrePerdedorTextView; // TextView para mostrar el jugador con el número más bajo
-    private ImageView btnBack; // Botón de retroceso para cerrar la actividad
-    private ArrayList<String> listaJugadores; // Lista de jugadores
+    private TextView playerNameTextView;
+    private TextView nombrePerdedorTextView;
+    private ImageView btnBack;
+    private Button startButton;
+    private ArrayList<String> listaJugadores;
+    private WheelView wheelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.numero_maestro);
 
-        // Inicialización de las vistas
         playerNameTextView = findViewById(R.id.tvJugadores);
         nombrePerdedorTextView = findViewById(R.id.nombrePerdedor);
         btnBack = findViewById(R.id.btn_back);
+        startButton = findViewById(R.id.startButton);
+        wheelView = findViewById(R.id.wheelView);
 
-        // Configuración del botón de retroceso
         btnBack.setOnClickListener(v -> finish());
 
-        // Obtener la lista de jugadores desde SharedPreferences
+        // Obtener la lista de jugadores guardada
         listaJugadores = obtenerJugadoresDePreferencias();
 
-        // Si hay jugadores disponibles, asignarles números y mostrarlos
-        if (!listaJugadores.isEmpty()) {
-            asignarNumerosYMostrar();
-        } else {
-            Toast.makeText(NumeroMaestro.this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
+        if (listaJugadores.isEmpty()) {
+            Toast.makeText(this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
         }
+
+        // Al pulsar el botón de girar
+        startButton.setOnClickListener(v -> {
+            // Animación al botón
+            Animation anim = AnimationUtils.loadAnimation(NumeroMaestro.this, R.anim.spin_bounce);
+            startButton.startAnimation(anim);
+
+            if (!listaJugadores.isEmpty()) {
+                // Asignar números aleatorios a jugadores y mostrar en pantalla
+                Map<String, Integer> jugadoresConNumeros = asignarNumerosAleatorios(listaJugadores);
+                mostrarJugadoresYPerdedor(jugadoresConNumeros);
+
+                // Rotar la rueda
+                float randomAngle = (float) (Math.random() * 360 + 360);
+                wheelView.rotateWheelWithAnimation(wheelView.getRotationAngle(), wheelView.getRotationAngle() + randomAngle);
+            }
+        });
     }
 
-    /**
-     * Obtiene la lista de jugadores almacenada en SharedPreferences.
-     *
-     * @return Lista de nombres de jugadores.
-     */
     private ArrayList<String> obtenerJugadoresDePreferencias() {
         SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -66,38 +75,34 @@ public class NumeroMaestro extends AppCompatActivity {
         return json == null ? new ArrayList<>() : gson.fromJson(json, type);
     }
 
-    /**
-     * Asigna un número aleatorio único a cada jugador y muestra los resultados en pantalla.
-     * También determina qué jugador tiene el número más bajo y lo muestra como "A BEBER".
-     */
-    private void asignarNumerosYMostrar() {
+    private Map<String, Integer> asignarNumerosAleatorios(ArrayList<String> jugadores) {
         ArrayList<Integer> numeros = new ArrayList<>();
-        for (int i = 1; i <= listaJugadores.size(); i++) {
+        for (int i = 1; i <= jugadores.size(); i++) {
             numeros.add(i);
         }
         Collections.shuffle(numeros);
 
-        Map<String, Integer> jugadoresConNumeros = new HashMap<>();
-        StringBuilder jugadoresTexto = new StringBuilder();
-        int minNumero = Integer.MAX_VALUE;
+        Map<String, Integer> asignacion = new HashMap<>();
+        for (int i = 0; i < jugadores.size(); i++) {
+            asignacion.put(jugadores.get(i), numeros.get(i));
+        }
+        return asignacion;
+    }
+
+    private void mostrarJugadoresYPerdedor(Map<String, Integer> jugadoresConNumeros) {
+        StringBuilder builder = new StringBuilder();
         String perdedor = "";
+        int min = Integer.MAX_VALUE;
 
-        // Asigna números a los jugadores y encuentra el de menor valor
-        for (int i = 0; i < listaJugadores.size(); i++) {
-            String jugador = listaJugadores.get(i);
-            int numero = numeros.get(i);
-            jugadoresConNumeros.put(jugador, numero);
-            jugadoresTexto.append(jugador).append(" - ").append(numero).append("\n");
-
-            if (numero < minNumero) {
-                minNumero = numero;
-                perdedor = jugador;
+        for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
+            builder.append(entry.getKey()).append(" - ").append(entry.getValue()).append("\n");
+            if (entry.getValue() < min) {
+                min = entry.getValue();
+                perdedor = entry.getKey();
             }
         }
 
-        // Muestra la lista de jugadores con sus números asignados
-        playerNameTextView.setText(jugadoresTexto.toString());
-        // Muestra el jugador que debe beber
+        playerNameTextView.setText(builder.toString().trim());
         nombrePerdedorTextView.setText("A BEBER: " + perdedor);
     }
 }

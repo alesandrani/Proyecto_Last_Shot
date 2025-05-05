@@ -1,71 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2F7EC"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:background="#E6106610"
     tools:context=".NumeroMaestro">
 
-    <!-- Botón de retroceso -->
+    <!-- Botón de vuelta -->
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="53dp"
-        android:layout_height="56dp"
-        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="Back Button"
         android:src="@mipmap/button_back"
-        android:contentDescription="Botón de retroceso"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteX="-5dp"
+        tools:layout_editor_absoluteY="16dp" />
 
-    <!-- Nombre del jugador -->
-
-    <!-- Contenedor de la bola con el número -->
-
-    <TextView
-        android:id="@+id/tvJugadores"
-        android:layout_width="405dp"
-        android:layout_height="375dp"
-        android:layout_marginTop="276dp"
-        android:fontFamily="@font/jersey_10"
-        android:gravity="center"
-        android:text=""
-        android:textColor="#0B0B0B"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_back" />
-
-    <TextView
-        android:id="@+id/nombrePerdedor"
-        android:layout_width="254dp"
-        android:layout_height="117dp"
-        android:layout_marginTop="152dp"
-        android:fontFamily="@font/jersey_10"
-        android:gravity="center"
-        android:text=""
-        android:textColor="#0B0B0B"
-        android:textSize="28dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.439"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_back" />
-
+    <!-- Fondo de la ruleta -->
     <ImageView
-        android:id="@+id/logo"
-        android:layout_width="276dp"
-        android:layout_height="289dp"
-        android:contentDescription="Bola de decoración"
-        android:scaleType="fitXY"
-        android:src="@mipmap/image_bola"
+        android:id="@+id/rouletteBackground"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:src="@mipmap/roulette_wheel"
+        android:scaleType="fitCenter"
+        android:alpha="0.3"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_back"
-        app:layout_constraintBottom_toTopOf="@id/tvJugadores"
-        app:layout_constraintHorizontal_bias="0.5" />
+        android:layout_marginTop="40dp"/>
+
+    <!-- Vista personalizada de la ruleta -->
+    <com.example.proyecto_last_shot.WheelView
+        android:id="@+id/wheelView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="@id/rouletteBackground"
+        app:layout_constraintEnd_toEndOf="@id/rouletteBackground"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/rouletteBackground"
+        app:layout_constraintTop_toTopOf="@id/rouletteBackground"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <FrameLayout
+        android:id="@+id/flJugadores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wheelView">
+
+        <TextView
+            android:id="@+id/tvJugadores"
+            android:gravity="center"
+            android:fontFamily="@font/jersey_10"
+            android:text="Jugadores"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+        android:background="@drawable/brown_box"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <!-- FrameLayout para el perdedor -->
+    <FrameLayout
+        android:id="@+id/flPerdedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flJugadores">
+
+        <TextView
+            android:id="@+id/nombrePerdedor"
+
+
+            android:gravity="center"
+            android:fontFamily="@font/jersey_10"
+            android:text="A BEBER:"
+            android:textColor="#FBFAFA"
+            android:textSize="18sp"
+        android:background="@drawable/brown_box"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </FrameLayout>
+
+    <!-- Botón para girar, movido al final -->
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="141dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/rainbow_button"
+        android:fontFamily="@font/jersey_10"
+        android:text="¡GIRAR!"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintTop_toBottomOf="@id/flPerdedor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

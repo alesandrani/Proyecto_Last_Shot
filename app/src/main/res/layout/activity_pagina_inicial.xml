@@ -21,7 +21,7 @@
             android:id="@+id/menu"
             android:layout_width="54dp"
             android:layout_height="57dp"
-            android:layout_marginStart="284dp"
+            android:layout_marginStart="348dp"
             android:layout_marginTop="16dp"
             android:clickable="true"
             android:contentDescription="Abrir menú lateral"

@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.proyecto_last_shot.ActivityChat;
+import com.example.proyecto_last_shot.R;
+
 import java.util.Random;
 
 public class CoinGameActivity extends AppCompatActivity {
@@ -30,7 +34,7 @@ public class CoinGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Abrir la actividad de chat (ajusta el nombre si tu actividad de chat tiene otro nombre)
-                Intent intent = new Intent(CoinGameActivity.this, ChatActivity.class);
+                Intent intent = new Intent(CoinGameActivity.this, ActivityChat.class);
                 startActivity(intent);
             }
         });
