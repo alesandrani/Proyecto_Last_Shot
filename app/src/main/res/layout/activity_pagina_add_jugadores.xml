@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#D2F7EC"
+    android:background="#102A25"
     tools:context=".PaginaAddJugadores">
 
     <!-- Botón Back -->

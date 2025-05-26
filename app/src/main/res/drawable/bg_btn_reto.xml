@@ -1,0 +1,11 @@
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <solid android:color="#0C3B33" /> <!-- Color de fondo, igual al tuyo -->
+
+    <corners android:radius="30dp" /> <!-- Aquí defines lo redondeado -->
+
+    <elevation android:elevation="6dp" /> <!-- Sombra si quieres más punch -->
+
+</shape>

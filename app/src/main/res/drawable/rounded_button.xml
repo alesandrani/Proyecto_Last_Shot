@@ -1,15 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Estado presionado -->
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="40dp"/>
-            <solid android:color="#FFB703"/>
+            <solid android:color="#FFB703" /> <!-- Amarillo fuerte al presionar -->
+            <stroke android:width="2dp" android:color="#FFFFFF" />
+            <corners android:radius="40dp" />
         </shape>
     </item>
+
+    <!-- Estado normal -->
     <item>
-        <shape android:shape="rectangle">
-            <corners android:radius="40dp"/>
-            <solid android:color="#FF69B4"/>
-        </shape>
+        <layer-list>
+            <!-- Sombra simulada -->
+            <item android:left="2dp" android:top="2dp">
+                <shape android:shape="rectangle">
+                    <solid android:color="#FFB6C1"/> <!-- Color sombra rosada -->
+                    <corners android:radius="40dp" />
+                </shape>
+            </item>
+
+            <!-- Botón principal -->
+            <item>
+                <shape android:shape="rectangle">
+                    <solid android:color="#FF69B4"/> <!-- Color base rosado -->
+                    <stroke android:width="2dp" android:color="#FFFFFF" />
+                    <corners android:radius="40dp" />
+                </shape>
+            </item>
+        </layer-list>
     </item>
+
 </selector>
