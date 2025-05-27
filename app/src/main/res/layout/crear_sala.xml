@@ -1,106 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#D2F7EC"
-    android:padding="20dp">
+    android:background="#102A25"
+    android:padding="10dp">
 
-    <!-- Botón de retroceso -->
+    <!-- 🔙 Botón de retroceso -->
+
+    <!-- 🟡 Logo centrado -->
+
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="56dp"
-        android:layout_height="51dp"
+        android:layout_width="59dp"
+        android:layout_height="52dp"
         android:layout_margin="16dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
         android:contentDescription="Volver"
         android:onClick="onBackPressed"
-        android:src="@mipmap/button_back" />
+        android:src="@mipmap/button_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Logo centrado -->
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="122dp"
-        android:layout_height="103dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
+        android:layout_width="186dp"
+        android:layout_height="179dp"
         android:contentDescription="Logo de Last Shot"
-        android:src="@mipmap/image_logo_app" />
+        android:src="@mipmap/image_logo_app"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
-    <!-- Título "Crear Sala" -->
-    <TextView
-        android:id="@+id/text_unirse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="CREAR SALA"
-        android:fontFamily="@font/jersey_10"
-        android:textSize="38sp"
-        android:textStyle="bold"
-        android:textColor="#000000"/>
-
-    <!-- Código de Sala -->
+    <!-- 🏷 Código de Sala -->
     <EditText
         android:id="@+id/input_codigo_sala"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
         android:hint="Código de sala"
-
         android:background="@drawable/rounded_input"
         android:padding="16dp"
         android:textSize="18sp"
         android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        android:textColorHint="#808080"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
-    <!-- Nombre de la Sala -->
+    <!-- 🏷 Nombre de Sala -->
     <EditText
         android:id="@+id/nombreSala"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
         android:hint="Nombre de sala"
         android:background="@drawable/rounded_input"
         android:padding="16dp"
         android:textSize="18sp"
         android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        android:textColorHint="#808080"
+        app:layout_constraintTop_toBottomOf="@id/input_codigo_sala"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
 
-    <!-- Nombre del Jugador -->
+    <!-- 🧑 Tu Nombre -->
     <EditText
         android:id="@+id/input_nombre_jugador"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
         android:hint="Tu nombre"
         android:background="@drawable/rounded_input"
         android:padding="16dp"
         android:textSize="18sp"
         android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        android:textColorHint="#808080"
+        app:layout_constraintTop_toBottomOf="@id/nombreSala"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp" />
 
-    <!-- Botón Crear Sala con Texto Dentro -->
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <!-- ✅ Botón Crear Sala -->
+    <ImageView
+        android:id="@+id/btn_crearSala"
+        android:layout_width="0dp"
         android:layout_height="60dp"
-        android:layout_marginTop="30dp">
+        android:src="@drawable/crearsala"
+        android:contentDescription="Botón Crear Sala"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/input_nombre_jugador"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="30dp" />
 
-        <ImageView
-            android:id="@+id/btn_crearSala"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/yellow"
-            android:contentDescription="Botón Crear Sala"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="CREAR SALA"
-            android:fontFamily="@font/jersey_10"
-            android:textSize="42sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
-    </RelativeLayout>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

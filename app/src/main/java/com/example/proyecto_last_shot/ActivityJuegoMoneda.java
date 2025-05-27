@@ -2,10 +2,15 @@ package com.example.proyecto_last_shot;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +18,8 @@ import java.util.Random;
 
 public class ActivityJuegoMoneda extends AppCompatActivity {
     private ImageView monedaImage;
-    private ImageView btnBack,btnChat;
+    private ImageView btnBack, btnChat;
+    private ImageButton btnGirarMoneda, btnJugadores;
     private boolean mostrandoCara = true;
     private final Random random = new Random();
     private boolean mostrarCaraFinal; // Resultado aleatorio
@@ -23,26 +29,24 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego_moneda);
 
-        // Inicializar las vistas después de setContentView
+        // Inicializar vistas
         btnBack = findViewById(R.id.btnBack);
         monedaImage = findViewById(R.id.imgMonedaCara);
         btnChat = findViewById(R.id.btnChat);
+        btnGirarMoneda = findViewById(R.id.imgGirarMoneda);
+        btnJugadores = findViewById(R.id.imgJugadores);
+
         monedaImage.setOnClickListener(v -> lanzarMoneda());
+        btnGirarMoneda.setOnClickListener(v -> lanzarMoneda());
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
+        btnBack.setOnClickListener(v -> finish());
+
+        btnChat.setOnClickListener(v -> {
+            Intent intent = new Intent(ActivityJuegoMoneda.this, ActivityChat.class);
+            startActivity(intent);
         });
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityJuegoMoneda.this, ActivityChat.class);
-                startActivity(intent);
-            }
-        });
+        btnJugadores.setOnClickListener(v -> mostrarDialogoJugadores());
     }
 
     private void lanzarMoneda() {
@@ -85,5 +89,25 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
         });
 
         animator.start();
+    }
+
+    private void mostrarDialogoJugadores() {
+        // Esto lo puedes personalizar: nombre de jugadores simulados
+        String[] jugadores = {"Aleksandra", "Luis", "Marta", "Pedro", "Lucía"};
+
+        // Inflar el layout del diálogo si tienes uno personalizado
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_jugadores, null);
+        ListView listaJugadores = dialogView.findViewById(R.id.listJugadores);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, jugadores);
+        listaJugadores.setAdapter(adapter);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle("Jugadores en la sala")
+                .setView(dialogView)
+                .setPositiveButton("Cerrar", (dialogInterface, i) -> dialogInterface.dismiss())
+                .create();
+
+        dialog.show();
     }
 }

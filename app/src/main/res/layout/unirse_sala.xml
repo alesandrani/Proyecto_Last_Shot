@@ -1,105 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#D2F7EC"
+    android:background="#102A25"
     android:padding="20dp">
 
-    <!-- Botón de retroceso -->
+    <!-- Botón de retroceso flotante (esquina superior izquierda) -->
+
+    <!-- Contenedor principal en LinearLayout para los elementos -->
+
     <ImageView
         android:id="@+id/btn_back"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="16dp"
         android:contentDescription="Volver"
         android:onClick="onBackPressed"
         android:src="@mipmap/button_back" />
 
-    <!-- Logo centrado -->
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="122dp"
-        android:layout_height="103dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="30dp"
-        android:contentDescription="Logo de Last Shot"
-        android:src="@mipmap/image_logo_app" />
-
-    <!-- Título "Unirse a Sala" -->
-    <TextView
-        android:id="@+id/text_unirse"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="UNIRSE A SALA"
-        android:fontFamily="@font/jersey_10"
-        android:textSize="38sp"
-        android:textStyle="bold"
-        android:textColor="#000000"/>
-
-    <!-- Código de Sala -->
-    <EditText
-        android:id="@+id/clave"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:orientation="vertical"
+        android:layout_below="@id/btn_back"
         android:layout_marginTop="20dp"
-        android:hint="Código de sala"
-        android:background="@drawable/rounded_input"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal">
 
-    <!-- Nombre de la Sala -->
-    <EditText
-        android:id="@+id/salaNombre"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:hint="Nombre de sala"
-        android:background="@drawable/rounded_input"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        <!-- Logo centrado -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="176dp"
+            android:layout_height="169dp"
+            android:layout_marginBottom="30dp"
+            android:contentDescription="Logo de Last Shot"
+            android:src="@mipmap/image_logo_app" />
 
-    <!-- Nombre del Jugador -->
-    <EditText
-        android:id="@+id/nombreJugador"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:hint="Tu nombre"
-        android:background="@drawable/rounded_input"
-        android:padding="16dp"
-        android:textSize="18sp"
-        android:textColor="#000000"
-        android:textColorHint="#808080"/>
+        <!-- Campo: Código de sala -->
+        <EditText
+            android:id="@+id/clave"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:hint="Código de sala"
+            android:background="@drawable/rounded_input"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textColorHint="#808080" />
 
-    <!-- Botón Unirse con Texto Dentro -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginTop="30dp">
+        <!-- Campo: Nombre de sala -->
+        <EditText
+            android:id="@+id/salaNombre"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:hint="Nombre de sala"
+            android:background="@drawable/rounded_input"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textColorHint="#808080" />
 
+        <!-- Campo: Nombre del jugador -->
+        <EditText
+            android:id="@+id/nombreJugador"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:hint="Tu nombre"
+            android:background="@drawable/rounded_input"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:textColor="#000000"
+            android:textColorHint="#808080" />
+
+        <!-- Botón de Unirse a la Sala -->
         <ImageView
             android:id="@+id/btn_unirseSala"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/yellow"
-            android:contentDescription="Botón Unirse a Sala"/>
+            android:layout_height="60dp"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/unirsesala"
+            android:contentDescription="Botón Unirse a Sala"
+            android:clickable="true"
+            android:focusable="true" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="UNIRSE A SALA"
-            android:fontFamily="@font/jersey_10"
-            android:textSize="32sp"
-            android:textStyle="bold"
-            android:textColor="@color/black"/>
-    </RelativeLayout>
-
-</LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

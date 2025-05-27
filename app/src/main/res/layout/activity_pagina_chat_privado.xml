@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#D2F7EC"
+        android:background="#111735"
         android:paddingHorizontal="18dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
@@ -25,33 +25,23 @@
             android:paddingBottom="16dp">
 
             <!-- Mensaje 1 (Recibido) -->
+
+            <!-- Mensaje 2 (Enviado) -->
+
             <LinearLayout
                 android:layout_width="344dp"
                 android:layout_height="64dp"
                 android:layout_marginBottom="8dp"
-                android:background="@mipmap/chat_player5"
+                android:background="@mipmap/chat_player"
                 android:orientation="horizontal"
-                android:padding="12dp">
+                android:padding="12dp"/>
 
-                <TextView
-                    android:id="@+id/message1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxWidth="240dp"
-                    android:singleLine="false"
-                    android:text="Hola, ¿cómo estás?"
-                    android:textColor="#000000"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <!-- Mensaje 2 (Enviado) -->
             <LinearLayout
                 android:layout_width="356dp"
                 android:layout_height="68dp"
                 android:layout_gravity="end"
                 android:layout_marginBottom="8dp"
-                android:background="@mipmap/chat_player5"
+                android:background="@mipmap/chat_player4"
                 android:orientation="horizontal"
                 android:padding="12dp">
 
@@ -70,31 +60,8 @@
             <!-- Mensaje 3 (Recibido) -->
 
             <!-- Mensaje 4 (Enviado) -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:layout_marginBottom="8dp"
-                android:background="@mipmap/chat_player2"
-                android:orientation="horizontal"
-                android:padding="12dp" />
 
             <!-- Mensaje 5 (Recibido) -->
-            <LinearLayout
-                android:layout_width="361dp"
-                android:layout_height="60dp"
-                android:layout_gravity="end"
-                android:layout_marginBottom="8dp"
-                android:background="@mipmap/chat_player5"
-                android:orientation="horizontal"
-                android:padding="12dp" />
-
-            <LinearLayout
-                android:layout_width="358dp"
-                android:layout_height="59dp"
-                android:layout_marginBottom="8dp"
-                android:background="@mipmap/chat_player2"
-                android:orientation="horizontal"
-                android:padding="12dp" />
 
         </LinearLayout>
     </ScrollView>
