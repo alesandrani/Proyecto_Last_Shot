@@ -1,0 +1,41 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Fondo base: verde oscuro tipo tapete de casino -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#002B1A"
+                android:endColor="#000000"
+                android:angle="270" />
+        </shape>
+    </item>
+
+    <!-- Brillo radial en el centro: verde neón suave -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="500dp" android:height="500dp" />
+            <gradient
+                android:type="radial"
+                android:startColor="#5522FF22"
+                android:endColor="#0022FF22"
+                android:gradientRadius="250"
+                android:centerX="50%"
+                android:centerY="50%" />
+        </shape>
+        <gravity android:gravity="center" />
+    </item>
+
+    <!-- Luz central dorada tenue, tipo “destello de premio” -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="200dp" android:height="200dp" />
+            <gradient
+                android:type="radial"
+                android:startColor="#33FFD700"
+                android:endColor="#00FFD700"
+                android:gradientRadius="100"
+                android:centerX="50%"
+                android:centerY="50%" />
+        </shape>
+        <gravity android:gravity="center" />
+    </item>
+</layer-list>

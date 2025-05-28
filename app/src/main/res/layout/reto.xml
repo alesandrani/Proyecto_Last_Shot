@@ -1,54 +1,90 @@
-<RelativeLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#D2F7EC">
+    android:layout_height="match_parent">
 
-    <!-- Botón de retroceso en la esquina superior izquierda -->
+    <!-- Fondo degradado (lo defines en drawable/background_gradient.xml y lo aplicas aquí) -->
+    <View
+        android:id="@+id/fondo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/background_gradient_reto"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Botón de retroceso -->
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="53dp"
-        android:layout_height="56dp"
-        android:layout_margin="16dp"
-        android:contentDescription="Botón de retroceso"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@mipmap/button_back"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:contentDescription="Botón de retroceso"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp"/>
 
-    <!-- TextView para mostrar la pregunta -->
-
-    <!-- TextView para el temporizador -->
+    <!-- Contador de preguntas -->
     <TextView
-        android:id="@+id/preguntaReto"
+        android:id="@+id/tv_pregunta_numero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btn_back"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="76dp"
-        android:layout_marginBottom="40dp"
+        android:text="Pregunta 3 de 10"
+        android:textColor="#444444"
+        android:textSize="20sp"
         android:fontFamily="@font/jersey_10"
-        android:textColor="@color/black"
-        android:textSize="34sp" />
+        app:layout_constraintTop_toTopOf="@id/btn_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="20dp"/>
 
+    <!-- Tarjeta con la pregunta -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/question_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:id="@+id/preguntaReto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Aceptas este desafío épico?"
+            android:textSize="26sp"
+            android:textColor="#333333"
+            android:padding="24dp"
+            android:fontFamily="@font/jersey_10"
+            android:gravity="center"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Temporizador -->
     <TextView
         android:id="@+id/timer"
-        android:layout_width="324dp"
-        android:layout_height="148dp"
-        android:layout_alignTop="@+id/preguntaReto"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="185dp"
-        android:layout_marginEnd="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="15"
+        android:textColor="#FF5722"
+        android:textSize="80sp"
         android:fontFamily="@font/jersey_10"
         android:gravity="center"
-        android:text="15"
-        android:textColor="#020202"
-        android:textSize="80sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/question_card"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/preguntaReto" />
-</RelativeLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="48dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

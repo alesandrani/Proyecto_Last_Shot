@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,22 +20,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class NumeroMaestro extends AppCompatActivity {
-
     private TextView playerNameTextView;
     private TextView nombrePerdedorTextView;
     private ImageView btnBack;
-    private Button startButton;
+    private ImageButton startButton;
     private ArrayList<String> listaJugadores;
     private WheelView wheelView;
+
+    private Map<String, Integer> jugadoresConNumeros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.numero_maestro);
 
-        playerNameTextView = findViewById(R.id.tvJugadores);
+        playerNameTextView = findViewById(R.id.tvNumeroJugador);
         nombrePerdedorTextView = findViewById(R.id.nombrePerdedor);
         btnBack = findViewById(R.id.btn_back);
         startButton = findViewById(R.id.startButton);
@@ -42,27 +45,33 @@ public class NumeroMaestro extends AppCompatActivity {
 
         btnBack.setOnClickListener(v -> finish());
 
-        // Obtener la lista de jugadores guardada
         listaJugadores = obtenerJugadoresDePreferencias();
 
         if (listaJugadores.isEmpty()) {
             Toast.makeText(this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
         }
 
-        // Al pulsar el botón de girar
+        // Listener que detecta el número salido tras la animación de la rueda
+        wheelView.setOnNumberSelectedListener(numero -> {
+            Toast.makeText(this, "Ha salido el número: " + numero, Toast.LENGTH_SHORT).show();
+            if (jugadoresConNumeros != null) {
+                String perdedor = obtenerPerdedorPorNumero(jugadoresConNumeros, Integer.parseInt(numero));
+                mostrarJugadoresYPerdedor(jugadoresConNumeros, perdedor);
+            }
+        });
+
         startButton.setOnClickListener(v -> {
-            // Animación al botón
             Animation anim = AnimationUtils.loadAnimation(NumeroMaestro.this, R.anim.spin_bounce);
             startButton.startAnimation(anim);
 
             if (!listaJugadores.isEmpty()) {
-                // Asignar números aleatorios a jugadores y mostrar en pantalla
-                Map<String, Integer> jugadoresConNumeros = asignarNumerosAleatorios(listaJugadores);
-                mostrarJugadoresYPerdedor(jugadoresConNumeros);
+                jugadoresConNumeros = asignarNumerosAleatorios(listaJugadores);
+                mostrarJugadores(jugadoresConNumeros);
 
-                // Rotar la rueda
-                float randomAngle = (float) (Math.random() * 360 + 360);
-                wheelView.rotateWheelWithAnimation(wheelView.getRotationAngle(), wheelView.getRotationAngle() + randomAngle);
+                float currentAngle = wheelView.getRotationAngle();
+                // Gira entre 2 y 4 vueltas completas más un ángulo aleatorio para el resultado
+                float randomAngle = (float) (Math.random() * 360 + 720);
+                wheelView.rotateWheelWithAnimation(currentAngle, currentAngle + randomAngle);
             }
         });
     }
@@ -89,20 +98,26 @@ public class NumeroMaestro extends AppCompatActivity {
         return asignacion;
     }
 
-    private void mostrarJugadoresYPerdedor(Map<String, Integer> jugadoresConNumeros) {
+    private void mostrarJugadores(Map<String, Integer> jugadoresConNumeros) {
         StringBuilder builder = new StringBuilder();
-        String perdedor = "";
-        int min = Integer.MAX_VALUE;
-
         for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
             builder.append(entry.getKey()).append(" - ").append(entry.getValue()).append("\n");
-            if (entry.getValue() < min) {
-                min = entry.getValue();
-                perdedor = entry.getKey();
+        }
+        playerNameTextView.setText(builder.toString().trim());
+        nombrePerdedorTextView.setText("");
+    }
+
+    private void mostrarJugadoresYPerdedor(Map<String, Integer> jugadoresConNumeros, String perdedor) {
+        mostrarJugadores(jugadoresConNumeros);
+        nombrePerdedorTextView.setText("A BEBER: " + perdedor);
+    }
+
+    private String obtenerPerdedorPorNumero(Map<String, Integer> jugadoresConNumeros, int numeroGanador) {
+        for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
+            if (entry.getValue() == numeroGanador) {
+                return entry.getKey();
             }
         }
-
-        playerNameTextView.setText(builder.toString().trim());
-        nombrePerdedorTextView.setText("A BEBER: " + perdedor);
+        return "Nadie";
     }
 }
