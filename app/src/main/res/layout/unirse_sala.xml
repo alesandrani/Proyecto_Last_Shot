@@ -6,9 +6,9 @@
     android:background="#102A25"
     android:padding="20dp">
 
-    <!-- Botón de retroceso flotante (esquina superior izquierda) -->
 
-    <!-- Contenedor principal en LinearLayout para los elementos -->
+
+
 
     <ImageView
         android:id="@+id/btn_back"

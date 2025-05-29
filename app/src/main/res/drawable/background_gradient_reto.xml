@@ -1,7 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
-    <gradient
-        android:startColor="#D2F7EC"
-        android:endColor="#A0E7D7"
-        android:angle="270" />
-</shape>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Capa del fondo con degradado -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="radial"
+                android:gradientRadius="500"
+                android:centerX="0.5"
+                android:centerY="0.5"
+                android:startColor="#FFDEE9"
+                android:endColor="#B5FFFC"
+                android:angle="45" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+    <!-- Capa de brillo o overlay para dar más vida -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:startColor="#33FFFFFF"
+                android:endColor="#00FFFFFF"
+                android:angle="90"/>
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+
+</layer-list>
+
