@@ -147,9 +147,21 @@ public class VerdadActivity extends AppCompatActivity {
             String pregunta = preguntasList.remove(0);
             preguntaActual++;
 
+            // Animación: fadeOut, cambio texto, fadeIn
+            fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) { }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    tvPreguntaVerdad.setText(pregunta);
+                    tvPreguntaVerdad.startAnimation(fadeIn);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+            });
             tvPreguntaVerdad.startAnimation(fadeOut);
-            tvPreguntaVerdad.setText(pregunta);
-            tvPreguntaVerdad.startAnimation(fadeIn);
 
             tvPreguntaNumero.setText("Pregunta " + preguntaActual + " de " + totalPreguntas);
 
@@ -172,7 +184,8 @@ public class VerdadActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 tvTimer.setText("¡Tiempo terminado!");
-                // Aquí puedes activar mostrarSiguientePregunta() si quieres avanzar automático
+                // Puedes descomentar esta línea para avanzar automáticamente:
+                // mostrarSiguientePregunta();
             }
         }.start();
     }

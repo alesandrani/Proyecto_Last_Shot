@@ -31,9 +31,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Contador de retos -->
+
     <TextView
-        android:id="@+id/tv_reto_numero"
+        android:id="@+id/tv_pregunta_numero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reto 2 de 10"
@@ -46,7 +46,7 @@
 
     <!-- Tarjeta con la pregunta del reto -->
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_reto"
+        android:id="@+id/card_verdad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:cardCornerRadius="16dp"
@@ -85,16 +85,18 @@
         android:textSize="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_reto" />
+        app:layout_constraintTop_toBottomOf="@id/card_verdad" />
 
+    <!-- Botón Siguiente corregido -->
     <ImageButton
         android:id="@+id/btn_siguiente"
-        android:layout_width="145dp"
-        android:layout_height="54dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/btnsiguinte"
+        android:layout_width="179dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/btnsiguiente"
         android:text="Siguiente"
-        tools:layout_editor_absoluteX="242dp"
-        tools:layout_editor_absoluteY="651dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
