@@ -19,9 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Botón Chat -->
-
-    <!-- Barra Superior -->
-
     <ImageButton
         android:id="@+id/btnChat"
         android:layout_width="65dp"
@@ -47,53 +44,17 @@
         <!-- Aquí puedes añadir botones u otros elementos -->
     </LinearLayout>
 
-    <!-- Lista de Jugadores -->
-    <LinearLayout
-        android:id="@+id/listaJugadores"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+    <!-- RecyclerView para la lista de jugadores -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerJugadores"
+        android:layout_width="284dp"
+        android:layout_height="294dp"
         android:layout_marginTop="60dp"
-        android:orientation="vertical"
         android:padding="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barraSuperior">
-
-        <ImageButton
-            android:id="@+id/btnJugador1"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/pink"
-            android:contentDescription="Jugador 1" />
-
-        <ImageButton
-            android:id="@+id/btnJugador2"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/pink"
-            android:contentDescription="Jugador 2" />
-
-        <ImageButton
-            android:id="@+id/btnJugador3"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/pink"
-            android:contentDescription="Jugador 3" />
-
-        <ImageButton
-            android:id="@+id/btnJugador4"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/pink"
-            android:contentDescription="Jugador 4" />
-
-    </LinearLayout>
-
-
-
+        app:layout_constraintTop_toBottomOf="@id/barraSuperior"
+        app:layout_constraintVertical_bias="0.147" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

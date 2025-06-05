@@ -18,7 +18,7 @@
         <activity
             android:name=".PaginaAddJugadores"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PaginaPrincipal"
             android:screenOrientation="portrait"
@@ -29,6 +29,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ActivityChatSeleccion"
+            android:screenOrientation="portrait"
+            android:exported="true"
+        />
+        <activity
+            android:name=".ChatPrivadoActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            />
         <activity
             android:name=".ActivityJuegoMoneda"
             android:screenOrientation="portrait"
