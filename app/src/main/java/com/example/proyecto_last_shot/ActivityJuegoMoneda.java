@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,10 @@ import android.widget.ArrayAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class ActivityJuegoMoneda extends AppCompatActivity {
@@ -24,10 +29,18 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
     private final Random random = new Random();
     private boolean mostrarCaraFinal; // Resultado aleatorio
 
+    private String nombreJugadorActual; // <-- NUEVO: nombre del jugador actual
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_juego_moneda);
+
+        // Simular recibir nombreJugadorActual (puedes recibirlo del Intent si viene de otra actividad)
+        nombreJugadorActual = getIntent().getStringExtra("nombreJugadorActual");
+        if (nombreJugadorActual == null) {
+            nombreJugadorActual = "JugadorPrueba";  // valor por defecto para pruebas
+        }
 
         // Inicializar vistas
         btnBack = findViewById(R.id.btnBack);
@@ -42,7 +55,22 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
         btnBack.setOnClickListener(v -> finish());
 
         btnChat.setOnClickListener(v -> {
-            Intent intent = new Intent(ActivityJuegoMoneda.this, ActivityChat.class);
+            SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
+            String json = prefs.getString("listaJugadores", null);
+            ArrayList<String> listaJugadores = new ArrayList<>();
+
+            if (json != null) {
+                Gson gson = new Gson();
+                String[] array = gson.fromJson(json, String[].class);
+                listaJugadores = new ArrayList<>(Arrays.asList(array));
+            }
+
+            Intent intent = new Intent(ActivityJuegoMoneda.this, ActivityChatSeleccion.class);
+            intent.putStringArrayListExtra("listaJugadores", listaJugadores);
+
+            // PASAR EL NOMBRE DEL JUGADOR ACTUAL
+            intent.putExtra("nombreJugadorActual", nombreJugadorActual);
+
             startActivity(intent);
         });
 
@@ -92,15 +120,21 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
     }
 
     private void mostrarDialogoJugadores() {
-        // Esto lo puedes personalizar: nombre de jugadores simulados
-        String[] jugadores = {"Aleksandra", "Luis", "Marta", "Pedro", "Lucía"};
+        SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
+        String json = prefs.getString("listaJugadores", null);
+        ArrayList<String> listaJugadores = new ArrayList<>();
 
-        // Inflar el layout del diálogo si tienes uno personalizado
+        if (json != null) {
+            Gson gson = new Gson();
+            String[] array = gson.fromJson(json, String[].class);
+            listaJugadores = new ArrayList<>(Arrays.asList(array));
+        }
+
         View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_jugadores, null);
-        ListView listaJugadores = dialogView.findViewById(R.id.listJugadores);
+        ListView listaView = dialogView.findViewById(R.id.listJugadores);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, jugadores);
-        listaJugadores.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaJugadores);
+        listaView.setAdapter(adapter);
 
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Jugadores en la sala")
@@ -110,4 +144,5 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
 
         dialog.show();
     }
+
 }

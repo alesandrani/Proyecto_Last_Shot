@@ -1,132 +1,107 @@
 package com.example.proyecto_last_shot;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-    //ESTO SE IMPLEMENTARÁ MÁS ADELANTE PARA EL TFG, AHORA NO SE UTILIZA.
+import java.util.UUID;
 
 public class PaginaCrearSala extends AppCompatActivity {
-    private EditText nombreSala, inputCodigoSala, inputNombreJugador;
+
+    private EditText inputCodigoSala, inputNombreSala, inputNombreJugador;
     private ImageView btnCrearSala, btnBack;
-    private String claveGenerada;
+
+    private FirebaseDatabase database;
+    private DatabaseReference salasRef;
+
+    private static final String TAG = "CrearSala";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crear_sala);
 
-        nombreSala = findViewById(R.id.nombreSala);
+        // Referencias a los elementos del layout
         inputCodigoSala = findViewById(R.id.input_codigo_sala);
+        inputNombreSala = findViewById(R.id.nombreSala);
         inputNombreJugador = findViewById(R.id.input_nombre_jugador);
         btnCrearSala = findViewById(R.id.btn_crearSala);
-        btnBack = findViewById(R.id.btn_back); // Inicializa el botón de retroceso
+        btnBack = findViewById(R.id.btn_back);
 
-        // Generar clave automática al abrir la actividad
-        claveGenerada = generarClave();
-        inputCodigoSala.setText(claveGenerada);
+        // Inicializar Firebase Realtime Database
+        database = FirebaseDatabase.getInstance();
+        salasRef = database.getReference("salas");
 
-        // Configurar el clic del botón de crear sala
-        btnCrearSala.setOnClickListener(view -> crearSala());
+        // Evento botón de retroceso
+        btnBack.setOnClickListener(v -> finish());
 
-        // Configurar el clic del botón de retroceso
-        btnBack.setOnClickListener(view -> mostrarDialogoConfirmacion());
+        // Evento botón "Crear Sala"
+        btnCrearSala.setOnClickListener(view -> {
+            Log.d(TAG, "Botón crear sala presionado");
+
+            String codigoSala = inputCodigoSala.getText().toString().trim();
+            String nombreSala = inputNombreSala.getText().toString().trim();
+            String nombreJugador = inputNombreJugador.getText().toString().trim();
+
+            if (codigoSala.isEmpty() || nombreSala.isEmpty() || nombreJugador.isEmpty()) {
+                Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            crearSalaEnFirebase(codigoSala, nombreSala, nombreJugador);
+        });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        // Generar una nueva clave cada vez que el usuario regrese a la pantalla
-        claveGenerada = generarClave();
-        inputCodigoSala.setText(claveGenerada);
-    }
+    /**
+     * Crea una nueva sala en Firebase con los datos introducidos
+     */
+    private void crearSalaEnFirebase(String codigoSala, String nombreSala, String nombreJugador) {
+        String idSala = UUID.randomUUID().toString();
 
-    private String generarClave() {
-        String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder clave = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            clave.append(caracteres.charAt(random.nextInt(caracteres.length())));
-        }
-        return clave.toString();
-    }
+        // Datos de la sala como mapa (para Firebase)
+        HashMap<String, Object> datosSala = new HashMap<>();
+        datosSala.put("codigo", codigoSala);
+        datosSala.put("nombreSala", nombreSala);
 
-    private void crearSala() {
-        String nombreDeSala = nombreSala.getText().toString().trim();
-        String nombreJugador = inputNombreJugador.getText().toString().trim();
+        // Creamos un nodo hijo con el ID generado
+        salasRef.child(idSala).setValue(datosSala)
+                .addOnSuccessListener(unused -> {
+                    // Añadimos al jugador como primer miembro
+                    DatabaseReference jugadoresRef = salasRef.child(idSala).child("jugadores");
+                    String idJugador = UUID.randomUUID().toString();
 
-        if (nombreDeSala.isEmpty()) {
-            Toast.makeText(this, "Por favor, ingresa un nombre para la sala", Toast.LENGTH_SHORT).show();
-            return;
-        }
+                    HashMap<String, Object> datosJugador = new HashMap<>();
+                    datosJugador.put("nombre", nombreJugador);
+                    datosJugador.put("host", true);
 
-        if (nombreJugador.isEmpty()) {
-            Toast.makeText(this, "Por favor, ingresa tu nombre", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Instancia de Firebase Firestore
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        // Crear un ID único para la sala (FireStore lo hace automáticamente)
-        String salaId = db.collection("salas").document().getId();
-
-        // Crear un mapa con la información de la sala
-        Map<String, Object> sala = new HashMap<>();
-        sala.put("nombre", nombreDeSala);
-        sala.put("clave", claveGenerada);
-        sala.put("maxJugadores", 10); // Establecer máximo de jugadores
-        sala.put("jugadores", null);  // Puede ser una lista vacía o null al principio
-
-        // Guardar la sala en Firebase Firestore
-        db.collection("salas").document(salaId).set(sala)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d("Firebase", "✅ Sala creada correctamente en Firestore");
-
-                    // Crear el Intent y pasar los datos a la siguiente actividad
-                    iniciarPaginaJuegos(salaId, nombreJugador);
+                    jugadoresRef.child(idJugador).setValue(datosJugador)
+                            .addOnSuccessListener(unused2 -> {
+                                // Ir a la siguiente actividad con los datos
+                                Intent intent = new Intent(PaginaCrearSala.this, PaginaJuegos.class);
+                                intent.putExtra("claveGenerada", codigoSala);
+                                intent.putExtra("nombreInternoSala", idSala);
+                                intent.putExtra("nombreJugador", nombreJugador);
+                                startActivity(intent);
+                                finish();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(this, "Error al registrar jugador", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "Error al guardar jugador: ", e);
+                            });
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("Firebase", "❌ Error al crear la sala en Firestore", e);
-                    Toast.makeText(PaginaCrearSala.this, "Error al crear la sala", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error al crear sala", Toast.LENGTH_SHORT).show();
+                    Log.e(TAG, "Error al guardar sala: ", e);
                 });
-    }
-
-    private void iniciarPaginaJuegos(String salaId, String nombreJugador) {
-        if (claveGenerada != null && !claveGenerada.isEmpty() && salaId != null && nombreJugador != null && !nombreJugador.isEmpty()) {
-            // Intent a PaginaJuegos
-            Intent intent = new Intent(PaginaCrearSala.this, PaginaJuegos.class);
-            intent.putExtra("claveSala", claveGenerada);
-            intent.putExtra("nombreSala", salaId);
-            intent.putExtra("jugadores", nombreJugador);
-            startActivity(intent);
-            finish(); // Cerrar la actividad actual
-        } else {
-            Log.e("Error", "Error al pasar los datos al Intent");
-            Toast.makeText(this, "Error al pasar los datos", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void mostrarDialogoConfirmacion() {
-        new AlertDialog.Builder(this)
-                .setTitle("Salir")
-                .setMessage("¿Estás seguro de que quieres salir de la creación de la sala?")
-                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    finish(); // Cerrar la actividad actual
-                })
-                .setNegativeButton(android.R.string.no, null) // Si el usuario cancela, no hace nada
-                .show();
     }
 }

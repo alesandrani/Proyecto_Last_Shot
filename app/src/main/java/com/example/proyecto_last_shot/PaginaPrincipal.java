@@ -1,6 +1,7 @@
 package com.example.proyecto_last_shot;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -140,9 +141,23 @@ public class PaginaPrincipal extends AppCompatActivity {
                 texto.setTypeface(jerseyFont);
 
                 // Abrir la nueva actividad PaginaAddJugadores
-                Intent intent = new Intent(PaginaPrincipal.this, PaginaAddJugadores.class);
+                Intent intent = new Intent(PaginaPrincipal.this, CrearSalaUnirse.class);
                 startActivity(intent);
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (isFinishing()) {
+            // Borra jugadores solo si se cierra completamente
+            SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("listaJugadores");
+            editor.apply();
+        }
+    }
+
 }
