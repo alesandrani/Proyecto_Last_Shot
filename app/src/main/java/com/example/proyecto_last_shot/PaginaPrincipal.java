@@ -137,7 +137,7 @@ public class PaginaPrincipal extends AppCompatActivity {
         texto.setText("¡Salud! 🍻");
         texto.setTypeface(jerseyFont);
 
-        Intent intent = new Intent(PaginaPrincipal.this, CrearSalaUnirse.class);
+        Intent intent = new Intent(PaginaPrincipal.this, PaginaAddJugadores.class);
         startActivity(intent);
       }
     });

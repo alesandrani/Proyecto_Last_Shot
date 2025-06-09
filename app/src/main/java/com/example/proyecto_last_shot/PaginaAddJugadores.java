@@ -23,7 +23,7 @@ public class PaginaAddJugadores extends AppCompatActivity {
   private ImageButton btnAddJugador, btnNext;
   private ImageView btnBack;
   private ArrayList<String> listaJugadores = new ArrayList<>();
-  private static final int MAX_JUGADORES = 10;
+  private static final int MAX_JUGADORES = 30;
 
   /**
    * Método que se ejecuta al crear la actividad.
