@@ -51,12 +51,14 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
 
-    <!-- Diálogo de número del jugador a la izquierda -->
-    <FrameLayout
-        android:id="@+id/flJugadores"
+    <!-- Contenedor scroll vertical para texto jugadores -->
+    <ScrollView
+        android:id="@+id/scrollJugadores"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="109dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/green_dialog"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/wheelView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/midGuideline">
@@ -64,23 +66,23 @@
         <TextView
             android:id="@+id/tvNumeroJugador"
             android:layout_width="match_parent"
-            android:layout_height="109dp"
-            android:background="@drawable/green_dialog"
-            android:elevation="4dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/jersey_10"
             android:gravity="center"
             android:padding="16dp"
             android:text="Número: 12"
             android:textColor="@color/white"
             android:textSize="20sp" />
-    </FrameLayout>
+    </ScrollView>
 
-    <!-- Diálogo del nombre del perdedor a la derecha -->
-    <FrameLayout
-        android:id="@+id/flPerdedor"
+    <!-- Contenedor scroll vertical para texto perdedor -->
+    <ScrollView
+        android:id="@+id/scrollPerdedor"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="113dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/green_dialog"
+        android:fillViewport="true"
         app:layout_constraintTop_toBottomOf="@id/wheelView"
         app:layout_constraintStart_toEndOf="@id/midGuideline"
         app:layout_constraintEnd_toEndOf="parent">
@@ -88,18 +90,16 @@
         <TextView
             android:id="@+id/nombrePerdedor"
             android:layout_width="match_parent"
-            android:layout_height="113dp"
-            android:background="@drawable/green_dialog"
-            android:elevation="4dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/jersey_10"
             android:gravity="center"
             android:padding="16dp"
             android:text="Juan"
             android:textColor="@color/white"
             android:textSize="20sp" />
-    </FrameLayout>
+    </ScrollView>
 
-    <!-- Botón para girar, intacto -->
+    <!-- Botón para girar -->
     <ImageButton
         android:id="@+id/startButton"
         android:layout_width="195dp"
@@ -107,11 +107,10 @@
         android:layout_marginTop="56dp"
         android:background="@drawable/btngirar"
         android:fontFamily="@font/jersey_10"
-        android:text="¡GIRAR!"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flPerdedor"
+        app:layout_constraintTop_toBottomOf="@id/scrollPerdedor"
         app:layout_constraintVertical_bias="0.476" />
 </androidx.constraintlayout.widget.ConstraintLayout>

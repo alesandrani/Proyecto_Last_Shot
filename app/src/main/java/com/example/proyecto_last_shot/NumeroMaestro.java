@@ -30,13 +30,6 @@ public class NumeroMaestro extends AppCompatActivity {
 
   private Map<String, Integer> jugadoresConNumeros;
 
-  /**
-   * Método llamado al crear la actividad. Inicializa las vistas, recupera la
-   * lista de jugadores, configura los listeners para el botón de girar y la ruleta,
-   * y gestiona la visualización de los resultados.
-   *
-   * @param savedInstanceState Estado previamente guardado de la actividad, si existe.
-   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,12 +49,10 @@ public class NumeroMaestro extends AppCompatActivity {
       Toast.makeText(this, "No hay jugadores disponibles", Toast.LENGTH_SHORT).show();
     }
 
-    // Listener que detecta el número salido tras la animación de la rueda
     wheelView.setOnNumberSelectedListener(numero -> {
       if (jugadoresConNumeros != null) {
-        int numeroGanador = Integer.parseInt(numero);
-        String perdedor = obtenerPerdedorPorNumero(jugadoresConNumeros, numeroGanador);
-        mostrarJugadores(jugadoresConNumeros, numeroGanador);
+        mostrarJugadores(jugadoresConNumeros, -1); // Mostrar sin resaltar
+        String perdedor = obtenerPerdedorConNumeroMasBajo(jugadoresConNumeros);
         mostrarPerdedor(perdedor);
       }
     });
@@ -123,12 +114,17 @@ public class NumeroMaestro extends AppCompatActivity {
     }
   }
 
-  private String obtenerPerdedorPorNumero(Map<String, Integer> jugadoresConNumeros, int numeroGanador) {
+  private String obtenerPerdedorConNumeroMasBajo(Map<String, Integer> jugadoresConNumeros) {
+    String perdedor = "Nadie";
+    int numeroMinimo = Integer.MAX_VALUE;
+
     for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
-      if (entry.getValue() == numeroGanador) {
-        return entry.getKey();
+      if (entry.getValue() < numeroMinimo) {
+        numeroMinimo = entry.getValue();
+        perdedor = entry.getKey();
       }
     }
-    return "Nadie";
+
+    return perdedor;
   }
 }
