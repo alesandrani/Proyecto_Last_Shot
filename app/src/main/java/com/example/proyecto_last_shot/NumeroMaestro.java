@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class NumeroMaestro extends AppCompatActivity {
   private TextView playerNameTextView;
@@ -34,12 +32,10 @@ public class NumeroMaestro extends AppCompatActivity {
 
   /**
    * Método llamado al crear la actividad. Inicializa las vistas, recupera la
-   * lista de jugadores,
-   * configura los listeners para el botón de girar y la ruleta, y gestiona la
-   * visualización de los resultados.
-   * 
-   * @param savedInstanceState Estado previamente guardado de la actividad, si
-   *                           existe.
+   * lista de jugadores, configura los listeners para el botón de girar y la ruleta,
+   * y gestiona la visualización de los resultados.
+   *
+   * @param savedInstanceState Estado previamente guardado de la actividad, si existe.
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -76,37 +72,24 @@ public class NumeroMaestro extends AppCompatActivity {
 
       if (!listaJugadores.isEmpty()) {
         jugadoresConNumeros = asignarNumerosAleatorios(listaJugadores);
+        wheelView.setNumerosDesdeLista(jugadoresConNumeros);
         mostrarJugadores(jugadoresConNumeros, -1); // Mostrar sin resaltar
 
         float currentAngle = wheelView.getRotationAngle();
-        // Gira entre 2 y 4 vueltas completas más un ángulo aleatorio para el resultado
         float randomAngle = (float) (Math.random() * 360 + 720);
         wheelView.rotateWheelWithAnimation(currentAngle, currentAngle + randomAngle);
       }
     });
   }
 
-  /**
-   * Recupera la lista de jugadores almacenada en las preferencias compartidas.
-   * 
-   * @return ArrayList con los nombres de los jugadores.
-   */
   private ArrayList<String> obtenerJugadoresDePreferencias() {
     SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
     Gson gson = new Gson();
     String json = prefs.getString("listaJugadores", null);
-    Type type = new TypeToken<ArrayList<String>>() {
-    }.getType();
+    Type type = new TypeToken<ArrayList<String>>() {}.getType();
     return json == null ? new ArrayList<>() : gson.fromJson(json, type);
   }
 
-  /**
-   * Asigna números aleatorios a cada jugador de la lista.
-   * 
-   * @param jugadores Lista de nombres de jugadores.
-   * @return Mapa con el nombre del jugador como clave y su número asignado como
-   *         valor.
-   */
   private Map<String, Integer> asignarNumerosAleatorios(ArrayList<String> jugadores) {
     ArrayList<Integer> numeros = new ArrayList<>();
     for (int i = 1; i <= jugadores.size(); i++) {
@@ -121,34 +104,17 @@ public class NumeroMaestro extends AppCompatActivity {
     return asignacion;
   }
 
-  /**
-   * Muestra la lista de jugadores junto a su número asignado. Si se ha
-   * seleccionado un número ganador,
-   * resalta al jugador correspondiente con un emoji.
-   * 
-   * @param jugadoresConNumeros Mapa de jugadores y sus números asignados.
-   * @param numeroResaltado     Número que ha salido en la ruleta (se resalta el
-   *                            jugador que lo tiene). Si es -1, no se resalta
-   *                            ninguno.
-   */
   private void mostrarJugadores(Map<String, Integer> jugadoresConNumeros, int numeroResaltado) {
     StringBuilder builder = new StringBuilder();
     for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
       if (entry.getValue() == numeroResaltado) {
-        builder.append("\uD83C\uDF89 "); // Emoji para resaltar
+        builder.append("🎉 ");
       }
       builder.append(entry.getKey()).append(" - ").append(entry.getValue()).append("\n");
     }
     playerNameTextView.setText(builder.toString().trim());
   }
 
-  /**
-   * Muestra el nombre del perdedor en el TextView correspondiente. Si no hay
-   * perdedor, limpia el campo.
-   * 
-   * @param perdedor Nombre del jugador que ha perdido, o "Nadie" si no hay
-   *                 perdedor.
-   */
   private void mostrarPerdedor(String perdedor) {
     if (perdedor.equals("Nadie")) {
       nombrePerdedorTextView.setText("");
@@ -157,13 +123,6 @@ public class NumeroMaestro extends AppCompatActivity {
     }
   }
 
-  /**
-   * Busca el nombre del jugador que tiene el número ganador.
-   * 
-   * @param jugadoresConNumeros Mapa de jugadores y sus números asignados.
-   * @param numeroGanador       Número que ha salido en la ruleta.
-   * @return Nombre del jugador que ha perdido, o "Nadie" si no hay coincidencia.
-   */
   private String obtenerPerdedorPorNumero(Map<String, Integer> jugadoresConNumeros, int numeroGanador) {
     for (Map.Entry<String, Integer> entry : jugadoresConNumeros.entrySet()) {
       if (entry.getValue() == numeroGanador) {
