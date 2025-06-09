@@ -22,171 +22,181 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Actividad que muestra preguntas de "Verdad" en una interfaz similar a RetoActivity.
- * Las preguntas se obtienen desde Firestore REST API y se muestran con temporizador.
- * Incluye botón "Siguiente" para avanzar manualmente y animaciones para suavizar los cambios.
+ * Actividad que muestra preguntas de "Verdad" en una interfaz similar a
+ * RetoActivity.
+ * Las preguntas se obtienen desde Firestore REST API y se muestran con
+ * temporizador.
+ * Incluye botón "Siguiente" para avanzar manualmente y animaciones para
+ * suavizar los cambios.
  */
 public class VerdadActivity extends AppCompatActivity {
 
-    private TextView tvPreguntaVerdad, tvTimer, tvPreguntaNumero;
-    private ImageView btnBack;
-    private ImageButton btnSiguiente;
+  private TextView tvPreguntaVerdad, tvTimer, tvPreguntaNumero;
+  private ImageView btnBack;
+  private ImageButton btnSiguiente;
 
-    private static final String TAG = "VerdadActivity";
+  private static final String TAG = "VerdadActivity";
 
-    // Duración total del temporizador en milisegundos (30 segundos)
-    private static final long TIMER_DURATION = 30000;
-    private static final long TIMER_INTERVAL = 1000;
+  private static final long TIMER_DURATION = 30000;
+  private static final long TIMER_INTERVAL = 1000;
 
-    // Clave de API y URL para acceder a Firestore directamente (colección verdad_reto)
-    private static final String API_KEY = "AIzaSyD5X1wkoaIHotR9URrIHThG1jUvykZSpYE";
-    private static final String PROJECT_ID = "lastshot-proyecto";
-    private static final String URL_FIRESTORE =
-            "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID + "/databases/(default)/documents/verdad_reto?key=" + API_KEY;
+  private static final String API_KEY = "AIzaSyD5X1wkoaIHotR9URrIHThG1jUvykZSpYE";
+  private static final String PROJECT_ID = "lastshot-proyecto";
+  private static final String URL_FIRESTORE = "https://firestore.googleapis.com/v1/projects/" + PROJECT_ID
+      + "/databases/(default)/documents/verdad_reto?key=" + API_KEY;
 
-    private List<String> preguntasList = new ArrayList<>();
-    private CountDownTimer countDownTimer;
+  private List<String> preguntasList = new ArrayList<>();
+  private CountDownTimer countDownTimer;
 
-    // Control de índice y total de preguntas
-    private int preguntaActual = 0;
-    private int totalPreguntas = 0;
+  private int preguntaActual = 0;
+  private int totalPreguntas = 0;
 
-    // Animaciones de entrada y salida
-    private Animation fadeIn, fadeOut;
+  private Animation fadeIn, fadeOut;
+
+  /**
+   * Método que se ejecuta al crear la actividad.
+   * Inicializa las vistas, animaciones, listeners y comienza la obtención de
+   * preguntas.
+   * 
+   * @param savedInstanceState Estado guardado de la actividad.
+   */
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.verdad);
+
+    btnBack = findViewById(R.id.btn_back);
+    tvPreguntaVerdad = findViewById(R.id.preguntaVerdad);
+    tvTimer = findViewById(R.id.timer);
+    tvPreguntaNumero = findViewById(R.id.tv_pregunta_numero);
+    btnSiguiente = findViewById(R.id.btn_siguiente);
+
+    fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+    fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
+
+    btnBack.setOnClickListener(view -> finish());
+
+    btnSiguiente.setOnClickListener(view -> mostrarSiguientePregunta());
+
+    new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
+  }
+
+  /**
+   * Tarea asíncrona para obtener las preguntas desde Firestore usando REST API.
+   */
+  private class ObtenerPreguntasFirestore extends AsyncTask<String, Void, List<String>> {
+    @Override
+    protected List<String> doInBackground(String... urls) {
+      List<String> preguntas = new ArrayList<>();
+      try {
+        URL url = new URL(urls[0]);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == HttpURLConnection.HTTP_OK) {
+          BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+          StringBuilder response = new StringBuilder();
+          String line;
+          while ((line = reader.readLine()) != null) {
+            response.append(line);
+          }
+          reader.close();
+
+          JSONObject jsonResponse = new JSONObject(response.toString());
+          if (jsonResponse.has("documents")) {
+            JSONArray documentos = jsonResponse.getJSONArray("documents");
+
+            for (int i = 0; i < documentos.length(); i++) {
+              JSONObject doc = documentos.getJSONObject(i);
+              JSONObject fields = doc.getJSONObject("fields");
+
+              if (fields.has("pregunta")) {
+                String pregunta = fields.getJSONObject("pregunta").getString("stringValue");
+                preguntas.add(pregunta);
+              }
+            }
+          }
+        } else {
+          Log.e(TAG, "Error en la solicitud: Código " + responseCode);
+        }
+        conn.disconnect();
+      } catch (Exception e) {
+        Log.e(TAG, "Error obteniendo preguntas de Firestore", e);
+      }
+      return preguntas;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.verdad);
+    protected void onPostExecute(List<String> preguntas) {
+      if (!preguntas.isEmpty()) {
+        Collections.shuffle(preguntas);
+        preguntasList = preguntas;
+        totalPreguntas = preguntasList.size();
+        preguntaActual = 0;
+        mostrarSiguientePregunta();
+      } else {
+        tvPreguntaVerdad.setText("No hay preguntas disponibles.");
+      }
+    }
+  }
 
-        // Inicializamos las vistas
-        btnBack = findViewById(R.id.btn_back);
-        tvPreguntaVerdad = findViewById(R.id.preguntaVerdad);
-        tvTimer = findViewById(R.id.timer);
-        tvPreguntaNumero = findViewById(R.id.tv_pregunta_numero);
-        btnSiguiente = findViewById(R.id.btn_siguiente);
-
-        // Cargamos las animaciones desde res/anim
-        fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
-        fadeOut = AnimationUtils.loadAnimation(this, R.anim.fade_out);
-
-        // Acción para el botón de volver atrás
-        btnBack.setOnClickListener(view -> finish());
-
-        // Acción para el botón "Siguiente"
-        btnSiguiente.setOnClickListener(view -> mostrarSiguientePregunta());
-
-        // Comienza la obtención de preguntas desde Firestore
-        new ObtenerPreguntasFirestore().execute(URL_FIRESTORE);
+  /**
+   * Muestra la siguiente pregunta en pantalla, reiniciando el temporizador y
+   * aplicando animaciones.
+   */
+  private void mostrarSiguientePregunta() {
+    if (countDownTimer != null) {
+      countDownTimer.cancel();
     }
 
-    private class ObtenerPreguntasFirestore extends AsyncTask<String, Void, List<String>> {
+    if (!preguntasList.isEmpty()) {
+      String pregunta = preguntasList.remove(0);
+      preguntaActual++;
+
+      fadeOut.setAnimationListener(new Animation.AnimationListener() {
         @Override
-        protected List<String> doInBackground(String... urls) {
-            List<String> preguntas = new ArrayList<>();
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
-                conn.setRequestProperty("Content-Type", "application/json");
-
-                int responseCode = conn.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    StringBuilder response = new StringBuilder();
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        response.append(line);
-                    }
-                    reader.close();
-
-                    JSONObject jsonResponse = new JSONObject(response.toString());
-                    if (jsonResponse.has("documents")) {
-                        JSONArray documentos = jsonResponse.getJSONArray("documents");
-
-                        for (int i = 0; i < documentos.length(); i++) {
-                            JSONObject doc = documentos.getJSONObject(i);
-                            JSONObject fields = doc.getJSONObject("fields");
-
-                            if (fields.has("pregunta")) {
-                                String pregunta = fields.getJSONObject("pregunta").getString("stringValue");
-                                preguntas.add(pregunta);
-                            }
-                        }
-                    }
-                } else {
-                    Log.e(TAG, "Error en la solicitud: Código " + responseCode);
-                }
-                conn.disconnect();
-            } catch (Exception e) {
-                Log.e(TAG, "Error obteniendo preguntas de Firestore", e);
-            }
-            return preguntas;
+        public void onAnimationStart(Animation animation) {
         }
 
         @Override
-        protected void onPostExecute(List<String> preguntas) {
-            if (!preguntas.isEmpty()) {
-                Collections.shuffle(preguntas);
-                preguntasList = preguntas;
-                totalPreguntas = preguntasList.size();
-                preguntaActual = 0;
-                mostrarSiguientePregunta();
-            } else {
-                tvPreguntaVerdad.setText("No hay preguntas disponibles.");
-            }
-        }
-    }
-
-    private void mostrarSiguientePregunta() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+        public void onAnimationEnd(Animation animation) {
+          tvPreguntaVerdad.setText(pregunta);
+          tvPreguntaVerdad.startAnimation(fadeIn);
         }
 
-        if (!preguntasList.isEmpty()) {
-            String pregunta = preguntasList.remove(0);
-            preguntaActual++;
-
-            // Animación: fadeOut, cambio texto, fadeIn
-            fadeOut.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) { }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    tvPreguntaVerdad.setText(pregunta);
-                    tvPreguntaVerdad.startAnimation(fadeIn);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) { }
-            });
-            tvPreguntaVerdad.startAnimation(fadeOut);
-
-            tvPreguntaNumero.setText("Pregunta " + preguntaActual + " de " + totalPreguntas);
-
-            iniciarTemporizador();
-        } else {
-            tvPreguntaVerdad.setText("¡Ya no hay más preguntas!");
-            tvPreguntaNumero.setText("");
-            tvTimer.setText("");
-            btnSiguiente.setEnabled(false);
+        @Override
+        public void onAnimationRepeat(Animation animation) {
         }
-    }
+      });
+      tvPreguntaVerdad.startAnimation(fadeOut);
 
-    private void iniciarTemporizador() {
-        countDownTimer = new CountDownTimer(TIMER_DURATION, TIMER_INTERVAL) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
-            }
+      tvPreguntaNumero.setText("Pregunta " + preguntaActual + " de " + totalPreguntas);
 
-            @Override
-            public void onFinish() {
-                tvTimer.setText("¡Tiempo terminado!");
-                // Puedes descomentar esta línea para avanzar automáticamente:
-                // mostrarSiguientePregunta();
-            }
-        }.start();
+      iniciarTemporizador();
+    } else {
+      tvPreguntaVerdad.setText("¡Ya no hay más preguntas!");
+      tvPreguntaNumero.setText("");
+      tvTimer.setText("");
+      btnSiguiente.setEnabled(false);
     }
+  }
+
+  /**
+   * Inicia el temporizador de cuenta atrás de 30 segundos.
+   */
+  private void iniciarTemporizador() {
+    countDownTimer = new CountDownTimer(TIMER_DURATION, TIMER_INTERVAL) {
+      @Override
+      public void onTick(long millisUntilFinished) {
+        tvTimer.setText(String.valueOf(millisUntilFinished / 1000));
+      }
+
+      @Override
+      public void onFinish() {
+        tvTimer.setText("¡Tiempo terminado!");
+      }
+    }.start();
+  }
 }

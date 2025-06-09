@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.verdadreto.RetoActivity">
 
     <!-- Fondo degradado -->
     <View
@@ -15,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Botón de retroceso -->
     <ImageView
@@ -41,7 +42,6 @@
         android:textSize="20sp"
         android:fontFamily="@font/jersey_10"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="20dp"
         app:layout_constraintTop_toTopOf="@id/btn_back"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -52,7 +52,9 @@
         android:layout_height="wrap_content"
         app:cardElevation="8dp"
         app:cardCornerRadius="16dp"
-        app:cardBackgroundColor="#F8A5A5"
+        app:cardBackgroundColor="#FF1493"
+        app:strokeColor="@android:color/transparent"
+        app:strokeWidth="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="32dp"
@@ -77,27 +79,27 @@
     <TextView
         android:id="@+id/timer"
         android:layout_width="96dp"
-        android:layout_height="99dp"
-        android:layout_marginTop="164dp"
+        android:layout_height="96dp"
         android:fontFamily="@font/jersey_10"
         android:gravity="center"
         android:text="15"
-        android:textColor="#FF5722"
+        android:textColor="#FFFFFF"
         android:textSize="100sp"
         app:layout_constraintTop_toBottomOf="@id/question_card"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5" />
+        android:layout_marginTop="64dp" />
 
-    <!-- Botón Siguiente corregido -->
+    <!-- Botón Siguiente -->
     <ImageButton
         android:id="@+id/btn_siguiente"
-        android:layout_width="174dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="177dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="276dp"
         android:background="@drawable/btnsiguiente"
-        android:text="Siguiente"
+        android:contentDescription="Siguiente"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/timer" />
 

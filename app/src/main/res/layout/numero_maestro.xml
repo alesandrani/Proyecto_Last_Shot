@@ -17,41 +17,39 @@
         android:src="@mipmap/button_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-5dp"
-        tools:layout_editor_absoluteY="16dp" />
+        android:layout_marginTop="16dp" />
 
-    <!-- Fondo de la ruleta -->
+    <!-- Fondo de la ruleta (ahora flexible en tamaño manteniendo proporción 1:1) -->
     <ImageView
         android:id="@+id/rouletteBackground"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:scaleType="fitCenter"
         android:alpha="0.3"
+        android:layout_marginTop="40dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="40dp" />
+        app:layout_constraintWidth_percent="0.8"
+        app:layout_constraintDimensionRatio="1:1" />
 
-    <!-- Vista personalizada de la ruleta -->
-
-    <!-- Línea guía para dividir en dos columnas -->
+    <!-- Vista personalizada de la ruleta (igual que el fondo, para que encaje) -->
     <com.example.proyecto_last_shot.WheelView
         android:id="@+id/wheelView"
-        android:layout_width="302dp"
-        android:layout_height="349dp"
+        android:layout_width="313dp"
+        android:layout_height="324dp"
         app:layout_constraintBottom_toBottomOf="@id/rouletteBackground"
         app:layout_constraintEnd_toEndOf="@id/rouletteBackground"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@id/rouletteBackground"
-        app:layout_constraintTop_toTopOf="@id/rouletteBackground"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="@id/rouletteBackground" />
 
+    <!-- Guía vertical para separar diálogos -->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/midGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="195dp" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <!-- Diálogo de número del jugador a la izquierda -->
     <FrameLayout
@@ -101,7 +99,7 @@
             android:textSize="20sp" />
     </FrameLayout>
 
-    <!-- Botón para girar -->
+    <!-- Botón para girar, intacto -->
     <ImageButton
         android:id="@+id/startButton"
         android:layout_width="195dp"
