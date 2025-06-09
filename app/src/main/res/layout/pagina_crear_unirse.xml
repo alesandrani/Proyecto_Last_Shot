@@ -23,19 +23,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Botón CREAR SALA -->
+
+    <!-- Botón UNIRSE A SALA -->
+
     <LinearLayout
         android:id="@+id/btn_crear_sala"
-        android:layout_width="382dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="377dp"
+        android:layout_height="83dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="164dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_btn_crearsala_selector"
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back">
 
@@ -56,20 +60,20 @@
             android:src="@mipmap/button_next" />
     </LinearLayout>
 
-    <!-- Botón UNIRSE A SALA -->
     <LinearLayout
         android:id="@+id/btn_unirse_sala"
-        android:layout_width="382dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="383dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/bg_btn_crearsala_selector"
         android:elevation="4dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_crear_sala">
 

@@ -1,32 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Capa del fondo con degradado -->
+    <!-- Fondo degradado radial oscuro (sin esquinas redondeadas) -->
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:type="radial"
-                android:gradientRadius="500"
+                android:gradientRadius="1000"
                 android:centerX="0.5"
                 android:centerY="0.5"
-                android:startColor="#FFDEE9"
-                android:endColor="#B5FFFC"
-                android:angle="45" />
-            <corners android:radius="24dp" />
+                android:startColor="#001F3F"
+                android:endColor="#000000" />
         </shape>
     </item>
 
-    <!-- Capa de brillo o overlay para dar más vida -->
+    <!-- Overlay de brillo sutil -->
     <item>
         <shape android:shape="rectangle">
             <gradient
                 android:type="linear"
-                android:startColor="#33FFFFFF"
+                android:startColor="#22FFFFFF"
                 android:endColor="#00FFFFFF"
                 android:angle="90"/>
-            <corners android:radius="24dp" />
         </shape>
     </item>
 
 </layer-list>
-

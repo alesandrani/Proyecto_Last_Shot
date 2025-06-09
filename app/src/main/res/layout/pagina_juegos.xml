@@ -1,55 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#102A25"
-    android:orientation="vertical"
     tools:context=".PaginaJuegos">
 
     <!-- Botón de retroceso -->
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="53dp"
-        android:layout_height="56dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_margin="16dp"
         android:contentDescription="Botón de retroceso"
-        android:src="@mipmap/button_back" />
+        android:src="@mipmap/button_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <!-- Logo centrado -->
-
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="212dp"
-        android:layout_height="205dp"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
+        android:layout_width="292dp"
+        android:layout_height="288dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="Logo de la app"
-        android:src="@mipmap/image_logo_app" />
+        android:src="@mipmap/image_logo_app"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_back"
+        app:layout_constraintWidth_percent="0.5" />
 
+    <!-- ScrollView con botones -->
     <ScrollView
-        android:layout_width="match_parent"
+        android:id="@+id/scroll_buttons"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#102A25">
+        android:background="#102A25"
+        app:layout_constraintTop_toBottomOf="@id/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <!-- Botón MECHERO -->
+            <!-- Botones: todos con el mismo estilo, para no repetir mucho -->
             <LinearLayout
                 android:id="@+id/btn_mechero"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
-                android:padding="20dp"
+                android:padding="16dp"
                 android:orientation="horizontal"
                 android:elevation="4dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
@@ -57,27 +69,27 @@
                     android:layout_weight="1"
                     android:text="MECHERO"
                     android:fontFamily="@font/jersey_10"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textColor="#000000"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="34dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/infoMechero"
                     android:src="@mipmap/info" />
             </LinearLayout>
 
-            <!-- Botón VERDAD O RETO -->
             <LinearLayout
                 android:id="@+id/btn_verdad_reto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
-                android:padding="20dp"
+                android:padding="16dp"
                 android:orientation="horizontal"
                 android:elevation="4dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
@@ -85,27 +97,27 @@
                     android:layout_weight="1"
                     android:text="VERDAD O RETO"
                     android:fontFamily="@font/jersey_10"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textColor="#000000"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="31dp"
-                    android:layout_height="35dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/infoVerdadReto"
                     android:src="@mipmap/info" />
             </LinearLayout>
 
-            <!-- Botón NÚMERO MAESTRO -->
             <LinearLayout
                 android:id="@+id/btn_numero_maestro"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
-                android:padding="20dp"
+                android:padding="16dp"
                 android:orientation="horizontal"
                 android:elevation="4dp"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="16dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
@@ -113,26 +125,26 @@
                     android:layout_weight="1"
                     android:text="NÚMERO MAESTRO"
                     android:fontFamily="@font/jersey_10"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textColor="#000000"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="32dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:id="@+id/infoNumero"
                     android:src="@mipmap/info" />
             </LinearLayout>
 
-            <!-- Botón JUEGO RANDOM -->
             <LinearLayout
                 android:id="@+id/btn_juego_random"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/yellow"
-                android:padding="20dp"
+                android:padding="16dp"
                 android:orientation="horizontal"
-                android:elevation="4dp">
+                android:elevation="4dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="0dp"
@@ -140,18 +152,18 @@
                     android:layout_weight="1"
                     android:text="JUEGO RANDOM"
                     android:fontFamily="@font/jersey_10"
-                    android:textSize="34sp"
+                    android:textSize="24sp"
                     android:textColor="#000000"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/infoRandom"
-                    android:layout_width="33dp"
-                    android:layout_height="36dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@mipmap/info" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
