@@ -109,7 +109,7 @@ public class PaginaAddJugadores extends AppCompatActivity {
       nuevoJugador.setTextSize(18);
       nuevoJugador.setTextColor(getResources().getColor(R.color.black));
       nuevoJugador.setPadding(10, 10, 10, 10);
-      nuevoJugador.setBackgroundColor(0x8032CD32); // Verde claro transparente (ARGB)
+      nuevoJugador.setBackgroundColor(0x80FFFFFF);
       container.addView(nuevoJugador);
     }
   }
