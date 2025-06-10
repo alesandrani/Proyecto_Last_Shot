@@ -6,67 +6,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/fondo_crearsala"
-    tools:context=".CrearSalaUnirse">
+    tools:context=".ActivityModoJuego">
 
     <!-- Botón de retroceso -->
     <ImageView
         android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="59dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:clickable="true"
-        android:focusable="true"
         android:contentDescription="Botón de retroceso"
+        android:focusable="true"
         android:src="@mipmap/button_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón CREAR SALA -->
 
-    <!-- Botón UNIRSE A SALA -->
-    <LinearLayout
-        android:id="@+id/btn_unirse_sala"
-        android:layout_width="362dp"
-        android:layout_height="81dp"
-        android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/bg_btn_crearsala_selector"
-        android:elevation="4dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintDimensionRatio="16:3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="64dp"
-        app:layout_constraintHorizontal_bias="0.609"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_crear_sala"
-        app:layout_constraintWidth_percent="0.9">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="@font/jersey_10"
-            android:text="UNIRSE A SALA"
-            android:textColor="#D7AAAA"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/btnUnirseSala"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/button_next" />
-    </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/btn_crear_sala"
+        android:id="@+id/monodisp"
         android:layout_width="363dp"
         android:layout_height="86dp"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="128dp"
         android:background="@drawable/bg_btn_crearsala_selector"
         android:elevation="4dp"
         android:gravity="center_vertical"
@@ -75,7 +38,7 @@
         app:layout_constraintDimensionRatio="16:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_min="64dp"
-        app:layout_constraintHorizontal_bias="0.609"
+        app:layout_constraintHorizontal_bias="0.479"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
         app:layout_constraintWidth_percent="0.9">
@@ -85,15 +48,51 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/jersey_10"
-            android:text="CREAR SALA"
+            android:text="MONODISPOSITIVO"
             android:textColor="#D7AAAA"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/btnCrearSala"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="34dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/button_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/multidisp"
+        android:layout_width="362dp"
+        android:layout_height="81dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/bg_btn_crearsala_selector"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        app:layout_constraintDimensionRatio="16:3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="64dp"
+        app:layout_constraintHorizontal_bias="0.469"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/monodisp"
+        app:layout_constraintWidth_percent="0.9">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/jersey_10"
+            android:text="MULTIDISPOSITIVO"
+            android:textColor="#D7AAAA"
+            android:textSize="34sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnUnirseSala"
+            android:layout_width="36dp"
+            android:layout_height="33dp"
             android:src="@mipmap/button_next" />
     </LinearLayout>
 

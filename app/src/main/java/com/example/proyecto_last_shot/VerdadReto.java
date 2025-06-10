@@ -74,12 +74,21 @@ public class VerdadReto extends AppCompatActivity {
   }
 
   /**
+   * Método que se ejecuta cada vez que la actividad vuelve a primer plano.
+   * Se encarga de mostrar un nuevo jugador aleatorio para el siguiente turno.
+   */
+  @Override
+  protected void onResume() {
+    super.onResume();
+    mostrarJugadorAleatorio();
+  }
+
+  /**
    * Muestra un jugador aleatorio en el TextView de "turno".
    */
   private void mostrarJugadorAleatorio() {
     if (!listaJugadores.isEmpty()) {
-      Random random = new Random();
-      int index = random.nextInt(listaJugadores.size());
+      int index = (int) (Math.random() * listaJugadores.size());
       turno.setText("Turno de: " + listaJugadores.get(index)); // Muestra el jugador seleccionado aleatoriamente
     }
   }

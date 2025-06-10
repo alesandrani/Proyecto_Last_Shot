@@ -16,13 +16,19 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ActivityModoJuego"
+            android:exported="false" />
+        <activity
+            android:name=".MainModoJuego"
+            android:exported="false" />
+        <activity
             android:name=".PaginaAddJugadores"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PaginaPrincipal"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,52 +37,51 @@
         </activity>
         <activity
             android:name=".ActivityChatSeleccion"
-            android:screenOrientation="portrait"
             android:exported="true"
-        />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ChatPrivadoActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityJuegoMoneda"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VerdadReto"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".NumeroMaestro"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PaginaJuegos"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".CrearSalaUnirse"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PaginaCrearSala"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PaginaUnirseSala"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".VerdadActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".RetoActivity"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityChat"
+
             android:screenOrientation="portrait"
             android:exported="true" />
         <activity android:name=".ChatGrupalActivity"
@@ -86,6 +91,10 @@
             android:name=".SeleccionarJugadorChatActivity"
             android:screenOrientation="portrait"
             android:exported="true" />
+
+            android:exported="true"
+            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>
