@@ -2,10 +2,8 @@ package com.example.proyecto_last_shot;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,23 +12,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.List;
 
-/**
- * ChatPrivadoActivity gestiona el chat privado entre dos jugadores.
- * Permite enviar y recibir mensajes privados en tiempo real usando Firebase Realtime Database.
- * Los mensajes se muestran en un RecyclerView y se sincronizan automáticamente.
- */
 public class ChatPrivadoActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatPrivadoActivity";
@@ -39,165 +29,93 @@ public class ChatPrivadoActivity extends AppCompatActivity {
     private RecyclerView recyclerMensajes;
     private EditText editMensaje;
     private ImageButton btnEnviar;
-    private ProgressBar progressBar;
 
     private DatabaseReference chatRef;
     private MensajeAdapter mensajeAdapter;
-    private ArrayList<Mensaje> listaMensajes = new ArrayList<>();
+    private List<Mensaje> listaMensajes = new ArrayList<>();
 
     private String nombreActual;
     private String nombreDestino;
     private String chatId;
-    private String idSala;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_privado);
 
-        // Inicializar vistas
         tvTituloChat = findViewById(R.id.tvTituloChat);
         recyclerMensajes = findViewById(R.id.recyclerMensajes);
         editMensaje = findViewById(R.id.editMensaje);
         btnEnviar = findViewById(R.id.btnEnviar);
-        progressBar = findViewById(R.id.progressBar);
 
-        // Obtener datos del Intent
+        // Recibir los nombres desde el Intent
         nombreActual = getIntent().getStringExtra("nombreJugadorActual");
         nombreDestino = getIntent().getStringExtra("nombreJugadorDestino");
-        idSala = getIntent().getStringExtra("idSala");
 
-        if (nombreActual == null || nombreDestino == null || idSala == null) {
-            Toast.makeText(this, "Error: faltan datos de usuario o sala", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "nombreJugadorActual: " + nombreActual);
+        Log.d(TAG, "nombreJugadorDestino: " + nombreDestino);
+
+        if (nombreActual == null || nombreDestino == null) {
+            Toast.makeText(this, "Error: faltan datos de usuario", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "Error: nombreJugadorActual o nombreJugadorDestino es null");
             finish();
             return;
         }
 
-        // Configurar UI
+        // Mostrar título con el nombre del jugador destino
         tvTituloChat.setText("Chat con " + nombreDestino);
-        recyclerMensajes.setLayoutManager(new LinearLayoutManager(this));
+
+        // Crear un id único para la conversación (mismo para ambos jugadores)
+        chatId = generarChatId(nombreActual, nombreDestino);
+        Log.d(TAG, "chatId generado: " + chatId);
+
+        chatRef = FirebaseDatabase.getInstance().getReference("chats_privados").child(chatId).child("mensajes");
+
         mensajeAdapter = new MensajeAdapter(listaMensajes, nombreActual);
+        recyclerMensajes.setLayoutManager(new LinearLayoutManager(this));
         recyclerMensajes.setAdapter(mensajeAdapter);
 
-        // Generar ID único para la conversación
-        chatId = generarChatId(nombreActual, nombreDestino);
-        
-        // Configurar referencia Firebase
-        chatRef = FirebaseDatabase.getInstance("https://lastshot-proyecto-default-rtdb.europe-west1.firebasedatabase.app")
-                .getReference("salas")
-                .child(idSala)
-                .child("chats_privados")
-                .child(chatId)
-                .child("mensajes");
-
-        // Configurar listeners
         btnEnviar.setOnClickListener(v -> enviarMensaje());
+
         escucharMensajes();
     }
 
-    /**
-     * Envía un mensaje privado si el campo de texto no está vacío.
-     * El mensaje se almacena en Firebase y se limpia el campo de entrada.
-     */
     private void enviarMensaje() {
         String texto = editMensaje.getText().toString().trim();
         if (!texto.isEmpty()) {
             String mensajeId = chatRef.push().getKey();
-            if (mensajeId != null) {
-                Mensaje mensaje = new Mensaje(
-                    texto,
-                    nombreActual,
-                    nombreDestino,
-                    System.currentTimeMillis(),
-                    null,
-                    "privado"
-                );
-                mensaje.setId(mensajeId);
-
-                chatRef.child(mensajeId).setValue(mensaje)
-                    .addOnSuccessListener(aVoid -> {
-                        editMensaje.setText("");
-                        Log.d(TAG, "Mensaje enviado correctamente");
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Error al enviar mensaje", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Error al enviar mensaje: " + e.getMessage());
-                    });
-            }
+            Mensaje mensaje = new Mensaje(texto, nombreActual, nombreDestino, System.currentTimeMillis());
+            chatRef.child(mensajeId).setValue(mensaje);
+            editMensaje.setText("");
+            Log.d(TAG, "Mensaje enviado: " + texto);
+        } else {
+            Log.d(TAG, "Intento de enviar mensaje vacío");
         }
     }
 
-    /**
-     * Escucha los mensajes privados en tiempo real y actualiza la UI.
-     */
     private void escucharMensajes() {
-        progressBar.setVisibility(View.VISIBLE);
-        
-        // Ordenar mensajes por timestamp
-        Query query = chatRef.orderByChild("timestamp");
-        
-        query.addChildEventListener(new ChildEventListener() {
+        chatRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
-                Mensaje mensaje = snapshot.getValue(Mensaje.class);
-                if (mensaje != null) {
-                    mensaje.setId(snapshot.getKey());
-                    listaMensajes.add(mensaje);
-                    Collections.sort(listaMensajes, Comparator.comparingLong(Mensaje::getTimestamp));
-                    mensajeAdapter.notifyDataSetChanged();
-                    recyclerMensajes.scrollToPosition(listaMensajes.size() - 1);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaMensajes.clear();
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    Mensaje m = snap.getValue(Mensaje.class);
+                    listaMensajes.add(m);
                 }
-                progressBar.setVisibility(View.GONE);
+                mensajeAdapter.notifyDataSetChanged();
+                recyclerMensajes.scrollToPosition(listaMensajes.size() - 1);
+                Log.d(TAG, "Mensajes actualizados, total: " + listaMensajes.size());
             }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
-                Mensaje mensajeActualizado = snapshot.getValue(Mensaje.class);
-                if (mensajeActualizado != null) {
-                    mensajeActualizado.setId(snapshot.getKey());
-                    for (int i = 0; i < listaMensajes.size(); i++) {
-                        if (listaMensajes.get(i).getId().equals(mensajeActualizado.getId())) {
-                            listaMensajes.set(i, mensajeActualizado);
-                            mensajeAdapter.notifyItemChanged(i);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                String mensajeId = snapshot.getKey();
-                for (int i = 0; i < listaMensajes.size(); i++) {
-                    if (listaMensajes.get(i).getId().equals(mensajeId)) {
-                        listaMensajes.remove(i);
-                        mensajeAdapter.notifyItemRemoved(i);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {}
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(ChatPrivadoActivity.this, 
-                    "Error al cargar mensajes: " + error.getMessage(), 
-                    Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error en Firebase: " + error.getMessage());
+                Log.e(TAG, "Error escuchando mensajes: " + error.getMessage());
             }
         });
     }
 
-    /**
-     * Genera un ID único para el chat privado entre dos jugadores.
-     * @param a Nombre del primer jugador
-     * @param b Nombre del segundo jugador
-     * @return ID único del chat
-     */
     private String generarChatId(String a, String b) {
+        // Ordena los nombres para garantizar el mismo chatId para ambos usuarios
         return (a.compareTo(b) < 0) ? a + "_" + b : b + "_" + a;
     }
 }

@@ -79,8 +79,8 @@ public class PaginaUnirseSala extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     // Lanzar PaginaJuegos
                                     Intent i = new Intent(PaginaUnirseSala.this, PaginaJuegos.class);
-                                    i.putExtra("nombreJugadorActual", nombreJugador);
-                                    i.putExtra("idSala", codigoSala);
+                                    i.putExtra("claveSala", codigoSala);
+                                    i.putExtra("nombreJugador", nombreJugador);
                                     startActivity(i);
                                     finish();
                                 })

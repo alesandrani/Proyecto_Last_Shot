@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111735"
     tools:context=".ChatPrivadoActivity">
 
     <!-- Título del chat privado -->
@@ -18,60 +19,49 @@
         android:textStyle="bold"
         android:padding="16dp"
         android:background="#111735"
-        android:textColor="#FFFFFF"
-        android:elevation="4dp"/>
-
-    <!-- ProgressBar para indicar carga -->
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:textColor="#FFFFFF"/>
 
     <!-- Lista de mensajes (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMensajes"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/layoutInput"
-        android:layout_below="@id/tvTituloChat"
-        android:padding="8dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="12dp"
         android:clipToPadding="false"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:background="#111735" />
 
-    <!-- Layout para input y botón de enviar -->
+    <!-- Input y botón de enviar -->
     <LinearLayout
-        android:id="@+id/layoutInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:background="#111735"
-        android:elevation="4dp">
+        android:background="#E0E0E0">
 
         <EditText
             android:id="@+id/editMensaje"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="48dp"
             android:minHeight="48dp"
-            android:background="@drawable/bg_input_mensaje"
+            android:layout_weight="1"
             android:hint="Escribe un mensaje..."
             android:padding="12dp"
-            android:textSize="16sp"
-            android:maxLines="4"/>
+            android:background="#FFFFFF"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+
 
         <ImageButton
             android:id="@+id/btnEnviar"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="8dp"
-            android:background="@drawable/bg_btn_enviar"
-            android:src="@drawable/ic_send"
-            android:contentDescription="Enviar mensaje"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_send"
+            android:contentDescription="Enviar"
+            android:background="@android:color/transparent"
+            android:padding="12dp"
+            app:tint="#FF5722" />
 
     </LinearLayout>
-
-</RelativeLayout>
+</LinearLayout>
