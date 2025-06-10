@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#111735"
-    tools:context=".ChatPrivadoActivity">
+    android:background="#111735">
 
-    <!-- Título del chat privado -->
+    <!-- Título del chat -->
     <TextView
         android:id="@+id/tvTituloChat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Chat privado"
+        android:text="Chat"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="16dp"

@@ -7,10 +7,14 @@
     android:background="#111735">
 
     <!-- Botón Back -->
+
+    <!-- Botón Chat -->
+
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="55dp"
         android:layout_height="54dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Volver"
@@ -18,7 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Botón Chat -->
     <ImageButton
         android:id="@+id/btnChat"
         android:layout_width="65dp"

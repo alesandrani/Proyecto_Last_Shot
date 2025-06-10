@@ -4,99 +4,60 @@ package com.example.proyecto_last_shot;
  * Clase que representa un mensaje en el chat, ya sea grupal o privado.
  *
  * Un mensaje contiene:
+ * - id: ID único del mensaje
  * - texto: el contenido del mensaje
  * - emisor: el nombre del jugador que envía el mensaje
  * - receptor: el nombre del jugador receptor (null si es chat grupal)
  * - timestamp: marca temporal de cuándo se envió el mensaje (en milisegundos)
+ * - salaId: ID de la sala (para chat grupal)
+ * - leido: estado de lectura del mensaje
+ * - tipo: "privado" o "grupal"
  */
 public class Mensaje {
-    private String texto;
-    private String emisor;
-    private String receptor; // null para mensajes de chat grupal
-    private long timestamp;
+    private String id;           // ID único del mensaje
+    private String texto;        // Contenido del mensaje
+    private String emisor;       // Nombre del jugador que envía el mensaje
+    private String receptor;     // Nombre del jugador receptor (null si es chat grupal)
+    private long timestamp;      // Marca temporal del mensaje
+    private String salaId;       // ID de la sala (para chat grupal)
+    private boolean leido;       // Estado de lectura del mensaje
+    private String tipo;         // "privado" o "grupal"
 
-    /**
-     * Constructor vacío requerido para Firebase.
-     */
+    // Constructor vacío requerido para Firebase.
     public Mensaje() {}
 
-    /**
-     * Constructor con todos los parámetros.
-     *
-     * @param texto     Contenido del mensaje.
-     * @param emisor    Nombre del usuario que envía el mensaje.
-     * @param receptor  Nombre del usuario receptor. Null si chat grupal.
-     * @param timestamp Tiempo en milisegundos en que se envió el mensaje.
-     */
-    public Mensaje(String texto, String emisor, String receptor, long timestamp) {
+    public Mensaje(String texto, String emisor, String receptor, long timestamp, String salaId, String tipo) {
         this.texto = texto;
         this.emisor = emisor;
         this.receptor = receptor;
         this.timestamp = timestamp;
+        this.salaId = salaId;
+        this.tipo = tipo;
+        this.leido = false;
     }
 
-    /**
-     * Obtiene el texto del mensaje.
-     * @return texto del mensaje.
-     */
-    public String getTexto() {
-        return texto;
-    }
+    // Getters y setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    /**
-     * Modifica el texto del mensaje.
-     * @param texto nuevo texto del mensaje.
-     */
-    public void setTexto(String texto) {
-        this.texto = texto;
-    }
+    public String getTexto() { return texto; }
+    public void setTexto(String texto) { this.texto = texto; }
 
-    /**
-     * Obtiene el nombre del emisor (quien envía el mensaje).
-     * @return nombre del emisor.
-     */
-    public String getEmisor() {
-        return emisor;
-    }
+    public String getEmisor() { return emisor; }
+    public void setEmisor(String emisor) { this.emisor = emisor; }
 
-    /**
-     * Modifica el nombre del emisor.
-     * @param emisor nuevo nombre del emisor.
-     */
-    public void setEmisor(String emisor) {
-        this.emisor = emisor;
-    }
+    public String getReceptor() { return receptor; }
+    public void setReceptor(String receptor) { this.receptor = receptor; }
 
-    /**
-     * Obtiene el nombre del receptor (a quién va dirigido el mensaje).
-     * Null si es mensaje grupal.
-     * @return nombre del receptor o null.
-     */
-    public String getReceptor() {
-        return receptor;
-    }
+    public long getTimestamp() { return timestamp; }
+    public void setTimestamp(long timestamp) { this.timestamp = timestamp; }
 
-    /**
-     * Modifica el nombre del receptor.
-     * @param receptor nuevo nombre del receptor.
-     */
-    public void setReceptor(String receptor) {
-        this.receptor = receptor;
-    }
+    public String getSalaId() { return salaId; }
+    public void setSalaId(String salaId) { this.salaId = salaId; }
 
-    /**
-     * Obtiene la marca temporal del mensaje.
-     * @return timestamp en milisegundos.
-     */
-    public long getTimestamp() {
-        return timestamp;
-    }
+    public boolean isLeido() { return leido; }
+    public void setLeido(boolean leido) { this.leido = leido; }
 
-    /**
-     * Modifica la marca temporal del mensaje.
-     * @param timestamp nuevo timestamp en milisegundos.
-     */
-    public void setTimestamp(long timestamp) {
-        this.timestamp = timestamp;
-    }
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

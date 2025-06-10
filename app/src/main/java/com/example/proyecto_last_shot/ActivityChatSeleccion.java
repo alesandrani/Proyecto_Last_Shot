@@ -1,53 +1,58 @@
 package com.example.proyecto_last_shot;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageButton;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class ActivityChatSeleccion extends AppCompatActivity {
 
-    private ImageButton btnBack;
-    private ImageButton btnChat;
-    private RecyclerView recyclerJugadores;
-    private ArrayList<String> listaJugadores;
-    private String nombreJugadorActual;  // Nombre del jugador actual
+    private ListView listJugadores;
+    private ArrayAdapter<String> adapter;
+    private ArrayList<String> listaJugadores = new ArrayList<>();
+
+    private DatabaseReference jugadoresRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pagina_chat); // Cambia por tu XML real
+        setContentView(R.layout.activity_chat_seleccion);
 
-        btnBack = findViewById(R.id.btnBack);
-        btnChat = findViewById(R.id.btnChat);
-        recyclerJugadores = findViewById(R.id.recyclerJugadores);
+        listJugadores = findViewById(R.id.listJugadores);
 
-        // Recibir el nombre del jugador actual que llega desde la actividad anterior
-        nombreJugadorActual = getIntent().getStringExtra("nombreJugadorActual");
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaJugadores);
+        listJugadores.setAdapter(adapter);
 
-        listaJugadores = getIntent().getStringArrayListExtra("listaJugadores");
-        if (listaJugadores == null) {
-            listaJugadores = new ArrayList<>();
-        }
+        jugadoresRef = FirebaseDatabase.getInstance().getReference("jugadores");
 
-        recyclerJugadores.setLayoutManager(new LinearLayoutManager(this));
-        JugadorAdapter adapter = new JugadorAdapter(this, listaJugadores, jugadorNombre -> {
-            // Abrir chat privado con el jugador seleccionado, enviando ambos nombres
-            Intent intent = new Intent(ActivityChatSeleccion.this, ChatPrivadoActivity.class);
-            intent.putExtra("nombreJugadorActual", nombreJugadorActual);
-            intent.putExtra("nombreJugadorDestino", jugadorNombre);
-            startActivity(intent);
-        });
-        recyclerJugadores.setAdapter(adapter);
+        jugadoresRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listaJugadores.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    String nombre = ds.getValue(String.class);
+                    if (nombre != null) {
+                        listaJugadores.add(nombre);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
 
-        btnBack.setOnClickListener(v -> finish());
-        btnChat.setOnClickListener(v -> {
-            // Acción para abrir chat grupal
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ActivityChatSeleccion.this, "Error al cargar jugadores", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

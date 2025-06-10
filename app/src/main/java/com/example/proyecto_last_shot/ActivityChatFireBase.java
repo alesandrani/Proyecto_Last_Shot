@@ -1,6 +1,7 @@
 package com.example.proyecto_last_shot;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -20,20 +21,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * ChatPrivadoActivity gestiona el chat privado entre dos jugadores.
- * Permite enviar y recibir mensajes privados en tiempo real usando Firebase Realtime Database.
- * Los mensajes se muestran en un RecyclerView y se sincronizan automáticamente.
+ * Actividad para chat con Firebase Realtime Database.
+ * Permite enviar y recibir mensajes en tiempo real.
  */
-public class ChatPrivadoActivity extends AppCompatActivity {
-
-    private static final String TAG = "ChatPrivadoActivity";
+public class ActivityChatFireBase extends AppCompatActivity {
 
     private TextView tvTituloChat;
     private RecyclerView recyclerMensajes;
@@ -41,19 +38,19 @@ public class ChatPrivadoActivity extends AppCompatActivity {
     private ImageButton btnEnviar;
     private ProgressBar progressBar;
 
-    private DatabaseReference chatRef;
-    private MensajeAdapter mensajeAdapter;
     private ArrayList<Mensaje> listaMensajes = new ArrayList<>();
+    private MensajeAdapter adapter;
 
-    private String nombreActual;
-    private String nombreDestino;
-    private String chatId;
+    // Datos del chat
+    private String nombreJugadorActual;
     private String idSala;
+
+    private DatabaseReference mensajesRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_privado);
+        setContentView(R.layout.activity_chat_firebase);
 
         // Inicializar vistas
         tvTituloChat = findViewById(R.id.tvTituloChat);
@@ -63,78 +60,65 @@ public class ChatPrivadoActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         // Obtener datos del Intent
-        nombreActual = getIntent().getStringExtra("nombreJugadorActual");
-        nombreDestino = getIntent().getStringExtra("nombreJugadorDestino");
+        nombreJugadorActual = getIntent().getStringExtra("nombreJugadorActual");
         idSala = getIntent().getStringExtra("idSala");
 
-        if (nombreActual == null || nombreDestino == null || idSala == null) {
+        if (nombreJugadorActual == null || idSala == null) {
             Toast.makeText(this, "Error: faltan datos de usuario o sala", Toast.LENGTH_LONG).show();
             finish();
             return;
         }
 
         // Configurar UI
-        tvTituloChat.setText("Chat con " + nombreDestino);
+        tvTituloChat.setText("Chat de la Sala");
         recyclerMensajes.setLayoutManager(new LinearLayoutManager(this));
-        mensajeAdapter = new MensajeAdapter(listaMensajes, nombreActual);
-        recyclerMensajes.setAdapter(mensajeAdapter);
+        adapter = new MensajeAdapter(listaMensajes, nombreJugadorActual);
+        recyclerMensajes.setAdapter(adapter);
 
-        // Generar ID único para la conversación
-        chatId = generarChatId(nombreActual, nombreDestino);
-        
         // Configurar referencia Firebase
-        chatRef = FirebaseDatabase.getInstance("https://lastshot-proyecto-default-rtdb.europe-west1.firebasedatabase.app")
+        mensajesRef = FirebaseDatabase.getInstance()
                 .getReference("salas")
                 .child(idSala)
-                .child("chats_privados")
-                .child(chatId)
-                .child("mensajes");
+                .child("chat_grupal");
 
         // Configurar listeners
         btnEnviar.setOnClickListener(v -> enviarMensaje());
         escucharMensajes();
     }
 
-    /**
-     * Envía un mensaje privado si el campo de texto no está vacío.
-     * El mensaje se almacena en Firebase y se limpia el campo de entrada.
-     */
     private void enviarMensaje() {
         String texto = editMensaje.getText().toString().trim();
-        if (!texto.isEmpty()) {
-            String mensajeId = chatRef.push().getKey();
+        if (!TextUtils.isEmpty(texto)) {
+            String mensajeId = mensajesRef.push().getKey();
             if (mensajeId != null) {
                 Mensaje mensaje = new Mensaje(
                     texto,
-                    nombreActual,
-                    nombreDestino,
-                    System.currentTimeMillis(),
+                    nombreJugadorActual,
                     null,
-                    "privado"
+                    System.currentTimeMillis(),
+                    idSala,
+                    "grupal"
                 );
                 mensaje.setId(mensajeId);
 
-                chatRef.child(mensajeId).setValue(mensaje)
+                mensajesRef.child(mensajeId).setValue(mensaje)
                     .addOnSuccessListener(aVoid -> {
                         editMensaje.setText("");
-                        Log.d(TAG, "Mensaje enviado correctamente");
+                        Log.d("ChatFirebase", "Mensaje enviado correctamente");
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(this, "Error al enviar mensaje", Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Error al enviar mensaje: " + e.getMessage());
+                        Log.e("ChatFirebase", "Error al enviar mensaje: " + e.getMessage());
                     });
             }
         }
     }
 
-    /**
-     * Escucha los mensajes privados en tiempo real y actualiza la UI.
-     */
     private void escucharMensajes() {
         progressBar.setVisibility(View.VISIBLE);
         
         // Ordenar mensajes por timestamp
-        Query query = chatRef.orderByChild("timestamp");
+        Query query = mensajesRef.orderByChild("timestamp");
         
         query.addChildEventListener(new ChildEventListener() {
             @Override
@@ -144,7 +128,7 @@ public class ChatPrivadoActivity extends AppCompatActivity {
                     mensaje.setId(snapshot.getKey());
                     listaMensajes.add(mensaje);
                     Collections.sort(listaMensajes, Comparator.comparingLong(Mensaje::getTimestamp));
-                    mensajeAdapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
                     recyclerMensajes.scrollToPosition(listaMensajes.size() - 1);
                 }
                 progressBar.setVisibility(View.GONE);
@@ -158,7 +142,7 @@ public class ChatPrivadoActivity extends AppCompatActivity {
                     for (int i = 0; i < listaMensajes.size(); i++) {
                         if (listaMensajes.get(i).getId().equals(mensajeActualizado.getId())) {
                             listaMensajes.set(i, mensajeActualizado);
-                            mensajeAdapter.notifyItemChanged(i);
+                            adapter.notifyItemChanged(i);
                             break;
                         }
                     }
@@ -171,7 +155,7 @@ public class ChatPrivadoActivity extends AppCompatActivity {
                 for (int i = 0; i < listaMensajes.size(); i++) {
                     if (listaMensajes.get(i).getId().equals(mensajeId)) {
                         listaMensajes.remove(i);
-                        mensajeAdapter.notifyItemRemoved(i);
+                        adapter.notifyItemRemoved(i);
                         break;
                     }
                 }
@@ -183,21 +167,11 @@ public class ChatPrivadoActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(ChatPrivadoActivity.this, 
+                Toast.makeText(ActivityChatFireBase.this, 
                     "Error al cargar mensajes: " + error.getMessage(), 
                     Toast.LENGTH_SHORT).show();
-                Log.e(TAG, "Error en Firebase: " + error.getMessage());
+                Log.e("ChatFirebase", "Error en Firebase: " + error.getMessage());
             }
         });
-    }
-
-    /**
-     * Genera un ID único para el chat privado entre dos jugadores.
-     * @param a Nombre del primer jugador
-     * @param b Nombre del segundo jugador
-     * @return ID único del chat
-     */
-    private String generarChatId(String a, String b) {
-        return (a.compareTo(b) < 0) ? a + "_" + b : b + "_" + a;
     }
 }
