@@ -77,14 +77,6 @@ public class PaginaCrearSala extends AppCompatActivity {
 
         salasRef.child(idSala).setValue(datosSala)
                 .addOnSuccessListener(unused -> {
-
-                    Toast.makeText(this, "Sala creada correctamente", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(this, PaginaJuegos.class);
-                    intent.putExtra("nombreJugadorActual", nombreJugador);
-                    intent.putExtra("idSala", codigoSala);
-                    startActivity(intent);
-                    finish();
-
                     // Añadir jugador host
                     DatabaseReference jugadoresRef = salasRef.child(idSala).child("jugadores");
                     String idJugador = UUID.randomUUID().toString();
@@ -107,7 +99,6 @@ public class PaginaCrearSala extends AppCompatActivity {
                                 Toast.makeText(this, "Error al registrar jugador", Toast.LENGTH_SHORT).show();
                                 Log.e(TAG, "Error al guardar jugador: ", e);
                             });
-
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Error al crear sala", Toast.LENGTH_SHORT).show();
