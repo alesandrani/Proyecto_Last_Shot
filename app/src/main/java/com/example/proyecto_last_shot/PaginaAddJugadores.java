@@ -77,7 +77,7 @@ public class PaginaAddJugadores extends AppCompatActivity {
         listaJugadores.add(texto);
         actualizarUI();
         guardarJugadoresEnPreferencias();
-        cuadroTexto.setText(""); // Limpiar campo de texto
+        cuadroTexto.setText(""); 
       } else {
         Toast.makeText(PaginaAddJugadores.this, "Máximo 10 jugadores", Toast.LENGTH_SHORT).show();
       }

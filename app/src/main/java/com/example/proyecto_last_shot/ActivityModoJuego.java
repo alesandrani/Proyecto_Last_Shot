@@ -14,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class ActivityModoJuego extends AppCompatActivity {
 
-    public class CrearSalaUnirse extends AppCompatActivity {
+
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ActivityModoJuego extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Navigate to PaginaPrincipal
-                    Intent intent = new Intent(CrearSalaUnirse.this, PaginaPrincipal.class);
+                    Intent intent = new Intent(ActivityModoJuego.this, PaginaPrincipal.class);
                     startActivity(intent);
                     finish();
                 }
@@ -41,7 +41,7 @@ public class ActivityModoJuego extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Navigate to AddJugadores
-                    Intent intent = new Intent(CrearSalaUnirse.this, PaginaAddJugadores.class);
+                    Intent intent = new Intent(ActivityModoJuego.this, PaginaAddJugadores.class);
                     startActivity(intent);
                 }
             });
@@ -49,7 +49,7 @@ public class ActivityModoJuego extends AppCompatActivity {
             multidisp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(CrearSalaUnirse.this, CrearSalaUnirse.class);
+                    Intent intent = new Intent(ActivityModoJuego.this, CrearSalaUnirse.class);
                     startActivity(intent);
                 }
             });
@@ -62,7 +62,7 @@ public class ActivityModoJuego extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(CrearSalaUnirse.this, PaginaAddJugadores.class);
+                    Intent intent = new Intent(ActivityModoJuego.this, PaginaAddJugadores.class);
                     startActivity(intent);
                 }
             });
@@ -71,9 +71,9 @@ public class ActivityModoJuego extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(CrearSalaUnirse.this, CrearSalaUnirse.class);
+                    Intent intent = new Intent(ActivityModoJuego.this, CrearSalaUnirse.class);
                     startActivity(intent);
                 }
             });
         }
-    }}
+    }
