@@ -1,5 +1,7 @@
 package com.example.proyecto_last_shot;
 
+import static android.content.Intent.getIntent;
+
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
@@ -97,7 +99,7 @@ public class ActivityJuegoMoneda extends AppCompatActivity {
     // Animación que gira 6 vueltas completas (360 * 6 = 2160 grados)
     ObjectAnimator animator = ObjectAnimator.ofFloat(monedaImage, "rotationY", 0f, 2160f);
     animator.setDuration(duracion);
-    animator.setInterpolator(new AccelerateDecelerateInterpolator()); // Giro más natural
+    animator.setInterpolator(new AccelerateDecelerateInterpolator());
 
     animator.addUpdateListener(animation -> {
       float angle = (float) animation.getAnimatedValue();
