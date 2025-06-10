@@ -1,37 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
+    android:background="#111735"
+    tools:context=".ChatGrupalActivity">
 
-    <ListView
-        android:id="@+id/listViewMensajes"
+    <!-- Título del chat grupal -->
+    <TextView
+        android:id="@+id/tvTituloChat"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:dividerHeight="4dp"
-        />
+        android:layout_height="wrap_content"
+        android:text="Chat de la Sala"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:background="#111735"
+        android:textColor="#FFFFFF"
+        android:elevation="4dp"/>
 
+    <!-- ProgressBar para indicar carga -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <!-- Lista de mensajes (RecyclerView) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerMensajes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layoutInput"
+        android:layout_below="@id/tvTituloChat"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"/>
+
+    <!-- Layout para input y botón de enviar -->
     <LinearLayout
-        android:orientation="horizontal"
+        android:id="@+id/layoutInput"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:background="#111735"
+        android:elevation="4dp">
 
         <EditText
             android:id="@+id/editMensaje"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Escribe un mensaje"
-            android:maxLines="3"
-            />
+            android:minHeight="48dp"
+            android:background="@drawable/bg_input_mensaje"
+            android:hint="Escribe un mensaje..."
+            android:padding="12dp"
+            android:textSize="16sp"
+            android:maxLines="4"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/btnEnviar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Enviar" />
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bg_btn_enviar"
+            android:src="@drawable/ic_send"
+            android:contentDescription="Enviar mensaje"/>
+
     </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

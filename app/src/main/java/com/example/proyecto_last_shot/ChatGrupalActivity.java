@@ -3,14 +3,15 @@ package com.example.proyecto_last_shot;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
+import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,25 +20,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Actividad para chat grupal dentro de una sala.
- * Muestra los mensajes en un ListView y permite enviar nuevos mensajes.
- * Los mensajes se sincronizan en tiempo real con Firebase Realtime Database.
+ * ChatGrupalActivity gestiona el chat grupal dentro de una sala.
+ * Permite enviar y recibir mensajes en tiempo real usando Firebase Realtime Database.
+ * Los mensajes se muestran en un RecyclerView y se sincronizan automáticamente.
  */
 public class ChatGrupalActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatGrupalActivity";
 
-    private ListView listViewMensajes;
+    private TextView tvTituloChat;
+    private RecyclerView recyclerMensajes;
     private EditText editMensaje;
-    private Button btnEnviar;
+    private ImageButton btnEnviar;
+    private ProgressBar progressBar;
 
-    private List<String> listaMensajes = new ArrayList<>();
-    private MensajeListAdapter adapter;
-
-    private DatabaseReference chatSalaRef;
+    private DatabaseReference salaRef;
+    private DatabaseReference mensajesRef;
+    private MensajeAdapter mensajeAdapter;
+    private ArrayList<Mensaje> listaMensajes = new ArrayList<>();
 
     private String nombreJugador; // Nombre del jugador actual
     private String idSala;        // ID de la sala (nodo en Firebase)
@@ -47,92 +51,126 @@ public class ChatGrupalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_grupal);
 
-        // Referencias UI
-        listViewMensajes = findViewById(R.id.listViewMensajes);
+        // Inicializar vistas
+        tvTituloChat = findViewById(R.id.tvTituloChat);
+        recyclerMensajes = findViewById(R.id.recyclerMensajes);
         editMensaje = findViewById(R.id.editMensaje);
         btnEnviar = findViewById(R.id.btnEnviar);
+        progressBar = findViewById(R.id.progressBar);
 
         // Obtener datos del Intent
         nombreJugador = getIntent().getStringExtra("nombreJugador");
         idSala = getIntent().getStringExtra("idSala");
 
         if (nombreJugador == null || idSala == null) {
-            Toast.makeText(this, "Error: faltan datos de usuario o sala", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error: Faltan datos necesarios", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
 
-        // Inicializar referencia Firebase para la sala de chat grupal
-        chatSalaRef = FirebaseDatabase.getInstance().getReference("chats_grupales").child(idSala).child("mensajes");
+        Log.d(TAG, "Iniciando chat grupal - Jugador: " + nombreJugador + ", Sala: " + idSala);
 
-        // Inicializar adaptador para el ListView
-        adapter = new MensajeListAdapter(this, listaMensajes, nombreJugador);
-        listViewMensajes.setAdapter(adapter);
+        // Configurar UI
+        tvTituloChat.setText("Chat de la Sala");
+        recyclerMensajes.setLayoutManager(new LinearLayoutManager(this));
+        mensajeAdapter = new MensajeAdapter(listaMensajes, nombreJugador);
+        recyclerMensajes.setAdapter(mensajeAdapter);
 
-        // Botón enviar mensaje
+        // Configurar Firebase con la URL correcta
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://lastshot-proyecto-default-rtdb.europe-west1.firebasedatabase.app");
+        salaRef = database.getReference("salas").child(idSala);
+        mensajesRef = salaRef.child("chat_grupal");
+
+        // Cargar información de la sala
+        cargarInfoSala();
+
+        // Configurar listener para mensajes
+        configurarListenerMensajes();
+
+        // Configurar botón de enviar
         btnEnviar.setOnClickListener(v -> enviarMensaje());
-
-        // Escuchar mensajes en Firebase
-        escucharMensajes();
     }
 
     /**
-     * Envía un mensaje a Firebase si el EditText no está vacío.
-     * Limpia el EditText después de enviar.
+     * Carga la información de la sala (nombre, etc) desde Firebase.
+     */
+    private void cargarInfoSala() {
+        salaRef.child("info").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String nombreSala = dataSnapshot.child("nombre").getValue(String.class);
+                    if (nombreSala != null) {
+                        tvTituloChat.setText(nombreSala);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Error al cargar info de sala: " + databaseError.getMessage());
+            }
+        });
+    }
+
+    /**
+     * Configura el listener para recibir mensajes en tiempo real y actualiza la UI.
+     */
+    private void configurarListenerMensajes() {
+        mensajesRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listaMensajes.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Mensaje mensaje = snapshot.getValue(Mensaje.class);
+                    if (mensaje != null) {
+                        mensaje.setId(snapshot.getKey());
+                        listaMensajes.add(mensaje);
+                    }
+                }
+                mensajeAdapter.notifyDataSetChanged();
+                progressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "Error al cargar mensajes: " + databaseError.getMessage());
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    /**
+     * Envía un mensaje al chat grupal si el campo de texto no está vacío.
+     * El mensaje se almacena en Firebase y se limpia el campo de entrada.
      */
     private void enviarMensaje() {
         String texto = editMensaje.getText().toString().trim();
         if (!texto.isEmpty()) {
-            // Crear un nuevo mensaje con ID único
-            String mensajeId = chatSalaRef.push().getKey();
+            String mensajeId = mensajesRef.push().getKey();
+            if (mensajeId != null) {
+                Mensaje mensaje = new Mensaje(
+                    texto,
+                    nombreJugador,
+                    null, // receptor
+                    System.currentTimeMillis(),
+                    idSala,
+                    "grupal"
+                );
+                mensaje.setId(mensajeId);
 
-            if (mensajeId == null) {
-                Log.e(TAG, "Error al generar ID para mensaje");
-                return;
+                mensajesRef.child(mensajeId).setValue(mensaje)
+                    .addOnSuccessListener(aVoid -> {
+                        editMensaje.setText("");
+                        Log.d(TAG, "Mensaje enviado correctamente");
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Error al enviar mensaje: " + e.getMessage());
+                        Toast.makeText(ChatGrupalActivity.this, 
+                            "Error al enviar mensaje", Toast.LENGTH_SHORT).show();
+                    });
             }
-
-            // Crear objeto Mensaje con texto, emisor, receptor null (chat grupal) y timestamp actual
-            Mensaje mensaje = new Mensaje(texto, nombreJugador, null, System.currentTimeMillis());
-
-            // Guardar mensaje en Firebase
-            chatSalaRef.child(mensajeId).setValue(mensaje);
-
-            // Limpiar campo texto
-            editMensaje.setText("");
-        } else {
-            Toast.makeText(this, "No puedes enviar un mensaje vacío", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    /**
-     * Escucha los cambios en Firebase para actualizar la lista de mensajes en tiempo real.
-     */
-    private void escucharMensajes() {
-        chatSalaRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listaMensajes.clear();
-
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    Mensaje mensaje = snap.getValue(Mensaje.class);
-                    if (mensaje != null) {
-                        // Formatear el mensaje para mostrar: "Emisor: texto"
-                        String textoMostrar = mensaje.getEmisor() + ": " + mensaje.getTexto();
-                        listaMensajes.add(textoMostrar);
-                    }
-                }
-
-                adapter.notifyDataSetChanged();
-
-                // Desplazar al último mensaje visible
-                listViewMensajes.smoothScrollToPosition(listaMensajes.size() - 1);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Error al leer mensajes de Firebase: " + error.getMessage());
-                Toast.makeText(ChatGrupalActivity.this, "Error al cargar mensajes", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

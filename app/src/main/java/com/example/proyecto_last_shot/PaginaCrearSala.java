@@ -82,9 +82,8 @@ public class PaginaCrearSala extends AppCompatActivity {
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Sala creada correctamente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(this, PaginaJuegos.class);
-                    intent.putExtra("clave", codigoSala);
-                    intent.putExtra("nombreSala", nombreSala);
-                    intent.putExtra("nombreJugador", nombreJugador);
+                    intent.putExtra("nombreJugadorActual", nombreJugador);
+                    intent.putExtra("idSala", codigoSala);
                     startActivity(intent);
                     finish();
                 })

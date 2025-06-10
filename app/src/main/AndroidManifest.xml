@@ -79,6 +79,13 @@
             android:name=".ActivityChat"
             android:screenOrientation="portrait"
             android:exported="true" />
+        <activity android:name=".ChatGrupalActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".SeleccionarJugadorChatActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
     </application>
 
 </manifest>

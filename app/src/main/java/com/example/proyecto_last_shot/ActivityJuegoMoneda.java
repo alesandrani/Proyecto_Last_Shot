@@ -4,175 +4,186 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class ActivityJuegoMoneda extends AppCompatActivity {
-  private ImageView monedaImage;
-  private ImageView btnBack, btnChat;
-  private ImageButton btnGirarMoneda, btnJugadores;
-  private boolean mostrandoCara = true;
-  private final Random random = new Random();
-  private boolean mostrarCaraFinal;
 
-  private String nombreJugadorActual;
+    // Componentes de la interfaz
+    private ImageView monedaImage, btnBack, btnChat;
+    private ImageButton btnGirarMoneda, btnJugadores;
 
-  /**
-   * Método llamado al crear la actividad. Inicializa las vistas, recupera el
-   * nombre del jugador actual
-   * y configura los listeners para los botones y la imagen de la moneda.
-   * 
-   * @param savedInstanceState Estado previamente guardado de la actividad, si
-   *                           existe.
-   */
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_juego_moneda);
+    // Estados del giro de la moneda
+    private boolean mostrandoCara = true;
+    private boolean mostrarCaraFinal;
+    private final Random random = new Random();
 
-    // Simular recibir nombreJugadorActual (puedes recibirlo del Intent si viene de
-    // otra actividad)
-    nombreJugadorActual = getIntent().getStringExtra("nombreJugadorActual");
-    if (nombreJugadorActual == null) {
-      nombreJugadorActual = "JugadorPrueba"; // valor por defecto para pruebas
-    }
+    // Datos del jugador y sala
+    private String nombreJugadorActual;
+    private String idSala;
 
-    btnBack = findViewById(R.id.btnBack);
-    monedaImage = findViewById(R.id.imgMonedaCara);
-    btnChat = findViewById(R.id.btnChat);
-    btnGirarMoneda = findViewById(R.id.imgGirarMoneda);
-    btnJugadores = findViewById(R.id.imgJugadores);
-    monedaImage.setOnClickListener(v -> lanzarMoneda());
-    btnGirarMoneda.setOnClickListener(v -> lanzarMoneda());
-    btnBack.setOnClickListener(v -> finish());
+    // URL de la base de datos con región específica (Europa)
+    private static final String DATABASE_URL = "https://lastshot-proyecto-default-rtdb.europe-west1.firebasedatabase.app";
 
-    btnChat.setOnClickListener(v -> {
-      SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
-      String json = prefs.getString("listaJugadores", null);
-      ArrayList<String> listaJugadores = new ArrayList<>();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_juego_moneda);
 
-      if (json != null) {
-        Gson gson = new Gson();
-        String[] array = gson.fromJson(json, String[].class);
-        listaJugadores = new ArrayList<>(Arrays.asList(array));
-      }
+        // Recuperar datos desde el Intent
+        nombreJugadorActual = getIntent().getStringExtra("nombreJugadorActual");
+        idSala = getIntent().getStringExtra("idSala");
 
-      Intent intent = new Intent(ActivityJuegoMoneda.this, ActivityChatSeleccion.class);
-      intent.putStringArrayListExtra("listaJugadores", listaJugadores);
-
-      intent.putExtra("nombreJugadorActual", nombreJugadorActual);
-
-      startActivity(intent);
-    });
-
-    btnJugadores.setOnClickListener(v -> mostrarDialogoJugadores());
-  }
-
-  /**
-   * Realiza la animación de lanzamiento de la moneda, mostrando un giro y
-   * eligiendo aleatoriamente
-   * si termina en cara o cruz. Cambia la imagen de la moneda durante la animación
-   * y al finalizar muestra el resultado.
-   */
-  private void lanzarMoneda() {
-
-    mostrarCaraFinal = Math.random() < 0.5;
-    long duracion = 1200; // 1.2 segundos
-
-    // Animación que gira 6 vueltas completas (360 * 6 = 2160 grados)
-    ObjectAnimator animator = ObjectAnimator.ofFloat(monedaImage, "rotationY", 0f, 2160f);
-    animator.setDuration(duracion);
-    animator.setInterpolator(new AccelerateDecelerateInterpolator()); // Giro más natural
-
-    animator.addUpdateListener(animation -> {
-      float angle = (float) animation.getAnimatedValue();
-      float angleMod = angle % 360;
-
-      if (angleMod > 90f && angleMod < 270f && mostrandoCara) {
-        monedaImage.setImageResource(R.drawable.img_coin_cruz);
-        mostrandoCara = false;
-      } else if ((angleMod < 90f || angleMod > 270f) && !mostrandoCara) {
-        monedaImage.setImageResource(R.drawable.coin_cara);
-        mostrandoCara = true;
-      }
-    });
-
-    animator.addListener(new Animator.AnimatorListener() {
-      @Override
-      public void onAnimationStart(Animator animator) {
-      }
-
-      @Override
-      public void onAnimationCancel(Animator animator) {
-      }
-
-      @Override
-      public void onAnimationRepeat(Animator animator) {
-      }
-
-      @Override
-      public void onAnimationEnd(Animator animator) {
-        monedaImage.setRotationY(0f);
-
-        if (mostrarCaraFinal) {
-          monedaImage.setImageResource(R.drawable.coin_cara);
-          mostrandoCara = true;
-        } else {
-          monedaImage.setImageResource(R.drawable.img_coin_cruz);
-          mostrandoCara = false;
+        // Si faltan datos, mostrar error y cerrar la actividad
+        if (nombreJugadorActual == null || idSala == null) {
+            Toast.makeText(this, "Error: faltan datos de usuario o sala", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
-      }
-    });
 
-    animator.start();
+        // Referencias del layout
+        btnBack = findViewById(R.id.btnBack);
+        monedaImage = findViewById(R.id.imgMonedaCara);
+        btnChat = findViewById(R.id.btnChat);
+        btnGirarMoneda = findViewById(R.id.imgGirarMoneda);
+        btnJugadores = findViewById(R.id.imgJugadores);
 
-  }
+        // Configurar listeners
+        btnBack.setOnClickListener(v -> finish());
 
-  /**
-   * Muestra un diálogo con la lista de jugadores almacenados en las preferencias
-   * compartidas.
-   * Recupera la lista, la muestra en un ListView dentro de un AlertDialog y
-   * permite cerrarlo.
-   */
-  private void mostrarDialogoJugadores() {
-    SharedPreferences prefs = getSharedPreferences("MisDatos", MODE_PRIVATE);
-    String json = prefs.getString("listaJugadores", null);
-    ArrayList<String> listaJugadores = new ArrayList<>();
+        btnGirarMoneda.setOnClickListener(v -> lanzarMoneda());
+        monedaImage.setOnClickListener(v -> lanzarMoneda());
 
-    if (json != null) {
-      Gson gson = new Gson();
-      String[] array = gson.fromJson(json, String[].class);
-      listaJugadores = new ArrayList<>(Arrays.asList(array));
+        btnChat.setOnClickListener(v -> {
+            // Lanzar ChatGrupalActivity directamente
+            Intent intent = new Intent(ActivityJuegoMoneda.this, ChatGrupalActivity.class);
+            intent.putExtra("nombreJugador", nombreJugadorActual);
+            intent.putExtra("idSala", idSala);
+            startActivity(intent);
+        });
+
+        btnJugadores.setOnClickListener(v -> {
+            Intent intent = new Intent(ActivityJuegoMoneda.this, SeleccionarJugadorChatActivity.class);
+            intent.putExtra("idSala", idSala);
+            intent.putExtra("nombreJugadorActual", nombreJugadorActual);
+            startActivity(intent);
+        });
     }
 
-    View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_jugadores, null);
-    ListView listaView = dialogView.findViewById(R.id.listJugadores);
+    /**
+     * Lanza la moneda con animación y muestra cara o cruz aleatoriamente.
+     */
+    private void lanzarMoneda() {
+        mostrarCaraFinal = random.nextBoolean(); // Determinar aleatoriamente el resultado
 
-    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, listaJugadores);
-    listaView.setAdapter(adapter);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(monedaImage, "rotationY", 0f, 1800f);
+        animator.setDuration(2000);
 
-    AlertDialog dialog = new AlertDialog.Builder(this)
-        .setTitle("Jugadores en la sala")
-        .setView(dialogView)
-        .setPositiveButton("Cerrar", (dialogInterface, i) -> dialogInterface.dismiss())
-        .create();
+        animator.addUpdateListener(animation -> {
+            float angle = (float) animation.getAnimatedValue();
+            float angleMod = angle % 360;
 
-    dialog.show();
-  }
+            // Cambiar la imagen mientras gira para simular el efecto
+            if (angleMod > 90f && angleMod < 270f && mostrandoCara) {
+                monedaImage.setImageResource(R.drawable.img_coin_cruz);
+                mostrandoCara = false;
+            } else if ((angleMod < 90f || angleMod > 270f) && !mostrandoCara) {
+                monedaImage.setImageResource(R.drawable.coin_cara);
+                mostrandoCara = true;
+            }
+        });
 
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animator) {}
+            @Override public void onAnimationCancel(Animator animator) {}
+            @Override public void onAnimationRepeat(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                monedaImage.setRotationY(0f); // Reset de rotación
+                if (mostrarCaraFinal) {
+                    monedaImage.setImageResource(R.drawable.coin_cara);
+                    mostrandoCara = true;
+                } else {
+                    monedaImage.setImageResource(R.drawable.img_coin_cruz);
+                    mostrandoCara = false;
+                }
+            }
+        });
+
+        animator.start();
+    }
+
+    /**
+     * Muestra un diálogo con la lista de jugadores conectados en la sala actual.
+     */
+    private void mostrarDialogoJugadores() {
+        DatabaseReference ref = FirebaseDatabase
+                .getInstance(DATABASE_URL) // Asegurarse de usar URL con región
+                .getReference("salas")
+                .child(idSala)
+                .child("jugadores");
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<String> listaJugadores = new ArrayList<>();
+
+                // Recorremos cada nodo hijo (nombre del jugador)
+                for (DataSnapshot jugadorSnap : snapshot.getChildren()) {
+                    String nombreJugador = jugadorSnap.getKey();
+                    if (nombreJugador != null) {
+                        listaJugadores.add(nombreJugador);
+                    }
+                }
+
+                // Inflar layout personalizado del diálogo
+                View dialogView = LayoutInflater.from(ActivityJuegoMoneda.this)
+                        .inflate(R.layout.dialog_jugadores, null);
+
+                ListView listaView = dialogView.findViewById(R.id.listJugadores);
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                        ActivityJuegoMoneda.this,
+                        android.R.layout.simple_list_item_1,
+                        listaJugadores
+                );
+
+                listaView.setAdapter(adapter);
+
+                AlertDialog dialog = new AlertDialog.Builder(ActivityJuegoMoneda.this)
+                        .setTitle("Jugadores en la sala")
+                        .setView(dialogView)
+                        .setPositiveButton("Cerrar", (dialogInterface, i) -> dialogInterface.dismiss())
+                        .create();
+
+                dialog.show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ActivityJuegoMoneda.this,
+                        "Error al cargar los jugadores: " + error.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }
